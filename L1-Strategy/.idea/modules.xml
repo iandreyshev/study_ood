@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BirdsWithState/BirdsWithState.iml" filepath="$PROJECT_DIR$/BirdsWithState/BirdsWithState.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DancingBirds/DancingBirds.iml" filepath="$PROJECT_DIR$/DancingBirds/DancingBirds.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FunctionalStyle/FunctionalStyle.iml" filepath="$PROJECT_DIR$/FunctionalStyle/FunctionalStyle.iml" />
+    </modules>
+  </component>
+</project>
