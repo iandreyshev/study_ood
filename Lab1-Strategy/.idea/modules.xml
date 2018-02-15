@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/BehaviorWithState/BehaviorWithState.iml" filepath="$PROJECT_DIR$/.idea/modules/BehaviorWithState/BehaviorWithState.iml" group="BehaviorWithState" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/BehaviorWithState/BehaviorWithState_main.iml" filepath="$PROJECT_DIR$/.idea/modules/BehaviorWithState/BehaviorWithState_main.iml" group="BehaviorWithState" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/BehaviorWithState/BehaviorWithState_test.iml" filepath="$PROJECT_DIR$/.idea/modules/BehaviorWithState/BehaviorWithState_test.iml" group="BehaviorWithState" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DancingBirds/DancingBirds.iml" filepath="$PROJECT_DIR$/.idea/modules/DancingBirds/DancingBirds.iml" group="DancingBirds" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DancingBirds/DancingBirds_main.iml" filepath="$PROJECT_DIR$/.idea/modules/DancingBirds/DancingBirds_main.iml" group="DancingBirds" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DancingBirds/DancingBirds_test.iml" filepath="$PROJECT_DIR$/.idea/modules/DancingBirds/DancingBirds_test.iml" group="DancingBirds" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FunctionalStyle/FunctionalStyle.iml" filepath="$PROJECT_DIR$/.idea/modules/FunctionalStyle/FunctionalStyle.iml" group="FunctionalStyle" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FunctionalStyle/FunctionalStyle_main.iml" filepath="$PROJECT_DIR$/.idea/modules/FunctionalStyle/FunctionalStyle_main.iml" group="FunctionalStyle" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FunctionalStyle/FunctionalStyle_test.iml" filepath="$PROJECT_DIR$/.idea/modules/FunctionalStyle/FunctionalStyle_test.iml" group="FunctionalStyle" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Strategy.iml" filepath="$PROJECT_DIR$/.idea/modules/Strategy.iml" />
+    </modules>
+  </component>
+</project>
