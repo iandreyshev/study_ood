@@ -12,5 +12,6 @@ class MallardDuckTest {
         }
 
         duck.display()
+        println("fds")
     }
 }
