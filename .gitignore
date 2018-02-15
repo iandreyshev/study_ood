@@ -23,9 +23,9 @@ workspace.xml
 /js/js.translator/testData/out-min/
 .gradle/
 build/
+/*.iml
 !**/src/**/build
 !**/test/**/build
-*.iml
 !**/testData/**/*.iml
 .idea/libraries/Gradle*.xml
 .idea/libraries/Maven*.xml
@@ -35,3 +35,4 @@ build/
 .idea/compiler.xml
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/.name
+materials/
