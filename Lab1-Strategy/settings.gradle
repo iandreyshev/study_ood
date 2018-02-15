@@ -1,0 +1,5 @@
+rootProject.name = 'Strategy'
+
+include 'DancingBirds'
+include 'BehaviorWithState'
+include 'FunctionalStyle'
