@@ -1,3 +1,5 @@
-rootProject.name = 'Observer'
+rootProject.name = 'Lab2-Observer'
 
 include 'WeatherStation'
+include 'WeatherStationDuo'
+include 'PriorityWeatherStation'
