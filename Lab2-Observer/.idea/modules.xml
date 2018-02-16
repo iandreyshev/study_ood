@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/priorityWeatherStation.iml" filepath="$PROJECT_DIR$/.idea/modules/priorityWeatherStation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/priorityWeatherStation_main.iml" filepath="$PROJECT_DIR$/.idea/modules/priorityWeatherStation_main.iml" group="priorityWeatherStation" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/priorityWeatherStation_test.iml" filepath="$PROJECT_DIR$/.idea/modules/priorityWeatherStation_test.iml" group="priorityWeatherStation" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStation.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStation.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStation_main.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStation_main.iml" group="weatherStation" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStation_test.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStation_test.iml" group="weatherStation" />
