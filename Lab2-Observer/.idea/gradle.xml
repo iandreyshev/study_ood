@@ -4,11 +4,11 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/WeatherStation1" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/WeatherStation" />
         <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/WeatherStation1" />
+            <option value="$PROJECT_DIR$/WeatherStation" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />
