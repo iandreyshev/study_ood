@@ -7,6 +7,7 @@ abstract class PriorityObservable<out T>(
     : IPriorityObservable<T> {
 
     protected abstract val data: T
+
     private val mObservers: PriorityQueue<Pair<IObserver<T>, Int>> = PriorityQueue(
             Comparator { o1, o2 -> comparator.compare(o1.second, o2.second) }
     )

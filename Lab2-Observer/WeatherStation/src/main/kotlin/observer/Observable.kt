@@ -15,9 +15,8 @@ abstract class Observable<out T> : IObservable<T> {
     }
 
     override fun notifyObservers() {
-        val newData = data
-        val observersToUpdate = mObservers
-
-        observersToUpdate.forEach { it.update(newData) }
+        HashSet(mObservers).forEach {
+            it.update(data)
+        }
     }
 }

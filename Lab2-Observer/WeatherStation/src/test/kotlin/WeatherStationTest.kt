@@ -7,21 +7,29 @@ class WeatherStationTest {
     @Test
     fun observerCanCallRemoveDuringUpdate() {
         val subject = Subject()
-        val observer = Observer()
+        val registeredObservers = ArrayList<Observer>()
+        val removedObservers = ArrayList<Observer>()
 
-        subject.registerObserver(observer)
-
-        observer.onUpdateEvent = {
-            subject.removeObserver(observer)
+        fun removeObservers(count: Int) = repeat(count) {
+            if (registeredObservers.isEmpty()) {
+                return@repeat
+            }
+            val removedObserver = registeredObservers.removeAt((0..registeredObservers.size).random)
+            subject.removeObserver(removedObserver)
+            removedObservers.add(removedObserver)
         }
 
-        subject.notifyObservers()
-
-        observer.onUpdateEvent = {
-            fail()
+        repeat(1000) {
+            val newObserver = Observer()
+            newObserver.onUpdateEvent = { removeObservers(10) }
+            registeredObservers.add(newObserver)
+            subject.registerObserver(newObserver)
         }
 
-        subject.notifyObservers()
+        while (!registeredObservers.isEmpty()) {
+            subject.notifyObservers()
+            removedObservers.forEach { it.onUpdateEvent = { fail() } }
+        }
     }
 
     class Observer : IObserver<Any> {
