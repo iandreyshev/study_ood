@@ -2,15 +2,16 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/priorityWeatherStation.iml" filepath="$PROJECT_DIR$/.idea/modules/priorityWeatherStation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/priorityWeatherStation_main.iml" filepath="$PROJECT_DIR$/.idea/modules/priorityWeatherStation_main.iml" group="priorityWeatherStation" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/priorityWeatherStation_test.iml" filepath="$PROJECT_DIR$/.idea/modules/priorityWeatherStation_test.iml" group="priorityWeatherStation" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStation.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStationDuo.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStationDuo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStationDuo_main.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStationDuo_main.iml" group="weatherStationDuo" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStationDuo_test.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStationDuo_test.iml" group="weatherStationDuo" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStation_main.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStation_main.iml" group="weatherStation" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStation_test.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStation_test.iml" group="weatherStation" />
+      <module fileurl="file://$PROJECT_DIR$/Lab2-Observer.iml" filepath="$PROJECT_DIR$/Lab2-Observer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PriorityWeatherStation/PriorityWeatherStation.iml" filepath="$PROJECT_DIR$/.idea/modules/PriorityWeatherStation/PriorityWeatherStation.iml" group="PriorityWeatherStation" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PriorityWeatherStation/PriorityWeatherStation_main.iml" filepath="$PROJECT_DIR$/.idea/modules/PriorityWeatherStation/PriorityWeatherStation_main.iml" group="PriorityWeatherStation" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PriorityWeatherStation/PriorityWeatherStation_test.iml" filepath="$PROJECT_DIR$/.idea/modules/PriorityWeatherStation/PriorityWeatherStation_test.iml" group="PriorityWeatherStation" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WeatherStation/WeatherStation.iml" filepath="$PROJECT_DIR$/.idea/modules/WeatherStation/WeatherStation.iml" group="WeatherStation" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WeatherStationDuo/WeatherStationDuo.iml" filepath="$PROJECT_DIR$/.idea/modules/WeatherStationDuo/WeatherStationDuo.iml" group="WeatherStationDuo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WeatherStationDuo/WeatherStationDuo_main.iml" filepath="$PROJECT_DIR$/.idea/modules/WeatherStationDuo/WeatherStationDuo_main.iml" group="WeatherStationDuo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WeatherStationDuo/WeatherStationDuo_test.iml" filepath="$PROJECT_DIR$/.idea/modules/WeatherStationDuo/WeatherStationDuo_test.iml" group="WeatherStationDuo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WeatherStation/WeatherStation_main.iml" filepath="$PROJECT_DIR$/.idea/modules/WeatherStation/WeatherStation_main.iml" group="WeatherStation" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WeatherStation/WeatherStation_test.iml" filepath="$PROJECT_DIR$/.idea/modules/WeatherStation/WeatherStation_test.iml" group="WeatherStation" />
     </modules>
   </component>
 </project>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="priorityWeatherStation:main" external.linked.project.path="$MODULE_DIR$/../../PriorityWeatherStation" external.root.project.path="$MODULE_DIR$/../../PriorityWeatherStation" external.system.id="GRADLE" external.system.module.group="" external.system.module.type="sourceSet" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":WeatherStationDuo:main" external.linked.project.path="$MODULE_DIR$/../../../WeatherStationDuo" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="Lab2-Observer" external.system.module.type="sourceSet" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="kotlin-language" name="Kotlin">
       <configuration version="3" platform="JVM 1.8" useProjectSettings="false">
         <compilerSettings />
         <compilerArguments>
-          <option name="destination" value="$MODULE_DIR$/../../PriorityWeatherStation/build/kotlin-classes/main" />
+          <option name="destination" value="$MODULE_DIR$/../../../WeatherStationDuo/build/classes/kotlin/main" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
-          <option name="moduleName" value="priorityWeatherStation" />
+          <option name="moduleName" value="WeatherStationDuo" />
           <option name="jvmTarget" value="1.8" />
           <option name="addCompilerBuiltIns" value="true" />
           <option name="loadBuiltInsFromDependencies" value="true" />
@@ -25,18 +25,18 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
-    <output url="file://$MODULE_DIR$/../../PriorityWeatherStation/out/production/classes" />
+    <output url="file://$MODULE_DIR$/../../../WeatherStationDuo/out/production/classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../PriorityWeatherStation/src/main">
-      <sourceFolder url="file://$MODULE_DIR$/../../PriorityWeatherStation/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../PriorityWeatherStation/src/main/kotlin" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../PriorityWeatherStation/src/main/resources" type="java-resource" />
+    <content url="file://$MODULE_DIR$/../../../WeatherStationDuo/src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../../WeatherStationDuo/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../WeatherStationDuo/src/main/kotlin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../WeatherStationDuo/src/main/resources" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.21" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.21" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.21" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.21" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
   </component>
 </module>

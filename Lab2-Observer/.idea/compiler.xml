@@ -2,12 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="priorityWeatherStation_main" target="1.8" />
-      <module name="priorityWeatherStation_test" target="1.8" />
-      <module name="weatherStation_main" target="1.8" />
-      <module name="weatherStation_test" target="1.8" />
-      <module name="weatherStationDuo_main" target="1.8" />
-      <module name="weatherStationDuo_test" target="1.8" />
+      <module name="PriorityWeatherStation_main" target="1.8" />
+      <module name="PriorityWeatherStation_test" target="1.8" />
+      <module name="WeatherStation_main" target="1.8" />
+      <module name="WeatherStation_test" target="1.8" />
+      <module name="WeatherStationDuo_main" target="1.8" />
+      <module name="WeatherStationDuo_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

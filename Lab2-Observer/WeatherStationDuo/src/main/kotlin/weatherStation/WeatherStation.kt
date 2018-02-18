@@ -1,7 +1,13 @@
+package weatherStation
+
 import info.WeatherInfo
 import observer.Observable
 
-class StreetWeatherStation : Observable<WeatherInfo>() {
+open class WeatherStation : Observable<WeatherInfo>() {
+
+    private var mTemperature = 0.0
+    private var mHumidity = 0.0
+    private var mPressure = 760.0
 
     override val data: WeatherInfo
         get() = WeatherInfo(
@@ -9,13 +15,6 @@ class StreetWeatherStation : Observable<WeatherInfo>() {
                 humidity = mHumidity,
                 pressure = mPressure
         )
-
-    override val name: String
-        get() = javaClass.name
-
-    private var mTemperature = 0.0
-    private var mHumidity = 0.0
-    private var mPressure = 760.0
 
     fun SetMeasurements(temp: Double, humidity: Double, pressure: Double) {
         mTemperature = temp

@@ -1,3 +1,6 @@
+import com.nhaarman.mockito_kotlin.argThat
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import junit.framework.TestCase.assertEquals
 import observer.IObserver
 import observer.PriorityObservable
@@ -25,6 +28,24 @@ class WeatherStationTest {
     @Test
     fun updateObserversFromSmallToBigPriority() {
         validatePriorityOrder(Comparator.reverseOrder(), NEXT_MORE)
+    }
+
+    @Test
+    fun twoDifferentObserversWithSamePriorityCanGetNotify() {
+        val subject = Subject({}, Comparator.naturalOrder())
+        val observers = ArrayList<IObserver<Any>>()
+
+        repeat(100) {
+            val observer: IObserver<Any> = mock()
+            observers.add(observer)
+            subject.registerObserver(observer, it)
+        }
+
+        subject.notifyObservers()
+
+        observers.forEach {
+            verify(it).update(argThat { true })
+        }
     }
 
     private fun validatePriorityOrder(comparator: Comparator<Int>, compareResult: Int, priorityStep: Int = 1) {

@@ -1,14 +1,13 @@
 package observer
 
 import java.util.*
-import kotlin.Comparator
 
 abstract class PriorityObservable<out T>(
         comparator: Comparator<Int> = Comparator.naturalOrder())
     : IPriorityObservable<T> {
 
     protected abstract val data: T
-    private val mObservers: TreeSet<Pair<IObserver<T>, Int>> = TreeSet(
+    private val mObservers: PriorityQueue<Pair<IObserver<T>, Int>> = PriorityQueue(
             Comparator { o1, o2 -> comparator.compare(o1.second, o2.second) }
     )
 
@@ -24,8 +23,6 @@ abstract class PriorityObservable<out T>(
 
     override fun notifyObservers() {
         val newData = data
-        val observersToUpdate = mObservers
-
-        observersToUpdate.forEach { it.first.update(newData) }
+        mObservers.forEach { it.first.update(newData) }
     }
 }

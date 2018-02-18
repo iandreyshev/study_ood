@@ -6,17 +6,13 @@ import org.junit.Test
 
 class HouseWeatherStationTest {
 
-    companion object {
-        private const val INTERNAL_STATION_NAME = "INTERNAL station"
-    }
-
     @Test
     fun observerCanTakeSubjectName() {
         val internalStation = InternalStation()
         val observer = Observer()
 
         observer.onUpdateEvent = { subject ->
-            assertEquals(subject.name, INTERNAL_STATION_NAME)
+            assertEquals(subject, internalStation)
         }
 
         internalStation.registerObserver(observer)
@@ -46,10 +42,6 @@ class HouseWeatherStationTest {
     }
 
     class InternalStation : Observable<Any>() {
-        override val data: Any
-            get() = {}
-
-        override val name: String
-            get() = INTERNAL_STATION_NAME
+        override val data: Any = {}
     }
 }
