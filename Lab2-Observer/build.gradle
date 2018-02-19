@@ -1,7 +1,0 @@
-
-allprojects {
-    dependencies {
-        testImplementation "com.nhaarman:mockito-kotlin-kt1.1:1.5.0"
-        testImplementation "junit:junit:4.12"
-    }
-}
