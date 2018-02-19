@@ -1,9 +1,11 @@
 package observer
 
-interface IObservable<out TNewData> {
-    fun registerObserver(observer: IObserver<TNewData>)
+interface IObservable<out TData> {
+    val data: TData
 
-    fun removeObserver(observer: IObserver<TNewData>)
+    fun registerObserver(observer: IObserver<TData>)
+
+    fun removeObserver(observer: IObserver<TData>)
 
     fun notifyObservers()
 }

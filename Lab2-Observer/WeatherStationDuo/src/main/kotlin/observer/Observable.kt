@@ -1,6 +1,6 @@
 package observer
 
-abstract class Observable<out TNewData> : IObservable<TNewData>, ISubject<TNewData> {
+abstract class Observable<out TNewData> : IObservable<TNewData> {
 
     private val mObservers: HashSet<IObserver<TNewData>> = HashSet()
 

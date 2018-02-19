@@ -8,6 +8,18 @@
       <module name="WeatherStation_test" target="1.8" />
       <module name="WeatherStationDuo_main" target="1.8" />
       <module name="WeatherStationDuo_test" target="1.8" />
+      <module name="WeatherStationPro_main" target="1.8" />
+      <module name="weatherStationPro_main" target="1.8" />
+      <module name="WeatherStationPro_test" target="1.8" />
+      <module name="weatherStationPro_test" target="1.8" />
+      <module name="WeatherStationWithWind_main" target="1.8" />
+      <module name="weatherStationWithWind_main" target="1.8" />
+      <module name="weatherStationWithWind_test" target="1.8" />
+      <module name="WeatherStationWithWind_test" target="1.8" />
+      <module name="windWeatherStation_main" target="1.8" />
+      <module name="WindWeatherStation_main" target="1.8" />
+      <module name="windWeatherStation_test" target="1.8" />
+      <module name="WindWeatherStation_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

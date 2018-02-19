@@ -14,7 +14,7 @@ class WeatherStation : PriorityObservable<WeatherInfo>() {
                 pressure = mPressure
         )
 
-    fun SetMeasurements(temp: Double, humidity: Double, pressure: Double) {
+    fun setMeasurements(temp: Double, humidity: Double, pressure: Double) {
         mTemperature = temp
         mHumidity = humidity
         mPressure = pressure

@@ -1,9 +1,37 @@
+import com.nhaarman.mockito_kotlin.argThat
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import info.WeatherInfo
 import junit.framework.TestCase.fail
 import observer.IObserver
 import observer.Observable
 import org.junit.Test
 
 class WeatherStationTest {
+    @Test
+    fun canNotifyObserversAfterSetMeasurements() {
+        val station = WeatherStation()
+        val displays = ArrayList<IObserver<WeatherInfo>>()
+
+        repeat(1000) {
+            val display: IObserver<WeatherInfo> = mock()
+            displays.add(display)
+            station.registerObserver(display)
+        }
+
+        val newTemperature = 1.0
+        val newHumidity = 2.0
+        val newPressure = 3.0
+
+        station.setMeasurements(newTemperature, newHumidity, newPressure)
+
+        displays.forEach {
+            verify(it).update(argThat {
+                temperature == newTemperature && humidity == newHumidity && pressure == newPressure
+            })
+        }
+    }
+
     @Test
     fun observerCanCallRemoveDuringUpdate() {
         val subject = Subject()

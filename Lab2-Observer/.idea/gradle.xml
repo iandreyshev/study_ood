@@ -13,8 +13,34 @@
             <option value="$PROJECT_DIR$/PriorityWeatherStation" />
             <option value="$PROJECT_DIR$/WeatherStation" />
             <option value="$PROJECT_DIR$/WeatherStationDuo" />
+            <option value="$PROJECT_DIR$/WeatherStationPro" />
           </set>
         </option>
+        <option name="useAutoImport" value="true" />
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/WeatherStationPro" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/WeatherStationPro" />
+          </set>
+        </option>
+        <option name="useAutoImport" value="true" />
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/WeatherStationWithWind" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/WeatherStationWithWind" />
+          </set>
+        </option>
+        <option name="useAutoImport" value="true" />
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/windWeatherStation" />
         <option name="useAutoImport" value="true" />
       </GradleProjectSettings>
     </option>

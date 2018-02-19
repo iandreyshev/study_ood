@@ -1,8 +1,8 @@
 package display
 
 import info.WeatherInfo
+import observer.IObservable
 import observer.IObserver
-import observer.ISubject
 
 class StatsDisplay : IObserver<WeatherInfo> {
 
@@ -11,7 +11,7 @@ class StatsDisplay : IObserver<WeatherInfo> {
     private var mAccTemperature: Double = .0
     private var mCountAcc = 0L
 
-    override fun update(subject: ISubject<WeatherInfo>) {
+    override fun update(subject: IObservable<WeatherInfo>) {
         mMinTemperature = Math.min(mMinTemperature, subject.data.temperature)
         mMaxTemperature = Math.max(mMaxTemperature, subject.data.temperature)
         mAccTemperature += subject.data.temperature

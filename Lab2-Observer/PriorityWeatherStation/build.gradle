@@ -18,8 +18,6 @@ repositories {
 }
 
 dependencies {
-    testImplementation "junit:junit:4.12"
-    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:1.5.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 

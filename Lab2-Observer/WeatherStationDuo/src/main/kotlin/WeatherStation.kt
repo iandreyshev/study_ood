@@ -1,9 +1,7 @@
-package weatherStation
-
 import info.WeatherInfo
 import observer.Observable
 
-open class WeatherStation : Observable<WeatherInfo>() {
+class WeatherStation : Observable<WeatherInfo>() {
 
     private var mTemperature = 0.0
     private var mHumidity = 0.0
@@ -16,7 +14,7 @@ open class WeatherStation : Observable<WeatherInfo>() {
                 pressure = mPressure
         )
 
-    fun SetMeasurements(temp: Double, humidity: Double, pressure: Double) {
+    fun setMeasurements(temp: Double, humidity: Double, pressure: Double) {
         mTemperature = temp
         mHumidity = humidity
         mPressure = pressure

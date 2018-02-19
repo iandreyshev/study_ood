@@ -2,14 +2,14 @@ package display
 
 import info.WeatherInfo
 import observer.IObserver
-import observer.ISubject
-import weatherStation.WeatherStation
+import WeatherStation
+import observer.IObservable
 
 class Display(
         private val mStreetStation: WeatherStation,
         private val mHouseStation: WeatherStation) : IObserver<WeatherInfo> {
 
-    override fun update(subject: ISubject<WeatherInfo>) {
+    override fun update(subject: IObservable<WeatherInfo>) {
         val notificationFrom = if (subject == mStreetStation) mStreetStation else mHouseStation
 
         println("""
