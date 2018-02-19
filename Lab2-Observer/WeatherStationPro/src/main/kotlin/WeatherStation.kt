@@ -12,18 +12,19 @@ class WeatherStation : Observable<WeatherInfo>() {
             temperature: Double = mMeasurements.temperature,
             humidity: Double = mMeasurements.humidity,
             pressure: Double = mMeasurements.pressure,
-            windDirection: Int = mMeasurements.windDirection,
+            windDirection: Double = mMeasurements.windDirectionAngle,
             windSpeed: Double = mMeasurements.windSpeed) {
 
         val newMeasurements = WeatherInfo(
                 temperature = temperature,
                 humidity = humidity,
                 pressure = pressure,
-                windDirection = windDirection,
+                windDirectionAngle = windDirection,
                 windSpeed = windSpeed
         )
 
         if (newMeasurements != mMeasurements) {
+            mMeasurements = newMeasurements
             notifyObservers()
         }
     }

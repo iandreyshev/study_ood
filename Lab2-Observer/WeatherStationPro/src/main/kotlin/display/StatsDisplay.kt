@@ -5,9 +5,9 @@ import observer.IObserver
 
 class StatsDisplay : IObserver<WeatherInfo> {
 
-    private val mTemperatureCalc = InfoCalc("temperature")
-    private val mPressureCalc = InfoCalc("pressure")
-    private val mHumidityCalc = InfoCalc("humidity")
+    private val mTemperatureCalc = StatisticCalc("temperature")
+    private val mPressureCalc = StatisticCalc("pressure")
+    private val mHumidityCalc = StatisticCalc("humidity")
 
     override fun update(data: WeatherInfo) {
         mTemperatureCalc.calc(data.temperature)
@@ -19,26 +19,5 @@ class StatsDisplay : IObserver<WeatherInfo> {
             $mPressureCalc
             $mHumidityCalc
             ----------------""".trimIndent())
-    }
-
-    class InfoCalc(private val mName: String = "Value") {
-        private var mMinValue: Double = Double.MIN_VALUE
-        private var mMaxValue: Double = Double.MAX_VALUE
-        private var mAccValue: Double = .0
-        private var mCountAcc: Long = 0L
-
-        fun calc(newValue: Double) {
-            mMinValue = Math.min(mMinValue, newValue)
-            mMaxValue = Math.max(mMaxValue, newValue)
-            mAccValue += newValue
-            ++mCountAcc
-        }
-
-        override fun toString(): String {
-            return """
-            Min $mName $mMinValue
-            Max $mName $mMaxValue
-            Average $mName ${mAccValue / mCountAcc}"""
-        }
     }
 }
