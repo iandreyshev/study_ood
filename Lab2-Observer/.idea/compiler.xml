@@ -14,6 +14,10 @@
       <module name="weatherStationPro_test" target="1.8" />
       <module name="weatherStationProDuo_main" target="1.8" />
       <module name="weatherStationProDuo_test" target="1.8" />
+      <module name="WeatherStationProSelective_main" target="1.8" />
+      <module name="weatherStationProSelective_main" target="1.8" />
+      <module name="weatherStationProSelective_test" target="1.8" />
+      <module name="WeatherStationProSelective_test" target="1.8" />
       <module name="WeatherStationWithWind_main" target="1.8" />
       <module name="weatherStationWithWind_main" target="1.8" />
       <module name="weatherStationWithWind_test" target="1.8" />
