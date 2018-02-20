@@ -3,6 +3,7 @@ package display
 import com.sun.javafx.geom.Vec2d
 import info.WeatherInfo
 import observer.IObserver
+import kotlin.math.round
 
 class WindDisplay : IObserver<WeatherInfo> {
 
@@ -21,17 +22,17 @@ class WindDisplay : IObserver<WeatherInfo> {
 
     class WindDirectionStatisticCalc {
 
-        private val mTotalDirection: Vec2d = Vec2d(0.0, -1.0)
+        private val mTotalDir: Vec2d = Vec2d(.0, .0)
+        private val mTotalDirInRadians
+            get() = Math.atan2(mTotalDir.y, mTotalDir.x)
 
         fun calc(directionAngle: Double) {
-            mTotalDirection.x += Math.cos(directionAngle)
-            mTotalDirection.y += Math.sin(directionAngle)
-
-            println(mTotalDirection.toString())
-
-            mTotalDirection.normalize()
+            mTotalDir.x += Math.cos(Math.toRadians(directionAngle))
+            mTotalDir.y += Math.sin(Math.toRadians(directionAngle))
         }
 
-        override fun toString(): String = mTotalDirection.toString()
+        override fun toString(): String {
+            return round(Math.toDegrees(mTotalDirInRadians)).toString()
+        }
     }
 }

@@ -11,7 +11,7 @@ import org.junit.Test
 class WeatherStationTest {
     @Test
     fun canNotifyObserversAfterSetMeasurements() {
-        val station = WeatherStation()
+        val station = WeatherStationPro()
         val displays = ArrayList<IObserver<WeatherInfo>>()
 
         repeat(1000) {
@@ -59,24 +59,6 @@ class WeatherStationTest {
             subject.notifyObservers()
             removedObservers.forEach { it.onUpdateEvent = { fail() } }
         }
-    }
-
-    @Test
-    fun notifyObserversOnlyIfDataIsDiffersFromPrevious() {
-        val station = WeatherStation()
-        val display: IObserver<WeatherInfo> = mock()
-
-        station.registerObserver(display)
-
-        repeat(1000) {
-            station.setMeasurements(1.0, 1.1, 1.2, 1.3, 1.4)
-        }
-
-        verify(display).update(argThat { true })
-
-        station.setMeasurements(2.0, 1.1, 1.2, 1.3, 1.4)
-
-        verify(display, times(2)).update(argThat { true })
     }
 
     class Observer : IObserver<Any> {

@@ -1,7 +1,6 @@
 package display
 
 import info.WeatherInfo
-import org.junit.Assert.*
 import org.junit.Test
 
 class WindDisplayTest {
@@ -10,7 +9,11 @@ class WindDisplayTest {
         val display = WindDisplay()
 
         display.update(WeatherInfo(
-                windDirectionAngle = 90.0
+                windDirectionAngle = 45.0
+        ))
+
+        display.update(WeatherInfo(
+                windDirectionAngle = 135.0
         ))
     }
 }

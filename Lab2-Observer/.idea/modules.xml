@@ -15,10 +15,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/WeatherStationPro/WeatherStationPro_test.iml" filepath="$PROJECT_DIR$/.idea/modules/WeatherStationPro/WeatherStationPro_test.iml" group="WeatherStationPro" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/WeatherStation/WeatherStation_main.iml" filepath="$PROJECT_DIR$/.idea/modules/WeatherStation/WeatherStation_main.iml" group="WeatherStation" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/WeatherStation/WeatherStation_test.iml" filepath="$PROJECT_DIR$/.idea/modules/WeatherStation/WeatherStation_test.iml" group="WeatherStation" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStationPro.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStationPro.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStationPro_main.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStationPro_main.iml" group="weatherStationPro" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStationPro_test.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStationPro_test.iml" group="weatherStationPro" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStationWithWind.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStationWithWind.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStationProDuo.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStationProDuo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStationProDuo_main.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStationProDuo_main.iml" group="weatherStationProDuo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/weatherStationProDuo_test.iml" filepath="$PROJECT_DIR$/.idea/modules/weatherStationProDuo_test.iml" group="weatherStationProDuo" />
     </modules>
   </component>
 </project>

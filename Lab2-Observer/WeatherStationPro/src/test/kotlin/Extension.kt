@@ -1,6 +1,4 @@
-import com.sun.javafx.geom.Vec2d
 import java.util.*
-import kotlin.math.sqrt
 
 val ClosedRange<Int>.random: Int
     get() {
