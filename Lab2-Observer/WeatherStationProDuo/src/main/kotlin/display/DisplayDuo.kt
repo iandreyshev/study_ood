@@ -4,14 +4,34 @@ import observer.IObserver
 import WeatherStation
 import WeatherStationPro
 import info.WeatherInfo
+import info.WeatherInfoWithWind
 import observer.IObservable
 
-class DisplayDuo<in TInfo : WeatherInfo>(
+class DisplayDuo(
         private val mHouseStation: WeatherStation,
-        private val mStreetStation: WeatherStationPro
-) : IObserver<TInfo> {
+        private val mStreetStation: WeatherStationPro) {
 
-    override fun update(subject: IObservable<TInfo>) {
+    private val mHouseDisplay = HouseDisplay()
+    private val mStreetDisplay = StreetDisplay()
+
+    init {
+        mHouseStation.registerObserver(mHouseDisplay)
+        mStreetStation.registerObserver(mStreetDisplay)
+    }
+
+    inner class HouseDisplay : IObserver<WeatherInfo> {
+        override fun update(subject: IObservable<WeatherInfo>) {
+            onUpdate(subject)
+        }
+    }
+
+    inner class StreetDisplay : IObserver<WeatherInfoWithWind> {
+        override fun update(subject: IObservable<WeatherInfoWithWind>) {
+            onUpdate(subject)
+        }
+    }
+
+    private fun onUpdate(subject: IObservable<*>) {
         val notificationSource = when (subject) {
             mStreetStation -> mStreetStation
             mHouseStation -> mHouseStation
