@@ -8,15 +8,15 @@ import info.WeatherInfoWithWind
 import observer.IObservable
 
 class DisplayDuo(
-        private val mHouseStation: WeatherStation,
-        private val mStreetStation: WeatherStationPro) {
+        private val mOuterStation: WeatherStation,
+        private val mInnerStation: WeatherStationPro) {
 
-    private val mHouseDisplay = HouseDisplay()
-    private val mStreetDisplay = StreetDisplay()
+    private val mOuterDisplay = HouseDisplay()
+    private val mInnerDisplay = StreetDisplay()
 
     init {
-        mHouseStation.registerObserver(mHouseDisplay)
-        mStreetStation.registerObserver(mStreetDisplay)
+        mOuterStation.registerObserver(mOuterDisplay)
+        mInnerStation.registerObserver(mInnerDisplay)
     }
 
     inner class HouseDisplay : IObserver<WeatherInfo> {
@@ -33,8 +33,8 @@ class DisplayDuo(
 
     private fun onUpdate(subject: IObservable<*>) {
         val notificationSource = when (subject) {
-            mStreetStation -> mStreetStation
-            mHouseStation -> mHouseStation
+            mInnerStation -> mInnerStation
+            mOuterStation -> mOuterStation
             else -> return
         }
 
