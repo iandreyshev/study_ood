@@ -33,7 +33,7 @@ abstract class Observable<out TData> : IObservable<TData> {
         HashMap(mObservers).forEach { observersByPredicate ->
             if (observersByPredicate.key(mLatestData, data)) {
 
-                observersByPredicate.value.forEach { observer ->
+                HashSet(observersByPredicate.value).forEach { observer ->
                     observer.update(data)
                 }
             }

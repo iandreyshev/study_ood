@@ -24,9 +24,9 @@ class WindDirectionStatisticCalcTest {
 
     @Test
     fun calcDirectionIfTheyChange() {
-        mCalc.calc(45.0)
-        mCalc.calc(315.0)
+        mCalc.calc(0.0)
+        mCalc.calc(180.0)
 
-        assertEquals("-0.0", mCalc.toString())
+        assertEquals("90.0", mCalc.toString())
     }
 }

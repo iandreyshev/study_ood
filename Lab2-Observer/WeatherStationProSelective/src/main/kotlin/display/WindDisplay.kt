@@ -21,7 +21,6 @@ class WindDisplay : IObserver<WeatherInfo> {
     }
 
     class WindDirectionStatisticCalc {
-
         private val mTotalDir: Vec2d = Vec2d(.0, .0)
         private val mTotalDirInRadians
             get() = Math.atan2(mTotalDir.y, mTotalDir.x)

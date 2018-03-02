@@ -1,17 +1,22 @@
 package display
 
-import info.WeatherInfoWithWind
 import observer.IObserver
 import WeatherStation
 import WeatherStationPro
+import info.WeatherInfo
 import observer.IObservable
 
-class DisplayDuo(
-        private val mStreetStation: WeatherStationPro,
-        private val mHouseStation: WeatherStation) : IObserver<WeatherInfoWithWind> {
+class DisplayDuo<in TInfo : WeatherInfo>(
+        private val mHouseStation: WeatherStation,
+        private val mStreetStation: WeatherStationPro
+) : IObserver<TInfo> {
 
-    override fun update(subject: IObservable<WeatherInfoWithWind>) {
-        val notificationSource = if (subject == mStreetStation) mStreetStation else mHouseStation
+    override fun update(subject: IObservable<TInfo>) {
+        val notificationSource = when (subject) {
+            mStreetStation -> mStreetStation
+            mHouseStation -> mHouseStation
+            else -> return
+        }
 
         println("""
             Information from ${notificationSource.javaClass.name}:
