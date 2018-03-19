@@ -15,6 +15,6 @@ class Image(
         height = newHeight
     }
 
-    override val asTag: String
+    val asTag: String
         get() = "<img src=\"$path\" height=\"$height\" width=\"$width\">"
 }

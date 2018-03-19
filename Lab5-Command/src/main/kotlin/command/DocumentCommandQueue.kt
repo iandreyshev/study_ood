@@ -5,15 +5,15 @@ import java.util.*
 class DocumentCommandQueue(
         private val memorySize: Int
 ) : ICommandQueue {
-    private val mUndoCommands = Stack<ICommand<*>>()
-    private val mRedoCommands = Stack<ICommand<*>>()
+    private val mUndoCommands = Stack<ICommand>()
+    private val mRedoCommands = Stack<ICommand>()
 
     override val canUndo: Boolean
         get() = !mUndoCommands.empty()
     override val canRedo: Boolean
         get() = !mRedoCommands.empty()
 
-    override fun <TResult> apply(command: ICommand<TResult>): TResult {
+    override fun apply(command: ICommand) {
         mRedoCommands.clear()
         return executeCommand(command)
     }
@@ -38,15 +38,13 @@ class DocumentCommandQueue(
         executeCommand(mRedoCommands.pop())
     }
 
-    private fun <TResult> executeCommand(command: ICommand<TResult>): TResult {
-        val result = command.execute()
+    private fun executeCommand(command: ICommand) {
+        command.execute()
         mUndoCommands.push(command)
 
         if (mUndoCommands.size > memorySize) {
             val removedCommand = mUndoCommands.removeAt(memorySize)
             removedCommand.destroy()
         }
-
-        return result
     }
 }

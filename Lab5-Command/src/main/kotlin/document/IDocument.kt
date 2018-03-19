@@ -16,10 +16,10 @@ interface IDocument {
     fun insertImage(path: String, width: Int, height: Int, position: Int = itemsCount): IImage
 
     @Throws(IndexOutOfBoundsException::class)
-    operator fun get(index: Int): IDocumentItem
+    operator fun get(position: Int): IDocumentItem
 
     @Throws(IndexOutOfBoundsException::class)
-    fun deleteItem(index: Int)
+    fun deleteItem(position: Int)
 
     @Throws(IllegalStateException::class)
     fun undo()

@@ -1,15 +1,15 @@
 import command.DocumentCommandQueue
+import document.Document
 import io.DocumentInterpreter
 import java.io.IOException
 
 class Main {
     companion object {
-        private val WHITESPACES = Regex("[\r\n\t ]+")
         private const val COMMANDS_MEMORY_SIZE = 10
 
         private val mInterpreter = DocumentInterpreter()
         private val mCommandsQueue = DocumentCommandQueue(COMMANDS_MEMORY_SIZE)
-        private val mDocument = HtmlDocument(mHtml, mCommandsQueue)
+        private val mDocument = Document(mCommandsQueue)
 
         @JvmStatic
         fun main(args: Array<String>) {
@@ -24,7 +24,6 @@ class Main {
             loop@ while (true) {
                 val command = readLine()
                         ?.trim()
-                        ?.split(WHITESPACES)
                         ?: throw IOException("Input is null")
 
                 if (!mInterpreter.apply(mDocument, command)) {
