@@ -11,11 +11,7 @@ class InsertParagraphCommand(
     private val mParagraph: IDocumentItem = IDocumentItem.newParagraph(paragraph)
 
     override fun execute() {
-        if (position >= items.size) {
-            items.add(mParagraph)
-        } else {
-            items.add(position, mParagraph)
-        }
+        items.add(position, mParagraph)
     }
 
     override fun undo() {

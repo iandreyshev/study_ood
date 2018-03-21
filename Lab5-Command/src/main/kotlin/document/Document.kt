@@ -1,9 +1,13 @@
 package document
 
 import command.*
+import io.IFileManager
+import java.io.File
+import java.io.IOException
 
 class Document(
-        private val queue: ICommandQueue
+        private val queue: ICommandQueue,
+        private val fileManager: IFileManager
 ) : IDocument {
     private var mTitle = ""
     private val mItems = ArrayList<IDocumentItem>()
@@ -29,10 +33,12 @@ class Document(
         return paragraph
     }
 
-    @Throws(IndexOutOfBoundsException::class)
+    @Throws(IndexOutOfBoundsException::class, IOException::class)
     override fun insertImage(path: String, width: Int, height: Int, position: Int): IImage {
-        val image = Image(path, width, height)
-        val command = InsertImageCommand(mItems, position, image)
+        val imageId = fileManager.copyImage(path) ?: throw IOException()
+        val relativePath = fileManager.getRelativePath(imageId)
+        val image = Image(relativePath, width, height)
+        val command = InsertImageCommand(imageId, fileManager, mItems, position, image)
         queue.apply(command)
 
         return image
@@ -50,8 +56,13 @@ class Document(
 
     override fun redo() = queue.redo()
 
+    @Throws(IllegalArgumentException::class)
     override fun save(path: String) {
-        TODO("save not implemented")
+        val destFolder = File(path)
+
+        if (!destFolder.exists() || !destFolder.isDirectory) {
+            throw IllegalArgumentException()
+        }
     }
 
     inner class ChangeTitleCommand(private val newTitle: String) : ICommand {

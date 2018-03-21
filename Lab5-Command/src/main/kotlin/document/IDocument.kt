@@ -1,5 +1,7 @@
 package document
 
+import java.io.IOException
+
 interface IDocument {
     var title: String
 
@@ -12,7 +14,7 @@ interface IDocument {
     @Throws(IllegalArgumentException::class)
     fun insertParagraph(text: String, position: Int = itemsCount): IParagraph
 
-    @Throws(IllegalArgumentException::class)
+    @Throws(IndexOutOfBoundsException::class, IOException::class)
     fun insertImage(path: String, width: Int, height: Int, position: Int = itemsCount): IImage
 
     @Throws(IndexOutOfBoundsException::class)
