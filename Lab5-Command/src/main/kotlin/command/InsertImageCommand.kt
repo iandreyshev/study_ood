@@ -2,28 +2,32 @@ package command
 
 import document.IDocumentItem
 import document.IImage
-import io.IFileManager
+import io.IImageFileManager
 
 class InsertImageCommand(
-        private val imageId: Long,
-        private val fileManager: IFileManager,
+        private val fileManager: IImageFileManager,
         private val items: MutableList<IDocumentItem>,
         private val position: Int,
         image: IImage
 ) : ICommand {
-    private val image: IDocumentItem = IDocumentItem.newImage(image)
+    private val mImageItem: IDocumentItem = IDocumentItem.newImage(image)
+    private val path: String = image.path
 
     override fun execute() {
-        items.add(position, image)
-        fileManager.markImageOnDelete(imageId, false)
+        when {
+            position < 0 -> throw IndexOutOfBoundsException()
+            position >= items.size -> items.add(mImageItem)
+            else -> items.add(position, mImageItem)
+        }
+        fileManager.markImageOnDelete(path, false)
     }
 
     override fun undo() {
         items.removeAt(position)
-        fileManager.markImageOnDelete(imageId, true)
+        fileManager.markImageOnDelete(path, true)
     }
 
     override fun destroy() {
-        fileManager.deleteImage(imageId)
+        fileManager.deleteImage(path)
     }
 }

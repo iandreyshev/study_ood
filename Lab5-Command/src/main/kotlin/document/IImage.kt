@@ -3,9 +3,9 @@ package document
 interface IImage {
     val path: String
 
-    val width: Int
+    var width: Int
 
-    val height: Int
+    var height: Int
 
     fun resize(newWidth: Int, newHeight: Int)
 }

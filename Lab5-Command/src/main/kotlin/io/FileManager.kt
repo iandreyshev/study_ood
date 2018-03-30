@@ -9,50 +9,72 @@ class FileManager(rootPath: String) : IFileManager {
     }
 
     private var mRoot: File = File(rootPath)
-    private var mIndex: File
     private var mImagesDir: File
-    private var mLastId = 1L
-    private val mImages = HashMap<Long, File>()
-    private val mImagesToDelete = HashSet<Long>()
+    private val mImages = HashMap<String, File>()
+    private val mImagesToDelete = HashSet<String>()
 
     init {
         mRoot.mkdirs()
-
-        mIndex = File(mRoot, INDEX_FILE)
-        mIndex.createNewFile()
 
         mImagesDir = File(mRoot, IMAGES_DIR)
         mImagesDir.mkdirs()
     }
 
-    override fun copyImage(path: String): Long? {
+    override fun saveTo(path: String, text: String) {
+        val dirToSave = File(path)
+        dirToSave.mkdirs()
+
+        if (!dirToSave.exists() || !dirToSave.isDirectory) {
+            throw IllegalArgumentException("Invalid directory '${dirToSave.absolutePath}' to save")
+        }
+
+        val indexFile = File(dirToSave, INDEX_FILE)
+        indexFile.createNewFile()
+        indexFile.outputStream().use { stream ->
+            stream.write(text.toByteArray())
+        }
+
+        val imagesDir = File(dirToSave, IMAGES_DIR)
+        imagesDir.mkdirs()
+        mImages.forEach { id, image ->
+            if (!mImagesToDelete.contains(id)) {
+                val target = File(imagesDir, image.name)
+                image.copyTo(target, overwrite = true)
+            }
+        }
+    }
+
+    override fun copyImage(path: String): String? {
         return try {
             val image = File(path)
             val imageInStore = File(mImagesDir, image.name)
             imageInStore.createNewFile()
             imageInStore.writeBytes(image.readBytes())
-            mImages[mLastId] = imageInStore
-            ++mLastId
+            val newPath = imageInStore.toRelativeString(mRoot)
+                    .replace('\\', '/')
+            mImages[newPath] = imageInStore
+            newPath
         } catch (ex: Exception) {
             null
         }
     }
 
-    @Throws(IllegalArgumentException::class)
-    override fun getRelativePath(imageId: Long): String {
-        val image = mImages[imageId]
-        return image?.toRelativeString(mRoot) ?: throw IllegalArgumentException()
-    }
+    override fun markImageOnDelete(imagePath: String, isOnDelete: Boolean) {
+        if (!mImages.containsKey(imagePath)) {
+            return
+        }
 
-    override fun markImageOnDelete(imageId: Long, isOnDelete: Boolean) {
-        if (mImages.containsKey(imageId)) {
-            mImagesToDelete.add(imageId)
+        if (isOnDelete) {
+            mImagesToDelete.add(imagePath)
+        } else {
+            mImagesToDelete.remove(imagePath)
         }
     }
 
-    override fun deleteImage(imageId: Long) {
-        val image = mImages[imageId]
+    override fun deleteImage(imagePath: String) {
+        val image = mImages[imagePath]
         image?.deleteRecursively()
+        mImages.remove(imagePath)
     }
 
     fun clear() {

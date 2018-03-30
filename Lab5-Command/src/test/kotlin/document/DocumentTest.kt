@@ -1,7 +1,9 @@
 package document
 
+import com.nhaarman.mockito_kotlin.mock
 import command.DocumentCommandQueue
 import command.ICommandQueue
+import io.IFileManager
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -12,12 +14,14 @@ class DocumentTest {
     }
 
     private lateinit var queue: ICommandQueue
+    private lateinit var fileManager: IFileManager
     private lateinit var document: IDocument
 
     @Before
     fun setup() {
         queue = DocumentCommandQueue(QUEUE_MEMORY)
-        document = Document(queue)
+        fileManager = mock()
+        document = Document(queue, fileManager)
     }
 
     @Test

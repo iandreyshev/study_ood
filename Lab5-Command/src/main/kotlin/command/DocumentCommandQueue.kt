@@ -14,18 +14,17 @@ class DocumentCommandQueue(
         get() = !mRedoCommands.empty()
 
     override fun apply(command: ICommand) {
-        while (!mRedoCommands.empty()) {
-            mRedoCommands.first().destroy()
-            mRedoCommands.removeAt(0)
+        mRedoCommands.removeAll {
+            it.destroy()
+            true
         }
-
         command.doIt()
     }
 
     @Throws(IllegalStateException::class)
     override fun undo() {
         if (mUndoCommands.empty()) {
-            throw IllegalStateException()
+            throw IllegalStateException("Nothing to undo")
         }
 
         val command = mUndoCommands.pop()
@@ -36,7 +35,7 @@ class DocumentCommandQueue(
     @Throws(IllegalStateException::class)
     override fun redo() {
         if (mRedoCommands.empty()) {
-            throw IllegalStateException()
+            throw IllegalStateException("Nothing to redo")
         }
 
         mRedoCommands.pop().doIt()
@@ -47,8 +46,7 @@ class DocumentCommandQueue(
         mUndoCommands.push(this)
 
         if (mUndoCommands.size > memorySize) {
-            val removedCommand = mUndoCommands.removeAt(memorySize)
-            removedCommand.destroy()
+            mUndoCommands.removeAt(memorySize)
         }
     }
 }

@@ -9,30 +9,38 @@ class Main {
         private const val COMMANDS_MEMORY_SIZE = 10
         private const val WORK_DIRECTORY = "root"
 
-        private val mCommandsQueue = DocumentCommandQueue(COMMANDS_MEMORY_SIZE)
-        private val mFileManager = FileManager(WORK_DIRECTORY)
-        private val mDocument = Document(mCommandsQueue, mFileManager)
-        private val mInterpreter = DocumentInterpreter(mDocument)
-
         @JvmStatic
         fun main(args: Array<String>) {
+            val commandsQueue = DocumentCommandQueue(COMMANDS_MEMORY_SIZE)
+            val fileManager = FileManager(WORK_DIRECTORY)
+            val document = Document(commandsQueue, fileManager)
+            val interpreter = DocumentInterpreter(document)
+
             try {
-                enterLoop()
+                enterLoop(interpreter)
             } catch (ex: Exception) {
                 println(ex.cause)
             }
 
-            mFileManager.clear()
+            fileManager.clear()
         }
 
-        private fun enterLoop() {
+        private fun enterLoop(interpreter: DocumentInterpreter) {
             loop@ while (true) {
                 val command = readLine()
                         ?.trim()
                         ?: throw IOException("Input is null")
 
-                if (!mInterpreter.apply(command)) {
-                    break@loop
+                try {
+                    if (!interpreter.apply(command)) {
+                        break@loop
+                    }
+                } catch (ex: Exception) {
+                    println("""
+                        Error while execute command '$command'.
+                        Reason: ${ex.message}.
+                        Use '-h' to see all available commands.
+                        """.trimIndent())
                 }
             }
         }

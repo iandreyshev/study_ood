@@ -2,7 +2,6 @@ package document
 
 import command.*
 import io.IFileManager
-import java.io.File
 import java.io.IOException
 
 class Document(
@@ -24,8 +23,8 @@ class Document(
     override val canRedo: Boolean
         get() = queue.canRedo
 
-    @Throws(IndexOutOfBoundsException::class)
     override fun insertParagraph(text: String, position: Int): IParagraph {
+        position.validatePosition()
         val paragraph = Paragraph(text)
         val command = InsertParagraphCommand(mItems, position, paragraph)
         queue.apply(command)
@@ -33,36 +32,54 @@ class Document(
         return paragraph
     }
 
-    @Throws(IndexOutOfBoundsException::class, IOException::class)
     override fun insertImage(path: String, width: Int, height: Int, position: Int): IImage {
-        val imageId = fileManager.copyImage(path) ?: throw IOException()
-        val relativePath = fileManager.getRelativePath(imageId)
-        val image = Image(relativePath, width, height)
-        val command = InsertImageCommand(imageId, fileManager, mItems, position, image)
+        position.validatePosition()
+        val imagePath = fileManager.copyImage(path)
+                ?: throw IOException("Image with path $path not found.")
+
+        val image = Image(imagePath, width, height)
+        val command = InsertImageCommand(fileManager, mItems, position, image)
         queue.apply(command)
 
         return image
     }
 
-    @Throws(IndexOutOfBoundsException::class)
+    override fun replaceText(position: Int, text: String) {
+        position.validatePosition()
+        queue.apply(ReplaceTextCommand(mItems, position, text))
+    }
+
+    override fun resizeImage(position: Int, width: Int, height: Int) {
+        position.validatePosition()
+        queue.apply(ResizeImageCommand(mItems, position, width, height))
+    }
+
     override fun get(position: Int): IDocumentItem = mItems[position]
 
-    @Throws(IndexOutOfBoundsException::class)
     override fun deleteItem(position: Int) {
-        mItems.removeAt(position)
+        position.validatePosition()
+        queue.apply(DeleteItemCommand(fileManager, mItems, position))
     }
 
     override fun undo() = queue.undo()
 
     override fun redo() = queue.redo()
 
-    @Throws(IllegalArgumentException::class)
     override fun save(path: String) {
-        val destFolder = File(path)
+        val html = """
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    <title>$title</title>
+                    <meta charset="utf-8" />
+                </head>
+                <body>
+                    <h1>$title</h1>
+                    ${mItems.joinToString("")}
+                </body>
+            </html>""".trimIndent()
 
-        if (!destFolder.exists() || !destFolder.isDirectory) {
-            throw IllegalArgumentException()
-        }
+        fileManager.saveTo(path, html)
     }
 
     inner class ChangeTitleCommand(private val newTitle: String) : ICommand {
@@ -74,6 +91,12 @@ class Document(
 
         override fun undo() {
             mTitle = mTitleBeforeExecute
+        }
+    }
+
+    private fun Int.validatePosition() {
+        if (this < 0 || mItems.size < this) {
+            throw IndexOutOfBoundsException("Invalid position. Position can be in range [0, ${mItems.size}]")
         }
     }
 }
