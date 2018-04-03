@@ -66,7 +66,7 @@ class DocumentCommandQueueTest {
 
     @Test
     fun canApplyOneCommandTwoTimes() {
-        val command: ICommand = mock()
+        val command: Command = mock()
 
         repeat(MEMORY_SIZE) {
             mQueue.apply(command)

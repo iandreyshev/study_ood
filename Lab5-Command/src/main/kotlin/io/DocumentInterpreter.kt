@@ -44,11 +44,21 @@ class DocumentInterpreter(private val document: IDocument) : DocumentActionParse
     }
 
     private fun replaceText() {
-        document.replaceText(intAt(0), stringAt(1))
+        val position = intAt(0)
+        val newText = stringAt(1)
+        val paragraph = document[position].paragraph
+                ?: throw IllegalArgumentException("Element at position $position not the paragraph")
+
+        paragraph.text = newText
     }
 
     private fun resizeImage() {
-        document.resizeImage(intAt(0), intAt(1), intAt(2))
+        val position = intAt(0)
+        val newWidth = intAt(1)
+        val newHeight = intAt(2)
+
+        document[position].image?.resize(newWidth, newHeight)
+                ?: throw IllegalArgumentException("Element at position $position not the image")
     }
 
     private fun deleteItem() = document.deleteItem(intAt(0))

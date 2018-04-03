@@ -7,18 +7,14 @@ class InsertParagraphCommand(
         private val items: MutableList<IDocumentItem>,
         private val position: Int,
         paragraph: IParagraph
-) : ICommand {
+) : Command() {
     private val mParagraph: IDocumentItem = IDocumentItem.newParagraph(paragraph)
 
-    override fun execute() {
-        when {
-            position < 0 -> throw IndexOutOfBoundsException()
-            position >= items.size -> items.add(mParagraph)
-            else -> items.add(position, mParagraph)
-        }
+    override fun onExecute() {
+        items.add(position, mParagraph)
     }
 
-    override fun undo() {
+    override fun onUndo() {
         items.removeAt(position)
     }
 }

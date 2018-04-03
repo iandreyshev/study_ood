@@ -1,16 +1,15 @@
 package document
 
 import command.*
+import html.IHtmlConverter
 import io.IFileManager
 import java.io.IOException
 
 class Document(
         private val queue: ICommandQueue,
-        private val fileManager: IFileManager
+        private val fileManager: IFileManager,
+        private val htmlConverter: IHtmlConverter
 ) : IDocument {
-    private var mTitle = ""
-    private val mItems = ArrayList<IDocumentItem>()
-
     override var title: String
         get() = mTitle
         set(value) {
@@ -23,9 +22,15 @@ class Document(
     override val canRedo: Boolean
         get() = queue.canRedo
 
+    private val mItems = ArrayList<IDocumentItem>()
+    private var mTitle = ""
+        set(value) {
+            field = htmlConverter.transform(value)
+        }
+
     override fun insertParagraph(text: String, position: Int): IParagraph {
         position.validatePosition()
-        val paragraph = Paragraph(text)
+        val paragraph = Paragraph(queue, text)
         val command = InsertParagraphCommand(mItems, position, paragraph)
         queue.apply(command)
 
@@ -37,24 +42,17 @@ class Document(
         val imagePath = fileManager.copyImage(path)
                 ?: throw IOException("Image with path $path not found.")
 
-        val image = Image(imagePath, width, height)
+        val image = Image(queue, imagePath, width, height)
         val command = InsertImageCommand(fileManager, mItems, position, image)
         queue.apply(command)
 
         return image
     }
 
-    override fun replaceText(position: Int, text: String) {
+    override fun get(position: Int): IDocumentItem {
         position.validatePosition()
-        queue.apply(ReplaceTextCommand(mItems, position, text))
+        return mItems[position]
     }
-
-    override fun resizeImage(position: Int, width: Int, height: Int) {
-        position.validatePosition()
-        queue.apply(ResizeImageCommand(mItems, position, width, height))
-    }
-
-    override fun get(position: Int): IDocumentItem = mItems[position]
 
     override fun deleteItem(position: Int) {
         position.validatePosition()
@@ -82,14 +80,14 @@ class Document(
         fileManager.saveTo(path, html)
     }
 
-    inner class ChangeTitleCommand(private val newTitle: String) : ICommand {
+    inner class ChangeTitleCommand(private val newTitle: String) : Command() {
         private val mTitleBeforeExecute: String = String(mTitle.toByteArray())
 
-        override fun execute() {
+        override fun onExecute() {
             mTitle = newTitle
         }
 
-        override fun undo() {
+        override fun onUndo() {
             mTitle = mTitleBeforeExecute
         }
     }

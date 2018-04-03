@@ -9,25 +9,21 @@ class InsertImageCommand(
         private val items: MutableList<IDocumentItem>,
         private val position: Int,
         image: IImage
-) : ICommand {
+) : Command() {
     private val mImageItem: IDocumentItem = IDocumentItem.newImage(image)
     private val path: String = image.path
 
-    override fun execute() {
-        when {
-            position < 0 -> throw IndexOutOfBoundsException()
-            position >= items.size -> items.add(mImageItem)
-            else -> items.add(position, mImageItem)
-        }
+    override fun onExecute() {
+        items.add(position, mImageItem)
         fileManager.markImageOnDelete(path, false)
     }
 
-    override fun undo() {
+    override fun onUndo() {
         items.removeAt(position)
         fileManager.markImageOnDelete(path, true)
     }
 
-    override fun destroy() {
+    override fun onDestroy() {
         fileManager.deleteImage(path)
     }
 }

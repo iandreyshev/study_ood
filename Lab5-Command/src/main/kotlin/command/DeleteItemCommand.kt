@@ -8,9 +8,9 @@ class DeleteItemCommand(
         private val fileManager: IImageFileManager,
         private val items: MutableList<IDocumentItem>,
         private val position: Int
-) : ICommand {
+) : Command() {
     private val item: IDocumentItem = items[position]
-    private var mBehavior: ICommand
+    private var mBehavior: Command
 
     init {
         val image = item.image
@@ -22,34 +22,34 @@ class DeleteItemCommand(
         }
     }
 
-    override fun execute() = mBehavior.execute()
+    override fun onExecute() = mBehavior.execute()
 
-    override fun undo() = mBehavior.undo()
+    override fun onUndo() = mBehavior.undo()
 
-    override fun destroy() = mBehavior.destroy()
+    override fun onDestroy() = mBehavior.destroy()
 
-    inner class DeleteParagraph : ICommand {
-        override fun execute() {
+    inner class DeleteParagraph : Command() {
+        override fun onExecute() {
             items.removeAt(position)
         }
 
-        override fun undo() {
+        override fun onUndo() {
             items.add(position, item)
         }
     }
 
-    inner class DeleteImage(private val image: IImage) : ICommand {
-        override fun execute() {
+    inner class DeleteImage(private val image: IImage) : Command() {
+        override fun onExecute() {
             fileManager.markImageOnDelete(image.path, true)
             items.removeAt(position)
         }
 
-        override fun undo() {
+        override fun onUndo() {
             fileManager.markImageOnDelete(image.path, false)
             items.add(position, item)
         }
 
-        override fun destroy() {
+        override fun onDestroy() {
             fileManager.markImageOnDelete(image.path, false)
         }
     }

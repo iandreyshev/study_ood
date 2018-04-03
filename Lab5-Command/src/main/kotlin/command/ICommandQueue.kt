@@ -5,7 +5,7 @@ interface ICommandQueue {
 
     val canRedo: Boolean
 
-    fun apply(command: ICommand)
+    fun apply(command: Command)
 
     fun undo()
 

@@ -3,6 +3,7 @@ package document
 import com.nhaarman.mockito_kotlin.mock
 import command.DocumentCommandQueue
 import command.ICommandQueue
+import html.ApacheHtmlConverter
 import io.IFileManager
 import org.junit.Assert.*
 import org.junit.Before
@@ -14,14 +15,14 @@ class DocumentTest {
     }
 
     private lateinit var queue: ICommandQueue
-    private lateinit var fileManager: IFileManager
+    private lateinit var fileManagerMock: IFileManager
     private lateinit var document: IDocument
 
     @Before
     fun setup() {
         queue = DocumentCommandQueue(QUEUE_MEMORY)
-        fileManager = mock()
-        document = Document(queue, fileManager)
+        fileManagerMock = mock()
+        document = Document(queue, fileManagerMock, ApacheHtmlConverter())
     }
 
     @Test

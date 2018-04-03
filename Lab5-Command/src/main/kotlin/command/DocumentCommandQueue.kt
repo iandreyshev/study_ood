@@ -5,15 +5,15 @@ import java.util.*
 class DocumentCommandQueue(
         private val memorySize: Int
 ) : ICommandQueue {
-    private val mUndoCommands = Stack<ICommand>()
-    private val mRedoCommands = Stack<ICommand>()
+    private val mUndoCommands = Stack<Command>()
+    private val mRedoCommands = Stack<Command>()
 
     override val canUndo: Boolean
         get() = !mUndoCommands.empty()
     override val canRedo: Boolean
         get() = !mRedoCommands.empty()
 
-    override fun apply(command: ICommand) {
+    override fun apply(command: Command) {
         mRedoCommands.removeAll {
             it.destroy()
             true
@@ -41,7 +41,7 @@ class DocumentCommandQueue(
         mRedoCommands.pop().doIt()
     }
 
-    private fun ICommand.doIt() {
+    private fun Command.doIt() {
         execute()
         mUndoCommands.push(this)
 
