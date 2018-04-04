@@ -1,7 +1,9 @@
 package outputStream
 
-abstract class OutputDecorator(private val mStream: IOutputStream) : IOutputStream {
-    final override fun write(byte: Byte) = mStream.write(transformByte(byte))
+abstract class OutputDecorator(
+        private val stream: IOutputStream
+) : IOutputStream {
+    final override fun write(byte: Byte) = stream.write(transformByte(byte))
 
     final override fun write(data: ByteArray, dataSize: Int) {
         super.write(data, dataSize)

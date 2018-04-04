@@ -22,6 +22,7 @@ class FileManager(rootPath: String) : IFileManager {
 
     override fun saveTo(path: String, text: String) {
         val dirToSave = File(path)
+        dirToSave.deleteRecursively()
         dirToSave.mkdirs()
 
         if (!dirToSave.exists() || !dirToSave.isDirectory) {

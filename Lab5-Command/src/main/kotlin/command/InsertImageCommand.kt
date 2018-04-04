@@ -23,7 +23,7 @@ class InsertImageCommand(
         fileManager.markImageOnDelete(path, true)
     }
 
-    override fun onDestroy() {
+    override fun onDestroyNotExecuted() {
         fileManager.deleteImage(path)
     }
 }

@@ -5,3 +5,5 @@ include 'WeatherStationDuo'
 include 'WeatherStationPro'
 include 'WeatherStationProSelective'
 include 'PriorityWeatherStation'
+include 'RxWeatherStation'
+

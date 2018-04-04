@@ -26,7 +26,7 @@ class DeleteItemCommand(
 
     override fun onUndo() = mBehavior.undo()
 
-    override fun onDestroy() = mBehavior.destroy()
+    override fun onDestroyNotExecuted() = mBehavior.destroy()
 
     inner class DeleteParagraph : Command() {
         override fun onExecute() {
@@ -49,8 +49,12 @@ class DeleteItemCommand(
             items.add(position, item)
         }
 
-        override fun onDestroy() {
+        override fun onDestroyNotExecuted() {
             fileManager.markImageOnDelete(image.path, false)
+        }
+
+        override fun onDestroyExecuted() {
+            fileManager.deleteImage(image.path)
         }
     }
 }

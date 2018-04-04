@@ -19,9 +19,9 @@ abstract class Command {
 
     fun destroy() {
         if (mIsExecuted) {
-            onDestroyAfterExecute()
+            onDestroyExecuted()
         } else {
-            onDestroy()
+            onDestroyNotExecuted()
         }
     }
 
@@ -29,11 +29,11 @@ abstract class Command {
 
     abstract fun onUndo()
 
-    open fun onDestroy() {
+    protected open fun onDestroyExecuted() {
         // Hook
     }
 
-    open fun onDestroyAfterExecute() {
+    protected open fun onDestroyNotExecuted() {
         // Hook
     }
 }

@@ -39,6 +39,7 @@ class StreamsCmdParser(
                 doIfOption(OPT_DECOMPRESS, mOnDecompress)
             } catch (ex: Exception) {
                 println("Invalid args format for option '${option.opt}'")
+                error(ex)
             }
         }
     }
@@ -52,10 +53,12 @@ class StreamsCmdParser(
         get() {
             val options = Options()
 
-            options.addOption(helpOption)
-            options.addOption(filesOption)
-            options.addOptionGroup(compressGroup)
-            options.addOptionGroup(cryptGroup)
+            with (options) {
+                addOption(helpOption)
+                addOption(filesOption)
+                addOptionGroup(compressGroup)
+                addOptionGroup(cryptGroup)
+            }
 
             return options
         }
@@ -65,12 +68,14 @@ class StreamsCmdParser(
 
     private val cryptGroup: OptionGroup
         get() {
-            val encrypt = Option(OPT_ENCRYPT, true, "Encrypt bytes")
-            encrypt.args = 1
-            val decompress = Option(OPT_DECOMPRESS, false, "Decompress bytes by RLE algorithm")
+            val option = Option(OPT_ENCRYPT, true, "Encrypt bytes")
+            option.args = 1
+            option.argName = "key"
+
+            val decompress = Option(OPT_DECOMPRESS, false, "Decompress bytes")
 
             val group = OptionGroup()
-            group.addOption(encrypt)
+            group.addOption(option)
             group.addOption(decompress)
 
             return group
@@ -78,13 +83,15 @@ class StreamsCmdParser(
 
     private val compressGroup: OptionGroup
         get() {
-            val decrypt = Option(OPT_DECRYPT, true, "Decrypt bytes")
-            decrypt.args = 1
-            val compress = Option(OPT_COMPRESS, false, "Compress bytes by RLE algorithm")
+            val decryptOption = Option(OPT_DECRYPT, true, "Decrypt bytes")
+            decryptOption.args = 1
+            decryptOption.argName = "key"
 
+            val compressOption = Option(OPT_COMPRESS, false, "Compress bytes")
             val group = OptionGroup()
-            group.addOption(decrypt)
-            group.addOption(compress)
+
+            group.addOption(decryptOption)
+            group.addOption(compressOption)
 
             return group
         }
@@ -92,8 +99,13 @@ class StreamsCmdParser(
     private val filesOption: Option
         get() {
             val option = Option(OPT_FILES, true, "Files to work")
-            option.args = 2
-            option.isRequired = true
+
+            with (option) {
+                args = 2
+                isRequired = true
+                argName = "input file> <output file"
+                type = String
+            }
 
             return option
         }

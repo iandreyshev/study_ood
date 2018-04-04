@@ -2,11 +2,9 @@ package command
 
 import java.util.*
 
-class DocumentCommandQueue(
-        private val memorySize: Int
-) : ICommandQueue {
-    private val mUndoCommands = Stack<Command>()
-    private val mRedoCommands = Stack<Command>()
+class DocumentCommandQueue(memorySize: Int) : ICommandQueue {
+    private val mUndoCommands = StackWithLimit(memorySize)
+    private val mRedoCommands = StackWithLimit(memorySize)
 
     override val canUndo: Boolean
         get() = !mUndoCommands.empty()
@@ -14,14 +12,13 @@ class DocumentCommandQueue(
         get() = !mRedoCommands.empty()
 
     override fun apply(command: Command) {
-        mRedoCommands.removeAll {
-            it.destroy()
-            true
-        }
-        command.doIt()
+        mRedoCommands.forEach { it.destroy() }
+        mRedoCommands.clear()
+
+        command.execute()
+        mUndoCommands.push(command)
     }
 
-    @Throws(IllegalStateException::class)
     override fun undo() {
         if (mUndoCommands.empty()) {
             throw IllegalStateException("Nothing to undo")
@@ -32,21 +29,23 @@ class DocumentCommandQueue(
         mRedoCommands.push(command)
     }
 
-    @Throws(IllegalStateException::class)
     override fun redo() {
         if (mRedoCommands.empty()) {
             throw IllegalStateException("Nothing to redo")
         }
 
-        mRedoCommands.pop().doIt()
+        val command = mRedoCommands.pop()
+        command.execute()
+        mUndoCommands.push(command)
     }
 
-    private fun Command.doIt() {
-        execute()
-        mUndoCommands.push(this)
-
-        if (mUndoCommands.size > memorySize) {
-            mUndoCommands.removeAt(memorySize)
+    class StackWithLimit(private val memorySize: Int) : Stack<Command>() {
+        override fun push(command: Command): Command {
+            super.push(command)
+            if (size > memorySize) {
+                removeAt(memorySize).destroy()
+            }
+            return command
         }
     }
 }

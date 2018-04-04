@@ -27,6 +27,7 @@ run {
 dependencies {
     testImplementation "com.nhaarman:mockito-kotlin-kt1.1:1.5.0"
 
+    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.16.1'
     implementation "junit:junit:4.12"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "commons-cli:commons-cli:1.2"

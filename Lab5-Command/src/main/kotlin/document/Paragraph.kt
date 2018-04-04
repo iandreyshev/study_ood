@@ -7,7 +7,10 @@ class Paragraph(
         private val queue: ICommandQueue,
         text: String
 ) : IParagraph {
-    override var text: String = text
+    private var mText: String = text
+
+    override var text: String
+        get() = mText
         set(value) {
             queue.apply(ReplaceTextCommand(value))
         }
@@ -20,12 +23,12 @@ class Paragraph(
         private var mTextBefore = ""
 
         override fun onExecute() {
-            mTextBefore = text
-            text = newText
+            mTextBefore = mText
+            mText = newText
         }
 
         override fun onUndo() {
-            text = mTextBefore
+            mText = mTextBefore
         }
     }
 }

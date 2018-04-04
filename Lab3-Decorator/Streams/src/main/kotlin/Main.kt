@@ -2,17 +2,17 @@ import cipher.ShuffleCodec
 import cipher.ReplacementCipherDecoder
 import cipher.ReplacementCipherEncoder
 import cmdParser.StreamsCmdParser
+import compressor.StreamCompressor
 import compressor.SimpleCompressor
+import compressor.StreamDecompressor
 import inputStream.MemoryInputStream
 import outputStream.MemoryOutputStream
 import java.io.File
 
 class Main {
     companion object {
-
         private var mOutputFilePath: String = ""
         private var mMemory: ByteArray = ByteArray(0)
-        private val mCompressor = SimpleCompressor()
 
         @JvmStatic
         fun main(args: Array<String>) {
@@ -31,11 +31,21 @@ class Main {
         }
 
         private fun compress() {
-            mMemory = mCompressor.compress(mMemory)
+            val output = ArrayList<Byte>()
+            val stream = MemoryOutputStream(output)
+            val compressor = StreamCompressor(stream)
+
+            compressor.write(mMemory, mMemory.size)
+            mMemory = output.toByteArray()
         }
 
         private fun decompress() {
-            mMemory = mCompressor.decompress(mMemory)
+            val stream = MemoryInputStream(mMemory.asList())
+            val decompressor = StreamDecompressor(stream)
+            val output = ArrayList<Byte>()
+
+            decompressor.read(output, mMemory.size)
+            mMemory = output.toByteArray()
         }
 
         private fun encrypt(key: Long) {
