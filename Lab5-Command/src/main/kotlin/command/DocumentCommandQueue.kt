@@ -43,7 +43,7 @@ class DocumentCommandQueue(memorySize: Int) : ICommandQueue {
         override fun push(command: Command): Command {
             super.push(command)
             if (size > memorySize) {
-                removeAt(memorySize).destroy()
+                removeAt(0).destroy()
             }
             return command
         }

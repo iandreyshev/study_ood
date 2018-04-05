@@ -5,6 +5,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import command.DocumentCommandQueue
 import command.ICommandQueue
+import document.factory.IItemsFactory
 import html.IHtmlConverter
 import io.IFileManager
 import org.junit.Assert.*
@@ -18,6 +19,7 @@ class DocumentTest {
 
     private lateinit var queue: ICommandQueue
     private lateinit var fileManagerMock: IFileManager
+    private lateinit var itemsFactoryMock: IItemsFactory
     private lateinit var htmlConverterMock: IHtmlConverter
     private lateinit var document: IDocument
 
@@ -26,7 +28,8 @@ class DocumentTest {
         queue = DocumentCommandQueue(QUEUE_MEMORY)
         fileManagerMock = mock()
         htmlConverterMock = mock()
-        document = Document(queue, fileManagerMock, htmlConverterMock)
+        itemsFactoryMock = mock()
+        document = Document(queue, fileManagerMock, itemsFactoryMock, htmlConverterMock)
 
         whenever(htmlConverterMock.transform(any())).then { it.arguments[0] }
     }

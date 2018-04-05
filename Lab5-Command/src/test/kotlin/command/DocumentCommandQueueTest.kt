@@ -1,13 +1,14 @@
 package command
 
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import junit.framework.TestCase.*
 import org.junit.Before
 import org.junit.Test
 
 class DocumentCommandQueueTest {
     companion object {
-        private const val MEMORY_SIZE = 100
+        private const val MEMORY_SIZE = 12
     }
 
     private lateinit var mQueue: DocumentCommandQueue
@@ -76,5 +77,17 @@ class DocumentCommandQueueTest {
             assertTrue(mQueue.canUndo)
             mQueue.undo()
         }
+    }
+
+    @Test
+    fun canDestroyCommandsAfterMemoryIsFull() {
+        val command: Command = mock()
+        mQueue.apply(command)
+
+        repeat(MEMORY_SIZE) {
+            mQueue.apply(mock())
+        }
+
+        verify(command).destroy()
     }
 }

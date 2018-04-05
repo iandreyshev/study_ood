@@ -1,7 +1,7 @@
 package document
 
-import command.Command
 import command.ICommandQueue
+import command.ReplaceTextCommand
 
 class Paragraph(
         private val queue: ICommandQueue,
@@ -12,23 +12,13 @@ class Paragraph(
     override var text: String
         get() = mText
         set(value) {
-            queue.apply(ReplaceTextCommand(value))
+            val command = ReplaceTextCommand(text, value) { newText ->
+                mText = newText
+            }
+            queue.apply(command)
         }
 
     override fun toString(): String {
         return "<p>$text</p>"
-    }
-
-    inner class ReplaceTextCommand(private val newText: String) : Command() {
-        private var mTextBefore = ""
-
-        override fun onExecute() {
-            mTextBefore = mText
-            mText = newText
-        }
-
-        override fun onUndo() {
-            mText = mTextBefore
-        }
     }
 }

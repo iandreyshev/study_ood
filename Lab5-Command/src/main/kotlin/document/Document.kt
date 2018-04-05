@@ -1,6 +1,7 @@
 package document
 
 import command.*
+import document.factory.IItemsFactory
 import html.IHtmlConverter
 import io.IFileManager
 import java.io.IOException
@@ -8,6 +9,7 @@ import java.io.IOException
 class Document(
         private val queue: ICommandQueue,
         private val fileManager: IFileManager,
+        private val itemsFactory: IItemsFactory,
         private val htmlConverter: IHtmlConverter
 ) : IDocument {
     override var title: String
@@ -31,7 +33,7 @@ class Document(
     override fun insertParagraph(text: String, position: Int): IParagraph {
         position.validatePosition()
         val paragraph = Paragraph(queue, htmlConverter.transform(text))
-        val command = InsertParagraphCommand(mItems, position, paragraph)
+        val command = InsertParagraphCommand(itemsFactory, mItems, position, paragraph)
         queue.apply(command)
 
         return paragraph
@@ -43,7 +45,7 @@ class Document(
                 ?: throw IOException("Image with path $path not found.")
 
         val image = Image(queue, imagePath, width, height)
-        val command = InsertImageCommand(fileManager, mItems, position, image)
+        val command = InsertImageCommand(fileManager, itemsFactory, mItems, position, image)
         queue.apply(command)
 
         return image
