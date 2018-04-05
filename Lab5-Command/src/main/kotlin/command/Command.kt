@@ -25,9 +25,9 @@ abstract class Command {
         }
     }
 
-    abstract fun onExecute()
+    protected abstract fun onExecute()
 
-    abstract fun onUndo()
+    protected abstract fun onUndo()
 
     protected open fun onDestroyExecuted() {
         // Hook

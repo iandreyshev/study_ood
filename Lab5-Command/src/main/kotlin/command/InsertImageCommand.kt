@@ -11,19 +11,19 @@ class InsertImageCommand(
         image: IImage
 ) : Command() {
     private val mImageItem: IDocumentItem = IDocumentItem.newImage(image)
-    private val path: String = image.path
+    private val mPath: String = image.path
 
     override fun onExecute() {
         items.add(position, mImageItem)
-        fileManager.markImageOnDelete(path, false)
+        fileManager.markImageOnDelete(mPath, false)
     }
 
     override fun onUndo() {
         items.removeAt(position)
-        fileManager.markImageOnDelete(path, true)
+        fileManager.markImageOnDelete(mPath, true)
     }
 
     override fun onDestroyNotExecuted() {
-        fileManager.deleteImage(path)
+        fileManager.deleteImage(mPath)
     }
 }

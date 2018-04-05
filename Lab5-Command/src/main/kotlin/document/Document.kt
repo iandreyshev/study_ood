@@ -30,7 +30,7 @@ class Document(
 
     override fun insertParagraph(text: String, position: Int): IParagraph {
         position.validatePosition()
-        val paragraph = Paragraph(queue, text)
+        val paragraph = Paragraph(queue, htmlConverter.transform(text))
         val command = InsertParagraphCommand(mItems, position, paragraph)
         queue.apply(command)
 
@@ -39,7 +39,7 @@ class Document(
 
     override fun insertImage(path: String, width: Int, height: Int, position: Int): IImage {
         position.validatePosition()
-        val imagePath = fileManager.copyImage(path)
+        val imagePath = fileManager.copyImage(htmlConverter.transform(path))
                 ?: throw IOException("Image with path $path not found.")
 
         val image = Image(queue, imagePath, width, height)

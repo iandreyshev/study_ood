@@ -14,9 +14,10 @@ class DeleteItemCommand(
 
     init {
         val image = item.image
+        val paragraph = item.paragraph
 
         mBehavior = when {
-            item.paragraph != null -> DeleteParagraph()
+            paragraph != null -> DeleteParagraph()
             image != null -> DeleteImage(image)
             else -> throw NotImplementedError()
         }
@@ -25,6 +26,8 @@ class DeleteItemCommand(
     override fun onExecute() = mBehavior.execute()
 
     override fun onUndo() = mBehavior.undo()
+
+    override fun onDestroyExecuted() = mBehavior.destroy()
 
     override fun onDestroyNotExecuted() = mBehavior.destroy()
 
