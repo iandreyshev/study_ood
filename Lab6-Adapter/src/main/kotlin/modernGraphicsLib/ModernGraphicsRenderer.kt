@@ -1,6 +1,6 @@
 package modernGraphicsLib
 
-open class ModernGraphicsRenderer {
+open class ModernGraphicsRenderer(private val output: (String) -> Unit) {
     private var mIsDrawingBegin = false
 
     fun beginDraw() {
@@ -9,6 +9,7 @@ open class ModernGraphicsRenderer {
         }
 
         mIsDrawingBegin = true
+        output("beginDraw")
     }
 
     fun endDraw() {
@@ -17,9 +18,14 @@ open class ModernGraphicsRenderer {
         }
 
         mIsDrawingBegin = false
+        output("endDraw")
     }
 
     fun drawLine(from: ModernPoint, to: ModernPoint, color: RGBAColor) {
+        if (!mIsDrawingBegin) {
+            throw IllegalStateException("Can not draw before begin draw")
+        }
 
+        output("drawLine from $from to $to")
     }
 }

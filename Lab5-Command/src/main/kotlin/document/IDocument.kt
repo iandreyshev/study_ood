@@ -1,5 +1,7 @@
 package document
 
+import serializer.DocumentSerializer
+
 interface IDocument {
     var title: String
 
@@ -21,5 +23,5 @@ interface IDocument {
 
     fun redo()
 
-    fun save(path: String)
+    fun save(path: String, serializer: DocumentSerializer)
 }

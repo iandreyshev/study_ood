@@ -16,8 +16,4 @@ class Image(
         }
         queue.apply(command)
     }
-
-    override fun toString(): String {
-        return "<img src=\"$path\" height=\"$height\" width=\"$width\">"
-    }
 }

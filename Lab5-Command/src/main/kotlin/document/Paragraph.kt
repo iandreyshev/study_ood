@@ -17,8 +17,4 @@ class Paragraph(
             }
             queue.apply(command)
         }
-
-    override fun toString(): String {
-        return "<p>$text</p>"
-    }
 }

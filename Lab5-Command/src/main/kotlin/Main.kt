@@ -1,7 +1,6 @@
 import command.DocumentCommandQueue
 import document.Document
 import document.factory.ItemsFactory
-import html.ApacheHtmlConverter
 import io.DocumentInterpreter
 import io.FileManager
 import java.io.IOException
@@ -15,9 +14,8 @@ class Main {
         fun main(args: Array<String>) {
             val commandsQueue = DocumentCommandQueue(COMMANDS_MEMORY_SIZE)
             val fileManager = FileManager(WORK_DIRECTORY)
-            val htmlConverter = ApacheHtmlConverter()
             val itemsFactory = ItemsFactory()
-            val document = Document(commandsQueue, fileManager, itemsFactory, htmlConverter)
+            val document = Document(commandsQueue, fileManager, itemsFactory)
             val interpreter = DocumentInterpreter(document)
 
             try {

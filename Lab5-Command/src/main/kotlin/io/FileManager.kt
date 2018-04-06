@@ -4,7 +4,7 @@ import java.io.File
 
 class FileManager(rootPath: String) : IFileManager {
     companion object {
-        private const val INDEX_FILE = "index.html"
+        private const val FILE_NAME = "index"
         private const val IMAGES_DIR = "images"
     }
 
@@ -20,7 +20,7 @@ class FileManager(rootPath: String) : IFileManager {
         mImagesDir.mkdirs()
     }
 
-    override fun saveTo(path: String, text: String) {
+    override fun saveTo(path: String, text: String, extension: String) {
         val dirToSave = File(path)
         dirToSave.deleteRecursively()
         dirToSave.mkdirs()
@@ -29,7 +29,7 @@ class FileManager(rootPath: String) : IFileManager {
             throw IllegalArgumentException("Invalid directory '${dirToSave.absolutePath}' to save")
         }
 
-        val indexFile = File(dirToSave, INDEX_FILE)
+        val indexFile = File(dirToSave, "$FILE_NAME.$extension")
         indexFile.createNewFile()
         indexFile.outputStream().use { stream ->
             stream.write(text.toByteArray())

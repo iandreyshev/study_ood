@@ -5,12 +5,12 @@ import modernGraphicsLib.ModernGraphicsRenderer
 import modernGraphicsLib.ModernPoint
 import modernGraphicsLib.RGBAColor
 
-class ObjectiveCanvasAdapter(private val renderer: ModernGraphicsRenderer) : ICanvas {
+class ObjectCanvasAdapter(private val renderer: ModernGraphicsRenderer) : ICanvas {
     private var mPosition = ModernPoint(0, 0)
     private var mColor = RGBAColor(0f, 0f, 0f, 0f)
 
     override fun setColor(colorInt: Int) {
-        // TODO: Convert int color to RGBAColor
+        mColor = colorInt.toRGBAColor()
     }
 
     override fun moveTo(x: Int, y: Int) {
@@ -19,12 +19,12 @@ class ObjectiveCanvasAdapter(private val renderer: ModernGraphicsRenderer) : ICa
     }
 
     override fun lineTo(x: Int, y: Int) {
-        val endPosition = ModernPoint(x, y)
-
-        renderer.beginDraw()
-        renderer.drawLine(mPosition, endPosition, mColor)
-        renderer.endDraw()
-
-        mPosition = endPosition
+        renderer.drawLine(mPosition, ModernPoint(x, y), mColor)
+        mPosition.x = x
+        mPosition.y = y
     }
+
+    fun beginDraw() = renderer.beginDraw()
+
+    fun endDraw() = renderer.endDraw()
 }

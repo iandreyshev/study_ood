@@ -2,15 +2,14 @@ package document
 
 import command.*
 import document.factory.IItemsFactory
-import html.IHtmlConverter
 import io.IFileManager
+import serializer.DocumentSerializer
 import java.io.IOException
 
 class Document(
         private val queue: ICommandQueue,
         private val fileManager: IFileManager,
-        private val itemsFactory: IItemsFactory,
-        private val htmlConverter: IHtmlConverter
+        private val itemsFactory: IItemsFactory
 ) : IDocument {
     override var title: String
         get() = mTitle
@@ -26,13 +25,10 @@ class Document(
 
     private val mItems = ArrayList<IDocumentItem>()
     private var mTitle = ""
-        set(value) {
-            field = htmlConverter.transform(value)
-        }
 
     override fun insertParagraph(text: String, position: Int): IParagraph {
         position.validatePosition()
-        val paragraph = Paragraph(queue, htmlConverter.transform(text))
+        val paragraph = Paragraph(queue, text)
         val command = InsertParagraphCommand(itemsFactory, mItems, position, paragraph)
         queue.apply(command)
 
@@ -41,7 +37,7 @@ class Document(
 
     override fun insertImage(path: String, width: Int, height: Int, position: Int): IImage {
         position.validatePosition()
-        val imagePath = fileManager.copyImage(htmlConverter.transform(path))
+        val imagePath = fileManager.copyImage(path)
                 ?: throw IOException("Image with path $path not found.")
 
         val image = Image(queue, imagePath, width, height)
@@ -65,21 +61,12 @@ class Document(
 
     override fun redo() = queue.redo()
 
-    override fun save(path: String) {
-        val html = """
-            <!DOCTYPE html>
-            <html>
-                <head>
-                    <title>$title</title>
-                    <meta charset="utf-8" />
-                </head>
-                <body>
-                    <h1>$title</h1>
-                    ${mItems.joinToString("")}
-                </body>
-            </html>""".trimIndent()
-
-        fileManager.saveTo(path, html)
+    override fun save(path: String, serializer: DocumentSerializer) {
+        with(serializer) {
+            setTitle(title)
+            mItems.forEach { insertItem(it) }
+            fileManager.saveTo(path, serialize(), extension)
+        }
     }
 
     inner class ChangeTitleCommand(private val newTitle: String) : Command() {

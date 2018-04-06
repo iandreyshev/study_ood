@@ -1,12 +1,10 @@
 package document
 
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import command.DocumentCommandQueue
 import command.ICommandQueue
 import document.factory.IItemsFactory
-import html.IHtmlConverter
 import io.IFileManager
 import org.junit.Assert.*
 import org.junit.Before
@@ -19,19 +17,17 @@ class DocumentTest {
 
     private lateinit var queue: ICommandQueue
     private lateinit var fileManagerMock: IFileManager
-    private lateinit var itemsFactoryMock: IItemsFactory
-    private lateinit var htmlConverterMock: IHtmlConverter
+    private lateinit var imageMock: IImage
+    private lateinit var paragraphMock: IParagraph
     private lateinit var document: IDocument
 
     @Before
     fun setup() {
         queue = DocumentCommandQueue(QUEUE_MEMORY)
         fileManagerMock = mock()
-        htmlConverterMock = mock()
-        itemsFactoryMock = mock()
-        document = Document(queue, fileManagerMock, itemsFactoryMock, htmlConverterMock)
-
-        whenever(htmlConverterMock.transform(any())).then { it.arguments[0] }
+        imageMock = mock()
+        paragraphMock = mock()
+        document = Document(queue, fileManagerMock, MockFactory())
     }
 
     @Test
@@ -52,8 +48,7 @@ class DocumentTest {
 
     @Test
     fun canInsertParagraphAndRemoveItOnUndo() {
-        val text = "Paragraph text"
-
+        val text ="Paragraph text"
         document.insertParagraph(text, 0)
 
         assertEquals(text, document[0].paragraph?.text)
@@ -77,5 +72,17 @@ class DocumentTest {
 
         assertFalse(document.canUndo)
         assertEquals(0, document.itemsCount)
+    }
+
+    private inner class MockFactory : IItemsFactory {
+        override fun create(paragraph: IParagraph) = object : IDocumentItem {
+            override val paragraph: IParagraph? = paragraph
+            override val image: IImage? = null
+        }
+
+        override fun create(image: IImage): IDocumentItem = object : IDocumentItem {
+            override val paragraph: IParagraph? = null
+            override val image: IImage? = image
+        }
     }
 }

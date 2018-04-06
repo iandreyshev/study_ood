@@ -1,13 +1,11 @@
 package io
 
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.*
 import document.*
 import junit.framework.TestCase.assertFalse
 import org.junit.Before
 import org.junit.Test
+import serializer.DocumentSerializer
 
 class DocumentInterpreterTest {
     private lateinit var documentMock: IDocument
@@ -15,6 +13,7 @@ class DocumentInterpreterTest {
     private lateinit var itemMock: IDocumentItem
     private lateinit var paragraphMock: IParagraph
     private lateinit var imageMock: IImage
+    private lateinit var serializerMock: DocumentSerializer
 
     @Before
     fun setup() {
@@ -24,6 +23,7 @@ class DocumentInterpreterTest {
         imageMock = mock()
         itemMock = mock()
         interpreter = DocumentInterpreter(documentMock)
+        serializerMock = mock()
 
         whenever(documentMock[any()]).thenReturn(itemMock)
 
@@ -99,12 +99,6 @@ class DocumentInterpreterTest {
     fun canDeleteItemAtPosition() {
         interpreter.apply("-di 100")
         verify(documentMock).deleteItem(100)
-    }
-
-    @Test
-    fun canSaveFileByPath() {
-        interpreter.apply("-s path")
-        verify(documentMock).save("path")
     }
 
     @Test

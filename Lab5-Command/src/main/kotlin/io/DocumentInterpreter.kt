@@ -1,6 +1,9 @@
 package io
 
 import document.IDocument
+import serializer.DocumentSerializer
+import serializer.HTMLSerializer
+import serializer.XMLSerializer
 
 class DocumentInterpreter(private val document: IDocument) : DocumentActionParser() {
     private val mCommands: HashMap<String, Command> = hashMapOf(
@@ -10,7 +13,7 @@ class DocumentInterpreter(private val document: IDocument) : DocumentActionParse
             Pair("-rt", Command(::replaceText, 2)),
             Pair("-ri", Command(::resizeImage, 3)),
             Pair("-di", Command(::deleteItem, 1)),
-            Pair("-s", Command(::save, 1)),
+            Pair("-s", Command(::save, 2)),
             Pair("-l", Command(::printElements)),
             Pair("-u", Command(::undo)),
             Pair("-r", Command(::redo)),
@@ -88,7 +91,16 @@ class DocumentInterpreter(private val document: IDocument) : DocumentActionParse
 
     private fun redo() = document.redo()
 
-    private fun save() = document.save(stringAt(0))
+    private fun save() {
+        val serializerType = stringAt(1)
+        val serializer: DocumentSerializer = when (serializerType) {
+            "html" -> HTMLSerializer()
+            "xml" -> XMLSerializer()
+            else -> throw IllegalArgumentException(
+                    "Invalid serializer type '$serializerType'. Available types is: html, xml")
+        }
+        document.save(stringAt(0), serializer)
+    }
 
     private fun help() = println("""
         Available commands:
@@ -102,7 +114,7 @@ class DocumentInterpreter(private val document: IDocument) : DocumentActionParse
         -h . . . . . . . . . . . . . . . . . . . . . Print all available commands
         -u . . . . . . . . . . . . . . . . . . . . . Undo last executed command
         -r . . . . . . . . . . . . . . . . . . . . . Redo last unexecuted command
-        -s <path>. . . . . . . . . . . . . . . . . . Save document to directory <path>
+        -s <path> <format> . . . . . . . . . . . . . Save document to directory <path> in <format> format (html, xml)
         -e . . . . . . . . . . . . . . . . . . . . . Exit
     """.trimIndent())
 
