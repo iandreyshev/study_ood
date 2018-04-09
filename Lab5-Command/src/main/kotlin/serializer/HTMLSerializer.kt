@@ -7,7 +7,6 @@ import org.apache.commons.text.StringEscapeUtils
 class HTMLSerializer : DocumentSerializer() {
     private var mTitle = ""
     private var mItems = ""
-
     override val extension: String = "html"
 
     override fun onSetTitle(title: String) {

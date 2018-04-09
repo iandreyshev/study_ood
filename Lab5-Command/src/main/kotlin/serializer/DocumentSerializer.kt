@@ -7,16 +7,6 @@ import document.IParagraph
 abstract class DocumentSerializer {
     abstract val extension: String
 
-    protected abstract fun onSetTitle(title: String)
-
-    protected open fun onInsertParagraph(paragraph: IParagraph) {
-        // Override in subclass if it needed
-    }
-
-    protected open fun onInsertImage(image: IImage) {
-        // Override in subclass if it needed
-    }
-
     fun setTitle(title: String): DocumentSerializer {
         onSetTitle(title)
         return this
@@ -33,6 +23,12 @@ abstract class DocumentSerializer {
 
         return this
     }
+
+    protected abstract fun onSetTitle(title: String)
+
+    protected abstract fun onInsertParagraph(paragraph: IParagraph)
+
+    protected abstract fun onInsertImage(image: IImage)
 
     abstract fun serialize(): String
 }

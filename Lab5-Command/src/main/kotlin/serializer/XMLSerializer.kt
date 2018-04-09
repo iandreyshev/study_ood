@@ -1,5 +1,6 @@
 package serializer
 
+import document.IImage
 import document.IParagraph
 import org.apache.commons.text.StringEscapeUtils
 
@@ -14,6 +15,10 @@ class XMLSerializer : DocumentSerializer() {
 
     override fun onInsertParagraph(paragraph: IParagraph) {
         mItems += "\n  <paragraph text=\"${paragraph.text.escapeXML}\" />"
+    }
+
+    override fun onInsertImage(image: IImage) {
+        mItems += "\n  <image path=\"${image.path.escapeXML}\" width=\"${image.width}\" height=\"${image.height}\" />"
     }
 
     override fun serialize(): String {
