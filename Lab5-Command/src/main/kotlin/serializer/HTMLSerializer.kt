@@ -10,7 +10,9 @@ class HTMLSerializer : DocumentSerializer() {
     override val extension: String = "html"
 
     override fun onSetTitle(title: String) {
-        mTitle = "\n        <h1>${title.escapeHTML}</h1>"
+        if (!title.isEmpty()) {
+            mTitle = "\n        <h1>${title.escapeHTML}</h1>"
+        }
     }
 
     override fun onInsertParagraph(paragraph: IParagraph) {

@@ -10,7 +10,9 @@ class XMLSerializer : DocumentSerializer() {
     override val extension: String = "xml"
 
     override fun onSetTitle(title: String) {
-        mTitle = "\n  <title text=\"${title.escapeXML}\" />"
+        if (!title.isEmpty()) {
+            mTitle = "\n  <title text=\"${title.escapeXML}\" />"
+        }
     }
 
     override fun onInsertParagraph(paragraph: IParagraph) {

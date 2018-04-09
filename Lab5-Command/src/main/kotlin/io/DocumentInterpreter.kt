@@ -3,6 +3,7 @@ package io
 import document.IDocument
 import serializer.DocumentSerializer
 import serializer.HTMLSerializer
+import serializer.JSONSerializer
 import serializer.XMLSerializer
 
 class DocumentInterpreter(private val document: IDocument) : DocumentActionParser() {
@@ -96,8 +97,9 @@ class DocumentInterpreter(private val document: IDocument) : DocumentActionParse
         val serializer: DocumentSerializer = when (serializerType) {
             "html" -> HTMLSerializer()
             "xml" -> XMLSerializer()
+            "json" -> JSONSerializer()
             else -> throw IllegalArgumentException(
-                    "Invalid serializer type '$serializerType'. Available types is: html, xml")
+                    "Invalid serializer type '$serializerType'. Available types is: html, xml, json")
         }
         document.save(stringAt(0), serializer)
     }
@@ -114,7 +116,7 @@ class DocumentInterpreter(private val document: IDocument) : DocumentActionParse
         -h . . . . . . . . . . . . . . . . . . . . . Print all available commands
         -u . . . . . . . . . . . . . . . . . . . . . Undo last executed command
         -r . . . . . . . . . . . . . . . . . . . . . Redo last unexecuted command
-        -s <path> <format> . . . . . . . . . . . . . Save document to directory <path> in <format> format (html, xml)
+        -s <path> <format> . . . . . . . . . . . . . Save document to directory <path> in <format> format
         -e . . . . . . . . . . . . . . . . . . . . . Exit
     """.trimIndent())
 
