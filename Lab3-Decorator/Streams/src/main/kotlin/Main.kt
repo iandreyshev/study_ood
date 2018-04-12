@@ -2,9 +2,8 @@ import cipher.ShuffleCodec
 import cipher.ReplacementCipherDecoder
 import cipher.ReplacementCipherEncoder
 import cmdParser.StreamsCmdParser
-import compressor.StreamCompressor
-import compressor.SimpleCompressor
-import compressor.StreamDecompressor
+import compressor.RleCompressor
+import compressor.RleDecompressor
 import inputStream.MemoryInputStream
 import outputStream.MemoryOutputStream
 import java.io.File
@@ -33,15 +32,15 @@ class Main {
         private fun compress() {
             val output = ArrayList<Byte>()
             val stream = MemoryOutputStream(output)
-            val compressor = StreamCompressor(stream)
+            val compressor = RleCompressor(stream)
 
-            compressor.write(mMemory, mMemory.size)
+            mMemory.forEach { compressor.write(it) }
             mMemory = output.toByteArray()
         }
 
         private fun decompress() {
             val stream = MemoryInputStream(mMemory.asList())
-            val decompressor = StreamDecompressor(stream)
+            val decompressor = RleDecompressor(stream)
             val output = ArrayList<Byte>()
 
             decompressor.read(output, mMemory.size)

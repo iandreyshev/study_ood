@@ -8,4 +8,8 @@ class ReplacementCipherEncoder(
         stream: IOutputStream
 ) : OutputDecorator(stream) {
     override fun transformByte(byte: Byte) = mPermutation.encode(byte)
+
+    override fun close() {
+        // Nothing to do
+    }
 }

@@ -9,13 +9,13 @@ import java.util.*
 class StreamCompressorTest {
     private lateinit var output: MutableList<Byte>
     private lateinit var memoryStream: MemoryOutputStream
-    private lateinit var compressor: StreamCompressor
+    private lateinit var compressor: RleCompressor
 
     @Before
     fun setup() {
         output = mutableListOf()
         memoryStream = MemoryOutputStream(output)
-        compressor = StreamCompressor(memoryStream)
+        compressor = RleCompressor(memoryStream)
     }
 
     @Test

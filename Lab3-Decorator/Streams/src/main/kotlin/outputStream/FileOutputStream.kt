@@ -6,4 +6,8 @@ class FileOutputStream(filePath: String) : IOutputStream {
     override fun write(byte: Byte) {
         mStream.write(byte.toInt())
     }
+
+    override fun close() {
+        // Nothing to do
+    }
 }
