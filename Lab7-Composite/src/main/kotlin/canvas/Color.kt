@@ -1,6 +1,8 @@
 package canvas
 
 enum class Color {
+    NONE,
+
     RED,
     GREEN,
     BLUE,

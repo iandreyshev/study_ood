@@ -32,7 +32,7 @@ class JSONSerializer : DocumentSerializer() {
     }""")
     }
 
-    override fun serialize(): String {
+    override fun onSerialize(): ByteArray {
         var result = "{"
 
         if (!mTitle.isEmpty() || !mElements.isEmpty()) {
@@ -48,7 +48,7 @@ class JSONSerializer : DocumentSerializer() {
         result += mElements.joinToString(separator = ",\n")
         if (result.length > 1) result += "\n"
 
-        return "$result}\n"
+        return "$result}\n".toByteArray()
     }
 
     private val String.escapeJSON

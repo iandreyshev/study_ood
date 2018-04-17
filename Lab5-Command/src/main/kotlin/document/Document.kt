@@ -11,6 +11,10 @@ class Document(
         private val fileManager: IFileManager,
         private val itemsFactory: IItemsFactory
 ) : IDocument {
+    companion object {
+        private const val SERIALIZED_FILE_NAME = "document"
+    }
+
     override var title: String
         get() = mTitle
         set(value) {
@@ -65,7 +69,7 @@ class Document(
         with(serializer) {
             setTitle(title)
             mItems.forEach { insertItem(it) }
-            fileManager.saveTo(path, serialize(), extension)
+            serializeTo(path, SERIALIZED_FILE_NAME)
         }
     }
 

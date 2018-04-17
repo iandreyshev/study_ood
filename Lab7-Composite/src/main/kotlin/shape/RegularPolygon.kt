@@ -2,7 +2,8 @@ package shape
 
 import canvas.Color
 import canvas.ICanvas
-import containers.IFrame
+import containers.AbstractFrame
+import containers.Frame
 import containers.Vec2i
 
 class RegularPolygon(
@@ -20,8 +21,9 @@ class RegularPolygon(
         if (radius < 0) throw IllegalArgumentException("Radius can not be negative")
     }
 
-    override val frame: IFrame
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+    override val frame: AbstractFrame by lazy {
+        return@lazy Frame(Vec2i(), 0, 0)
+    }
 
     override fun draw(canvas: ICanvas) {
         canvas.penColor = color

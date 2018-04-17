@@ -3,7 +3,7 @@ package shape
 import canvas.Color
 import canvas.ICanvas
 import containers.CompositeFrame
-import containers.IFrame
+import containers.AbstractFrame
 import extension.forEach2
 import extension.getAllSameOrNull
 
@@ -12,28 +12,25 @@ class CompositeShape : ICompositeShape, CompositeFrame.InnerFramesIterator {
 
     override val composite: ICompositeShape? = this
 
-    override val frame: IFrame = CompositeFrame(frames = this)
+    override val frame: AbstractFrame = CompositeFrame(frames = this)
 
-    override var strokeColor: Color?
-        get() = mShapes.getAllSameOrNull { strokeColor }
-        set(value) {
-            value ?: return
-            mShapes.forEach2 { strokeColor = value }
-        }
+    override fun getFillColor(): Color? =
+            mShapes.getAllSameOrNull { getFillColor() }
 
-    override var strokeSize: Int?
-        get() = mShapes.getAllSameOrNull { strokeSize }
-        set(value) {
-            value ?: return
-            mShapes.forEach2 { strokeSize = value }
-        }
+    override fun setFillColor(color: Color) =
+            mShapes.forEach2 { setFillColor(color) }
 
-    override var fillColor: Color?
-        get() = mShapes.getAllSameOrNull { fillColor }
-        set(value) {
-            value ?: return
-            mShapes.forEach2 { fillColor = value }
-        }
+    override fun getStroleColor(): Color? =
+            mShapes.getAllSameOrNull { getStroleColor() }
+
+    override fun setStroleColor(color: Color) =
+            mShapes.forEach2 { setStroleColor(color) }
+
+    override fun getStrokeSize(): Int? =
+            mShapes.getAllSameOrNull { getStrokeSize() }
+
+    override fun setStrokeSize(size: Int) =
+            mShapes.forEach2 { setStrokeSize(size) }
 
     override fun add(shape: IShape) {
         mShapes.add(shape)
@@ -45,5 +42,5 @@ class CompositeShape : ICompositeShape, CompositeFrame.InnerFramesIterator {
 
     override fun draw(canvas: ICanvas) = mShapes.forEach2 { draw(canvas) }
 
-    override fun forEach(action: IFrame.() -> Unit) = mShapes.forEach2 { action(frame) }
+    override fun forEach(action: AbstractFrame.() -> Unit) = mShapes.forEach2 { action(frame) }
 }

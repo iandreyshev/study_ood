@@ -5,9 +5,10 @@ import document.IParagraph
 import org.apache.commons.text.StringEscapeUtils
 
 class XMLSerializer : DocumentSerializer() {
+    override val extension: String = "xml"
+
     private var mTitle = ""
     private var mItems = ""
-    override val extension: String = "xml"
 
     override fun onSetTitle(title: String) {
         if (!title.isEmpty()) {
@@ -23,11 +24,11 @@ class XMLSerializer : DocumentSerializer() {
         mItems += "\n  <image path=\"${image.path.escapeXML}\" width=\"${image.width}\" height=\"${image.height}\" />"
     }
 
-    override fun serialize(): String {
+    override fun onSerialize(): ByteArray {
         return """
 <?xml version="1.0"?>
 <document>$mTitle$mItems
-</document>""".trimIndent()
+</document>""".trimIndent().toByteArray()
     }
 
     private val String.escapeXML

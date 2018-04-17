@@ -3,23 +3,23 @@ package compressor
 import inputStream.IInputStream
 
 class RleDecompressor(private val stream: IInputStream) : IInputStream {
-    private val mCache: RleCache = RleCache()
+    private val mRleChunk: RleCache = RleCache()
 
     override val isEof: Boolean
-        get() = stream.isEof && mCache.isEmpty
+        get() = stream.isEof && mRleChunk.isEmpty
 
     override fun read(): Byte {
-        if (mCache.isEmpty) {
+        if (mRleChunk.isEmpty) {
             resetCache()
         }
 
-        --mCache.count
+        --mRleChunk.count
 
-        return mCache.byte
+        return mRleChunk.byte
     }
 
     private fun resetCache() {
-        mCache.count = stream.read()
-        mCache.byte = stream.read()
+        mRleChunk.count = stream.read()
+        mRleChunk.byte = stream.read()
     }
 }

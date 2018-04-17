@@ -3,9 +3,10 @@ package serializer
 import document.IDocumentItem
 import document.IImage
 import document.IParagraph
+import java.io.File
 
 abstract class DocumentSerializer {
-    abstract val extension: String
+    protected abstract val extension: String
 
     fun setTitle(title: String): DocumentSerializer {
         onSetTitle(title)
@@ -30,5 +31,17 @@ abstract class DocumentSerializer {
 
     protected abstract fun onInsertImage(image: IImage)
 
-    abstract fun serialize(): String
+    protected abstract fun onSerialize(): ByteArray
+
+    fun serializeTo(dirPath: String, fileName: String) {
+        val dir = File(dirPath)
+        dir.mkdirs()
+
+        val file = File(dir, "$fileName.$extension")
+        file.createNewFile()
+
+        file.outputStream().use { stream ->
+            stream.write(onSerialize())
+        }
+    }
 }

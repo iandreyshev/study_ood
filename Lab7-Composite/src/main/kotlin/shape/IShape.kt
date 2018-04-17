@@ -2,18 +2,24 @@ package shape
 
 import canvas.Color
 import canvas.ICanvas
-import containers.IFrame
+import containers.AbstractFrame
 
 interface IShape {
     val composite: ICompositeShape?
 
-    val frame: IFrame
+    val frame: AbstractFrame
 
-    var fillColor: Color?
+    fun setFillColor(color: Color)
 
-    var strokeColor: Color?
+    fun getFillColor(): Color?
 
-    var strokeSize: Int?
+    fun setStroleColor(color: Color)
+
+    fun getStroleColor(): Color?
+
+    fun setStrokeSize(size: Int)
+
+    fun getStrokeSize(): Int?
 
     fun draw(canvas: ICanvas)
 }

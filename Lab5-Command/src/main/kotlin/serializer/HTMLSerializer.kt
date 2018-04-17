@@ -5,9 +5,10 @@ import document.IParagraph
 import org.apache.commons.text.StringEscapeUtils
 
 class HTMLSerializer : DocumentSerializer() {
+    override val extension: String = "html"
+
     private var mTitle = ""
     private var mItems = ""
-    override val extension: String = "html"
 
     override fun onSetTitle(title: String) {
         if (!title.isEmpty()) {
@@ -23,7 +24,7 @@ class HTMLSerializer : DocumentSerializer() {
         mItems += "\n        <img src=\"${path.escapeHTML}\" height=\"$height\" width=\"$width\">"
     }
 
-    override fun serialize(): String {
+    override fun onSerialize(): ByteArray {
         return """
 <!DOCTYPE html>
 <html>
@@ -32,7 +33,7 @@ class HTMLSerializer : DocumentSerializer() {
     </head>
     <body>$mTitle$mItems
     </body>
-</html>"""
+</html>""".toByteArray()
     }
 
     private val String.escapeHTML
