@@ -2,6 +2,7 @@ package factory
 
 import canvas.Color
 import containers.Vec2i
+import ru.iandreyshev.compositeshapespaint.model.shape.Rectangle
 import shape.*
 
 class ShapeFactory : IShapeFactory {

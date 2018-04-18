@@ -34,16 +34,6 @@ class WindowedCanvas(width: Int, height: Int) : JFrame("Painter"), ICanvas {
     private fun draw(drawAction: (Graphics) -> Unit) {
         contentPane.add(object : JPanel() {
             override fun paintComponent(g: Graphics?) {
-                (g as Graphics2D).stroke = BasicStroke(stroke)
-                g.color = when (penColor) {
-                    Color.RED -> java.awt.Color.RED
-                    Color.GREEN -> java.awt.Color.GREEN
-                    Color.BLUE -> java.awt.Color.BLUE
-                    Color.PINK -> java.awt.Color.PINK
-                    Color.YELLOW -> java.awt.Color.YELLOW
-                    Color.BLACK -> java.awt.Color.BLACK
-                }
-                drawAction(g)
             }
         })
         isVisible = true
