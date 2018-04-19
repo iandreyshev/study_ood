@@ -1,17 +1,17 @@
-package containers
+package ru.iandreyshev.compositeshapespaint.model.containers
 
 class CompositeFrame(private val frames: InnerFramesIterator) : AbstractFrame() {
-    override val width: Int
+    override val width: Float
         get() = frames.getSize({ position.x }, { width })
 
-    override val height: Int
+    override val height: Float
         get() = frames.getSize({ position.y }, { height })
 
-    override var position: Vec2i
+    override var position: Vec2f
         get() = frames.getPosition()
         set(value) = frames.setPosition(value)
 
-    override fun onResize(newWidth: Int, newHeight: Int) =
+    override fun onResize(newWidth: Float, newHeight: Float) =
             frames.resize(newWidth, newHeight)
 
     interface InnerFramesIterator {
@@ -27,9 +27,9 @@ class CompositeFrame(private val frames: InnerFramesIterator) : AbstractFrame() 
         return isEmpty
     }
 
-    private fun InnerFramesIterator.getPosition(): Vec2i {
-        var x = Int.MAX_VALUE
-        var y = Int.MAX_VALUE
+    private fun InnerFramesIterator.getPosition(): Vec2f {
+        var x = Float.MAX_VALUE
+        var y = Float.MAX_VALUE
         val isEmpty = doActionOrFalse {
             if (position.x < x) {
                 x = position.x
@@ -39,21 +39,21 @@ class CompositeFrame(private val frames: InnerFramesIterator) : AbstractFrame() 
             }
         }
 
-        return if (isEmpty) Vec2i() else Vec2i(x, y)
+        return if (isEmpty) Vec2f() else Vec2f(x, y)
     }
 
-    private fun InnerFramesIterator.setPosition(newPosition: Vec2i) {
+    private fun InnerFramesIterator.setPosition(newPosition: Vec2f) {
         val currPosition = getPosition()
         val offsetX = newPosition.x - currPosition.x
         val offsetY = newPosition.y - currPosition.y
-        forEach { position -= Vec2i(offsetX, offsetY) }
+        forEach { position -= Vec2f(offsetX, offsetY) }
     }
 
     private fun InnerFramesIterator.getSize(
-            toAxisPosition: AbstractFrame.() -> Int,
-            toAxisSize: AbstractFrame.() -> Int): Int {
-        var min = Int.MAX_VALUE
-        var max = Int.MIN_VALUE
+            toAxisPosition: AbstractFrame.() -> Float,
+            toAxisSize: AbstractFrame.() -> Float): Float {
+        var min = Float.MAX_VALUE
+        var max = Float.MIN_VALUE
         val isEmpty = doActionOrFalse {
             val axisPos = toAxisPosition(this)
             if (axisPos < min) {
@@ -65,17 +65,15 @@ class CompositeFrame(private val frames: InnerFramesIterator) : AbstractFrame() 
             }
         }
 
-        return if (isEmpty) 0 else max - min
+        return if (isEmpty) 0f else max - min
     }
 
-    private fun InnerFramesIterator.resize(newWidth: Int, newHeight: Int) {
-        val xFactor = width.toFloat() / newWidth
-        val yFactor = height.toFloat() / newHeight
+    private fun InnerFramesIterator.resize(newWidth: Float, newHeight: Float) {
+        val xFactor = width / newWidth
+        val yFactor = height / newHeight
 
         forEach {
-            val frameNewWidth = (this.width * xFactor).toInt()
-            val frameNewHeight = (this.height * yFactor).toInt()
-            resize(frameNewWidth, frameNewHeight)
+            resize((this.width * xFactor), (this.height * yFactor))
         }
     }
 }

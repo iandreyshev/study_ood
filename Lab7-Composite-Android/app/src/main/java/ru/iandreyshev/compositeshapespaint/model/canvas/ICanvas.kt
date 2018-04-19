@@ -1,13 +1,20 @@
-package canvas
+package ru.iandreyshev.compositeshapespaint.model.canvas
 
-import containers.Vec2i
+import canvas.Color
+import ru.iandreyshev.compositeshapespaint.model.containers.Vec2f
 
 interface ICanvas {
-    var stroke: Float
+    var color: Color
 
-    var penColor: Color
+    var strokeSize: Float
 
-    fun drawLine(from: Vec2i, to: Vec2i)
+    fun fill()
 
-    fun drawEllipse(center: Vec2i, horizontalRadius: Int, verticalRadius: Int)
+    fun stroke()
+
+    fun moveTo(dest: Vec2f)
+
+    fun lineTo(dest: Vec2f)
+
+    fun drawEllipse(center: Vec2f, horizontalRadius: Float, verticalRadius: Float)
 }

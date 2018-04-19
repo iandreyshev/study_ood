@@ -1,13 +1,13 @@
-package shape
+package ru.iandreyshev.compositeshapespaint.model.shape
 
 import canvas.Color
-import canvas.ICanvas
-import containers.CompositeFrame
-import containers.AbstractFrame
+import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
+import ru.iandreyshev.compositeshapespaint.model.containers.CompositeFrame
+import ru.iandreyshev.compositeshapespaint.model.containers.AbstractFrame
 import extension.forEach2
 import extension.getAllSameOrNull
 
-class CompositeShape : ICompositeShape, CompositeFrame.InnerFramesIterator {
+class CompositeShape(override val name: String) : ICompositeShape, CompositeFrame.InnerFramesIterator {
     private val mShapes: HashSet<IShape> = HashSet()
 
     override val composite: ICompositeShape? = this
@@ -20,16 +20,16 @@ class CompositeShape : ICompositeShape, CompositeFrame.InnerFramesIterator {
     override fun setFillColor(color: Color) =
             mShapes.forEach2 { setFillColor(color) }
 
-    override fun getStroleColor(): Color? =
-            mShapes.getAllSameOrNull { getStroleColor() }
+    override fun getStrokeColor(): Color? =
+            mShapes.getAllSameOrNull { getStrokeColor() }
 
-    override fun setStroleColor(color: Color) =
-            mShapes.forEach2 { setStroleColor(color) }
+    override fun setStrokeColor(color: Color) =
+            mShapes.forEach2 { setStrokeColor(color) }
 
-    override fun getStrokeSize(): Int? =
+    override fun getStrokeSize(): Float? =
             mShapes.getAllSameOrNull { getStrokeSize() }
 
-    override fun setStrokeSize(size: Int) =
+    override fun setStrokeSize(size: Float) =
             mShapes.forEach2 { setStrokeSize(size) }
 
     override fun add(shape: IShape) {

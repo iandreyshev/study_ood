@@ -1,9 +1,12 @@
-package factory
+package ru.iandreyshev.compositeshapespaint.model.factory
 
 import canvas.Color
-import containers.Vec2i
+import factory.IShapeFactory
+import ru.iandreyshev.compositeshapespaint.model.containers.Vec2f
+import ru.iandreyshev.compositeshapespaint.model.shape.Ellipse
+import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.model.shape.Rectangle
-import shape.*
+import ru.iandreyshev.compositeshapespaint.model.shape.RegularPolygon
 
 class ShapeFactory : IShapeFactory {
     companion object {
@@ -26,21 +29,21 @@ class ShapeFactory : IShapeFactory {
     private fun getShape(): IShape? {
         return when (argAt(0)) {
             "rectangle" -> {
-                val leftTop = Vec2i(intArgAt(1), intArgAt(2))
-                val rightBottom = Vec2i(intArgAt(3), intArgAt(4))
-                Rectangle(leftTop, rightBottom, getColor(5))
+                val leftTop = Vec2f(intArgAt(1), intArgAt(2))
+                val rightBottom = Vec2f(intArgAt(3), intArgAt(4))
+                Rectangle(leftTop, rightBottom)
             }
             "polygon" -> {
-                val center = Vec2i(intArgAt(1), intArgAt(2))
+                val center = Vec2f(intArgAt(1), intArgAt(2))
                 val vertexCount = intArgAt(3)
-                val radius = intArgAt(4)
-                RegularPolygon(center, vertexCount, radius, getColor(5))
+                val radius = floatArgAt(4)
+                RegularPolygon(center, vertexCount, radius)
             }
             "ellipse" -> {
-                val center = Vec2i(intArgAt(1), intArgAt(2))
-                val horizontalRadius = intArgAt(3)
-                val verticalRadius = intArgAt(4)
-                Ellipse(center, horizontalRadius, verticalRadius, getColor(5))
+                val center = Vec2f(intArgAt(1), intArgAt(2))
+                val horizontalRadius = floatArgAt(3)
+                val verticalRadius = floatArgAt(4)
+                Ellipse(center, horizontalRadius, verticalRadius)
             }
             else -> null
         }
@@ -56,11 +59,12 @@ class ShapeFactory : IShapeFactory {
         }
     }
 
-    private fun argAt(index: Int): String {
-        return mDescription[index]
-    }
+    private fun argAt(index: Int): String =
+            mDescription[index]
 
-    private fun intArgAt(index: Int): Int {
-        return argAt(index).toInt()
-    }
+    private fun intArgAt(index: Int): Int =
+            argAt(index).toInt()
+
+    private fun floatArgAt(index: Int): Float =
+            argAt(index).toFloat()
 }

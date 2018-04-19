@@ -1,17 +1,20 @@
-package shape
+package ru.iandreyshev.compositeshapespaint.model.shape
 
 import canvas.Color
-import canvas.ICanvas
-import containers.AbstractFrame
-import containers.Frame
-import containers.Vec2i
+import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
+import ru.iandreyshev.compositeshapespaint.model.containers.AbstractFrame
+import ru.iandreyshev.compositeshapespaint.model.containers.Frame
+import ru.iandreyshev.compositeshapespaint.model.containers.Vec2f
 
 class Ellipse(
-        center: Vec2i,
-        horizontalRadius: Int,
-        verticalRadius: Int,
-        private val color: Color = Color.BLACK
-) : TermShape() {
+        center: Vec2f,
+        horizontalRadius: Float,
+        verticalRadius: Float,
+        strokeSize: Float = 5f,
+        fillColor: Color = Color.BLACK,
+        strokeColor: Color = Color.WHITE,
+        override val name: String = Ellipse::class.java.simpleName
+) : TermShape(strokeSize, fillColor, strokeColor) {
     init {
         if (horizontalRadius < 0 || verticalRadius < 0) throw IllegalArgumentException("Radius can not be negative")
     }
@@ -19,13 +22,16 @@ class Ellipse(
     override val frame: AbstractFrame by lazy {
         val x = center.x - horizontalRadius / 2
         val y = center.y - verticalRadius / 2
-        return@lazy Frame(Vec2i(x, y), horizontalRadius, verticalRadius)
+        return@lazy Frame(Vec2f(x, y), horizontalRadius, verticalRadius)
     }
 
-    override fun draw(canvas: ICanvas) {
+    override fun onDrawShape(canvas: ICanvas) = onDraw(canvas)
+
+    override fun onDrawStroke(canvas: ICanvas) = onDraw(canvas)
+
+    private fun onDraw(canvas: ICanvas) {
         val centerX = frame.position.x + frame.width / 2
         val centerY = frame.position.y + frame.height / 2
-        canvas.penColor = color
-        canvas.drawEllipse(Vec2i(centerX, centerY), frame.width, frame.height)
+        canvas.drawEllipse(Vec2f(centerX, centerY), frame.width, frame.height)
     }
 }

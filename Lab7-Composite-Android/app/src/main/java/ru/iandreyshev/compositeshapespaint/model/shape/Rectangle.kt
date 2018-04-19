@@ -1,17 +1,19 @@
 package ru.iandreyshev.compositeshapespaint.model.shape
 
 import canvas.Color
-import canvas.ICanvas
-import containers.AbstractFrame
-import containers.Frame
-import containers.Vec2i
-import shape.TermShape
+import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
+import ru.iandreyshev.compositeshapespaint.model.containers.AbstractFrame
+import ru.iandreyshev.compositeshapespaint.model.containers.Frame
+import ru.iandreyshev.compositeshapespaint.model.containers.Vec2f
 
 class Rectangle(
-        leftTop: Vec2i,
-        rightBottom: Vec2i,
-        private var color: Color = Color.BLACK
-) : TermShape() {
+        leftTop: Vec2f,
+        rightBottom: Vec2f,
+        strokeSize: Float = 5f,
+        fillColor: Color = Color.BLACK,
+        strokeColor: Color = Color.WHITE,
+        override val name: String = Rectangle::class.java.simpleName
+) : TermShape(strokeSize, fillColor, strokeColor) {
     override val frame: AbstractFrame by lazy {
         val minX = Math.min(leftTop.x, rightBottom.x)
         val maxY = Math.max(leftTop.y, rightBottom.y)
@@ -19,20 +21,25 @@ class Rectangle(
         val maxX = Math.max(leftTop.x, rightBottom.x)
         val minY = Math.min(leftTop.y, rightBottom.y)
 
-        return@lazy Frame(Vec2i(minX, minY), maxX - minX, maxY - minY)
+        return@lazy Frame(Vec2f(minX, minY), maxX - minX, maxY - minY)
     }
 
-    override fun draw(canvas: ICanvas) {
-        canvas.penColor = color
+    override fun onDrawShape(canvas: ICanvas) = onDraw(canvas)
 
+    override fun onDrawStroke(canvas: ICanvas) = onDraw(canvas)
+
+    private fun onDraw(canvas: ICanvas) {
         val leftTop = frame.position
-        val rightTop = Vec2i(frame.position.x + frame.width, frame.position.y)
-        val rightBottom = Vec2i(frame.position.x + frame.width, frame.position.y + frame.height)
-        val leftBottom = Vec2i(frame.position.x, frame.position.y + frame.height)
+        val rightTop = Vec2f(frame.position.x + frame.width, frame.position.y)
+        val rightBottom = Vec2f(frame.position.x + frame.width, frame.position.y + frame.height)
+        val leftBottom = Vec2f(frame.position.x, frame.position.y + frame.height)
 
-        canvas.drawLine(leftTop, rightTop)
-        canvas.drawLine(rightTop, rightBottom)
-        canvas.drawLine(rightBottom, leftBottom)
-        canvas.drawLine(leftBottom, leftTop)
+        with(canvas) {
+            moveTo(leftTop)
+            lineTo(rightTop)
+            lineTo(rightBottom)
+            lineTo(leftBottom)
+            lineTo(leftTop)
+        }
     }
 }

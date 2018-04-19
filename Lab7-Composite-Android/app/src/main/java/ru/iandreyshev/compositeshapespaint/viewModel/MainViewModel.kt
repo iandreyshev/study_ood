@@ -2,14 +2,16 @@ package ru.iandreyshev.compositeshapespaint.viewModel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import containers.Vec2i
-import shape.IShape
+import canvas.Color
+import ru.iandreyshev.compositeshapespaint.model.containers.Vec2f
+import ru.iandreyshev.compositeshapespaint.model.shape.Ellipse
+import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.model.shape.Rectangle
 
 class MainViewModel : ViewModel() {
     // OBSERVABLES
     val targetShape = MutableLiveData<IShape>()
-    val shapes = MutableLiveData<HashSet<IShape>>()
+    val shapes = MutableLiveData<List<IShape>>()
     // OBSERVABLES
 
     init {
@@ -23,12 +25,28 @@ class MainViewModel : ViewModel() {
     }
 
     fun refresh() {
-        val listOfShapes = hashSetOf<IShape>()
-
-        repeat(16) {
-            listOfShapes.add(Rectangle(Vec2i(it, it), Vec2i(it + it * it, it + it * it)))
-        }
+        val listOfShapes = mutableListOf<IShape>(
+                Rectangle(
+                        leftTop = Vec2f(200, 200),
+                        rightBottom = Vec2f(400, 700),
+                        strokeColor = Color.BLACK,
+                        fillColor = Color.RED),
+                Ellipse(
+                        center = Vec2f(400, 700),
+                        horizontalRadius = 250f,
+                        verticalRadius = 250f,
+                        fillColor = Color.WHITE,
+                        strokeColor = Color.BLACK,
+                        strokeSize = 20f),
+                Ellipse(
+                        center = Vec2f(200, 700),
+                        horizontalRadius = 250f,
+                        verticalRadius = 250f,
+                        fillColor = Color.WHITE,
+                        strokeColor = Color.BLACK,
+                        strokeSize = 20f))
 
         shapes.postValue(listOfShapes)
+        targetShape.postValue(null)
     }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_resize"
+        android:title="@string/action_change_size" />
+
+    <item
+        android:id="@+id/action_change_position"
+        android:title="@string/action_change_position" />
+
+    <item
+        android:id="@+id/action_change_stroke_size"
+        android:title="@string/action_change_stroke_size" />
+
+    <item
+        android:id="@+id/action_change_fill_color"
+        android:title="@string/action_change_fill_color" />
+
+    <item
+        android:id="@+id/action_change_stroke_color"
+        android:title="@string/action_change_stroke_color" />
+
+</menu>

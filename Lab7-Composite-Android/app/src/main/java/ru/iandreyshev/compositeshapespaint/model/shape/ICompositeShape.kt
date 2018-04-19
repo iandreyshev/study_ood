@@ -1,4 +1,4 @@
-package shape
+package ru.iandreyshev.compositeshapespaint.model.shape
 
 interface ICompositeShape : IShape {
     fun add(shape: IShape)
