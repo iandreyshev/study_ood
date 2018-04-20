@@ -74,11 +74,20 @@ class CompositeFrame(
     }
 
     private fun InnerFramesIterator.resize(newWidth: Float, newHeight: Float) {
-        val xFactor = width / newWidth
-        val yFactor = height / newHeight
+        val widthBefore = this@CompositeFrame.width
+        val heightBefore = this@CompositeFrame.height
 
         forEach {
-            resize((this.width * xFactor), (this.height * yFactor))
+            val xPositionProportion = 1f
+            val yPositionProportion = 1f
+
+            resize(
+                    width / widthBefore * newWidth,
+                    height / heightBefore * newHeight)
+
+            position = Vec2f(
+                    position.x * xPositionProportion,
+                    position.y * yPositionProportion)
         }
     }
 }

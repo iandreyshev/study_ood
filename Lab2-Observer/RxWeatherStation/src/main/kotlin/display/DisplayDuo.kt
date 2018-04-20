@@ -9,10 +9,12 @@ class DisplayDuo(
         outerStation: Observable<WeatherInfoWithWind>) {
 
     init {
-        innerStation.subscribe { data ->
+        val connection = innerStation.subscribe { data ->
             data ?: return@subscribe
             onUpdate(data, innerStation)
         }
+
+        connection.dispose()
 
         outerStation.subscribe { data ->
             data ?: return@subscribe

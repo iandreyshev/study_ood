@@ -20,7 +20,7 @@ class DisplayTest {
     fun canNotifyStatsDisplay() {
         repeat(100) {
             val data = WeatherInfo(rand(), rand(), rand())
-            Observable.just(data)
+            Observable.just(data,)
                     .subscribe(statsDisplay)
         }
     }
