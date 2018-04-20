@@ -7,9 +7,9 @@ import ru.iandreyshev.compositeshapespaint.model.containers.Frame
 import ru.iandreyshev.compositeshapespaint.model.containers.Vec2f
 
 class RegularPolygon(
-        private val center: Vec2f,
+        center: Vec2f,
         private val vertexCount: Int,
-        private val radius: Float,
+        radius: Float,
         strokeSize: Float = 5f,
         fillColor: Color = Color.BLACK,
         strokeColor: Color = Color.WHITE,
@@ -25,7 +25,7 @@ class RegularPolygon(
     }
 
     override val frame: AbstractFrame by lazy {
-        return@lazy Frame()
+        return@lazy Frame(center, radius, radius)
     }
 
     override fun onDrawShape(canvas: ICanvas) = onDraw(canvas)
@@ -39,19 +39,24 @@ class RegularPolygon(
         val yPoints = FloatArray(vertexCount)
 
         repeat(vertexCount) {
-            xPoints[it] = Math.round(radius * Math.cos(angle)) + center.x
-            yPoints[it] = Math.round(radius * Math.sin(angle)) + center.y
+            xPoints[it] = Math.round(frame.radius * Math.cos(angle)) + frame.center.x
+            yPoints[it] = Math.round(frame.radius * Math.sin(angle)) + frame.center.y
             angle += addAngle
         }
 
-        fun draw(fromIndex: Int, toIndex: Int) {
-            val from = Vec2f(xPoints[fromIndex], yPoints[fromIndex])
-            val to = Vec2f(xPoints[toIndex], yPoints[toIndex])
-            //canvas.drawLine(from, to)
+        if (!xPoints.isEmpty() && !yPoints.isEmpty()) {
+            canvas.moveTo(Vec2f(xPoints.first(), yPoints.first()))
         }
 
-        repeat(vertexCount) {
-            draw(it, if (it + 1 == vertexCount) 0 else it + 1)
+        repeat(vertexCount) { pointIndex ->
+            val pointNum = if (pointIndex + 1 == vertexCount) 0 else pointIndex + 1
+            canvas.lineTo(Vec2f(xPoints[pointNum], yPoints[pointNum]))
         }
     }
+
+    private val AbstractFrame.radius: Float
+        get() = Math.min(width, height)
+
+    private val AbstractFrame.center: Vec2f
+        get() = Vec2f(position.x + width / 2, position.y + height / 2)
 }

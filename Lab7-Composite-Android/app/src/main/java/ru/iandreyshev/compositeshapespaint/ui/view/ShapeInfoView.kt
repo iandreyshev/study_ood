@@ -6,7 +6,7 @@ import android.graphics.Paint
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import canvas.Color
-import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.view_shape_info.view.*
 import ru.iandreyshev.compositeshapespaint.R
 import ru.iandreyshev.compositeshapespaint.converter.ColorConverter
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
@@ -56,7 +56,7 @@ class ShapeInfoView @JvmOverloads constructor(
     private val IShape.sizeString: String
         get() = "w: ${frame.width} h: ${frame.height}"
     private val IShape.strokeSizeString: String
-        get() = "ss: ${getStrokeSize() ?: 0}"
+        get() = "ss: ${getStrokeSize() ?: "?"}"
 
     private fun Canvas.fill(color: Color) {
         val paint = Paint()

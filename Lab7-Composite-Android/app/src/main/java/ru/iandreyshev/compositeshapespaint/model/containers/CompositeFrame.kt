@@ -1,6 +1,9 @@
 package ru.iandreyshev.compositeshapespaint.model.containers
 
-class CompositeFrame(private val frames: InnerFramesIterator) : AbstractFrame() {
+class CompositeFrame(
+        private val frames: InnerFramesIterator
+) : AbstractFrame() {
+
     override val width: Float
         get() = frames.getSize({ position.x }, { width })
 
@@ -46,7 +49,9 @@ class CompositeFrame(private val frames: InnerFramesIterator) : AbstractFrame() 
         val currPosition = getPosition()
         val offsetX = newPosition.x - currPosition.x
         val offsetY = newPosition.y - currPosition.y
-        forEach { position -= Vec2f(offsetX, offsetY) }
+        forEach {
+            position = Vec2f(position.x + offsetX, position.y + offsetY)
+        }
     }
 
     private fun InnerFramesIterator.getSize(

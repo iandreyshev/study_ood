@@ -11,11 +11,15 @@ import ru.iandreyshev.compositeshapespaint.viewModel.MainViewModel
 import android.support.v7.widget.DividerItemDecoration
 import android.view.Menu
 import android.view.MenuItem
+import canvas.Color
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.view_shape_info.*
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.toast
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
+import ru.iandreyshev.compositeshapespaint.ui.ActionError
 import ru.iandreyshev.compositeshapespaint.ui.adapter.AndroidCanvasAdapter
+import ru.iandreyshev.compositeshapespaint.ui.dialog.ActionDialog
 
 class MainActivity : AppCompatActivity() {
     private val mViewModel by lazy {
@@ -34,11 +38,16 @@ class MainActivity : AppCompatActivity() {
 
         mViewModel.shapes.observe(this, Observer { shapes ->
             mAdapter.notifyDataSetChanged()
-            reDraw(shapes ?: return@Observer)
+            shapes ?: return@Observer
+            reDraw(shapes)
         })
 
         mViewModel.targetShape.observe(this, Observer { shape ->
             shapeInfoView.setShape(shape)
+        })
+
+        mViewModel.actionError.observe(this, Observer { error ->
+            handleActionError(error)
         })
 
         with(rvShapesList) {
@@ -58,26 +67,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item ?: return false
-
-        when (item.itemId) {
-            R.id.action_resize -> {
-                toast("Resize")
-            }
-            R.id.action_change_position -> {
-                toast("Move")
-            }
-            R.id.action_change_stroke_size -> {
-                toast("Resize strokeSize")
-            }
-            R.id.action_change_fill_color -> {
-                toast("Change fill color")
-            }
-            R.id.action_change_stroke_color -> {
-                toast("Change strokeSize color")
-            }
+        when (item?.itemId) {
+            R.id.act_resize -> ActionDialog(this, R.string.act_resize, mViewModel::resize)
+            R.id.act_move -> ActionDialog(this, R.string.act_move, mViewModel::move)
+            R.id.act_resize_stroke -> ActionDialog(this, R.string.act_resize_stroke, mViewModel::resizeStroke)
+            R.id.act_fill_color -> ActionDialog(this, R.string.act_fill_color, mViewModel::changeFillColor)
+            R.id.act_stroke_color -> ActionDialog(this, R.string.act_stroke_color, mViewModel::changeStrokeColor)
         }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -87,5 +83,16 @@ class MainActivity : AppCompatActivity() {
             shapes.forEach { it.draw(adapter) }
         }
         cvCanvas.invalidate()
+    }
+
+    private fun handleActionError(error: ActionError?) {
+        when (error) {
+            ActionError.SHAPE_NOT_SELECTED -> toast(R.string.action_error_null_shape)
+            ActionError.RESIZE_ARGS_ERR -> toast("Use only float values separated by space")
+            ActionError.MOVE_ARGS_ERR -> toast("Use only float values separated by space")
+            ActionError.RESIZE_STROKE_ERR -> toast("Use only positive float values")
+            ActionError.INVALID_COLOR -> toast("Available colors: ${Color.values().joinToString()}")
+            ActionError.UNDEFINED_ERR -> toast(R.string.action_error_undefined)
+        }
     }
 }

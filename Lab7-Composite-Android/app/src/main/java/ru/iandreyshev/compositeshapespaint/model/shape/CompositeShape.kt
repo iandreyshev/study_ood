@@ -4,15 +4,23 @@ import canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
 import ru.iandreyshev.compositeshapespaint.model.containers.CompositeFrame
 import ru.iandreyshev.compositeshapespaint.model.containers.AbstractFrame
-import extension.forEach2
-import extension.getAllSameOrNull
+import ru.iandreyshev.compositeshapespaint.model.extension.forEach2
+import ru.iandreyshev.compositeshapespaint.model.extension.getAllSameOrNull
 
-class CompositeShape(override val name: String) : ICompositeShape, CompositeFrame.InnerFramesIterator {
-    private val mShapes: HashSet<IShape> = HashSet()
+class CompositeShape(
+        override val name: String,
+        vararg shape: IShape
+) : ICompositeShape, CompositeFrame.InnerFramesIterator {
+    private val mShapes: MutableList<IShape> = mutableListOf()
+
+    init {
+        shape.forEach { mShapes.add(it) }
+    }
 
     override val composite: ICompositeShape? = this
 
-    override val frame: AbstractFrame = CompositeFrame(frames = this)
+    override val frame: AbstractFrame =
+            CompositeFrame(frames = this)
 
     override fun getFillColor(): Color? =
             mShapes.getAllSameOrNull { getFillColor() }

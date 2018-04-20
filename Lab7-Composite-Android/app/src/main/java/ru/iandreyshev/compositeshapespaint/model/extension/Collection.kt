@@ -1,4 +1,4 @@
-package extension
+package ru.iandreyshev.compositeshapespaint.model.extension
 
 fun <TElement, TValue> Collection<TElement>.getAllSameOrNull(transform: TElement.() -> TValue): TValue? {
     val first = transform(firstOrNull() ?: return null)
