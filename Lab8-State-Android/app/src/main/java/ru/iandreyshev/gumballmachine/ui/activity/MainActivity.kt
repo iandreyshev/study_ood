@@ -1,12 +1,13 @@
 package ru.iandreyshev.gumballmachine.ui.activity
 
 import ru.iandreyshev.gumballmachine.R
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
+import ru.iandreyshev.gumballmachine.interactor.interfaces.IMachineInteractor
+import ru.iandreyshev.gumballmachine.viewModel.abstractions.AbstractMachineViewModel
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : BaseActivity<IMachineInteractor, AbstractMachineViewModel>(
+        AbstractMachineViewModel::class,
+        R.layout.activity_main
+) {
+    override fun onProvideViewModel(viewModel: AbstractMachineViewModel) {
     }
 }

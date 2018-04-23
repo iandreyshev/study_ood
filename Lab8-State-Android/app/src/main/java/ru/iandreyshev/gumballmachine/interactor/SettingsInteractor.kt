@@ -1,5 +1,8 @@
 package ru.iandreyshev.gumballmachine.interactor
 
-import ru.iandreyshev.gumballmachine.useCase.SettingsUseCase
+import ru.iandreyshev.gumballmachine.interactor.interfaces.ISettingsInteractor
+import ru.iandreyshev.gumballmachine.useCase.interfaces.ISettingsUseCase
 
-class SettingsInteractor : AbstractInteractor<SettingsUseCase>()
+class SettingsInteractor : ISettingsInteractor {
+    override var useCase: ISettingsUseCase? = null
+}

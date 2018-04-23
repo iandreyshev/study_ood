@@ -1,5 +1,6 @@
 package ru.iandreyshev.gumballmachine.viewModel
 
-import ru.iandreyshev.gumballmachine.interactor.SettingsInteractor
+import android.app.Application
+import ru.iandreyshev.gumballmachine.viewModel.abstractions.AbstractSettingsViewModel
 
-class SettingsViewModel : BaseViewModel<SettingsInteractor>()
+class SettingsViewModel(app: Application) : AbstractSettingsViewModel(app)

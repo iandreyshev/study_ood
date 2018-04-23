@@ -1,8 +1,8 @@
 package ru.iandreyshev.gumballmachine.factory.presenter
 
-import ru.iandreyshev.gumballmachine.presenter.AbstractPresenter
-import ru.iandreyshev.gumballmachine.viewModel.BaseViewModel
+import ru.iandreyshev.gumballmachine.presenter.interfaces.IPresenter
+import kotlin.reflect.KClass
 
-interface IPresenterFactory<out TPresenter : AbstractPresenter<*>, in TViewModel: BaseViewModel<*>> {
-    fun create(viewModel: TViewModel): TPresenter
+interface IPresenterFactory {
+    fun <TPresenter : IPresenter<*>> create(presenterClass: KClass<TPresenter>): TPresenter
 }

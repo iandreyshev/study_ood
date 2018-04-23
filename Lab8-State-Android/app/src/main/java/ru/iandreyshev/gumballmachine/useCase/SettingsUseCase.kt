@@ -1,3 +1,5 @@
 package ru.iandreyshev.gumballmachine.useCase
 
-class SettingsUseCase : IUseCase
+import ru.iandreyshev.gumballmachine.useCase.interfaces.ISettingsUseCase
+
+class SettingsUseCase : ISettingsUseCase

@@ -1,8 +1,8 @@
 package ru.iandreyshev.gumballmachine.factory.useCase
 
-import ru.iandreyshev.gumballmachine.presenter.AbstractPresenter
-import ru.iandreyshev.gumballmachine.useCase.IUseCase
+import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
+import kotlin.reflect.KClass
 
-interface IUseCaseFactory<out TUseCase : IUseCase, in TPresenter : AbstractPresenter<*>> {
-    fun create(presenter: TPresenter): TUseCase
+interface IUseCaseFactory {
+    fun <TUseCase : IUseCase<*>> create(useCaseClass: KClass<TUseCase>): TUseCase
 }
