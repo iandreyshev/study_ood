@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="metric_title_size">8sp</dimen>
+    <dimen name="metric_value_size">20sp</dimen>
+
+</resources>

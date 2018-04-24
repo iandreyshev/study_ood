@@ -27,33 +27,39 @@ class CleanArchitectureFactory(
         private val useCaseFactory: IUseCaseFactory,
         private val interactorFactory: IInteractorFactory
 ) : ViewModelProvider.Factory {
-    override fun <TViewModel : ViewModel?> create(modelClass: Class<TViewModel>): TViewModel {
-        val viewModel = when (modelClass) {
-            IMachineViewModel::class.java -> MachineViewModel(application)
-                    .injectDependencies(
-                            interactorClass = IMachineInteractor::class,
-                            presenterClass = IMachinePresenter::class,
-                            useCaseClass = IMachineUseCase::class
-                    )
-            SettingsViewModel::class.java -> SettingsViewModel(application)
-                    .injectDependencies(
-                            interactorClass = ISettingsInteractor::class,
-                            presenterClass = ISettingsPresenter::class,
-                            useCaseClass = ISettingsUseCase::class
-                    )
-            else -> throw IllegalArgumentException("Unknown view model class")
-        }
-        return viewModel as TViewModel
-    }
+    override fun <TViewModel : ViewModel?> create(modelClass: Class<TViewModel>): TViewModel =
+            when (modelClass) {
+                IMachineViewModel::class.java -> injectDependencies(
+                        viewModel = MachineViewModel(application),
+                        interactorClass = IMachineInteractor::class,
+                        presenterClass = IMachinePresenter::class,
+                        useCaseClass = IMachineUseCase::class
+                )
+                SettingsViewModel::class.java -> injectDependencies(
+                        viewModel = SettingsViewModel(application),
+                        interactorClass = ISettingsInteractor::class,
+                        presenterClass = ISettingsPresenter::class,
+                        useCaseClass = ISettingsUseCase::class
+                )
+                else -> throw IllegalArgumentException("Unknown view model class")
+            } as TViewModel
 
-    private fun <TInteractor : IInteractor<*>, TPresenter : IPresenter<*>, TUseCase : IUseCase<*>>
-            AbstractViewModel<TInteractor>.injectDependencies(
+    private fun <
+            TInteractor : IInteractor<*>,
+            TPresenter : IPresenter<*>,
+            TUseCase : IUseCase<*>>
+
+            injectDependencies(
+
+            viewModel: AbstractViewModel<TInteractor>,
             interactorClass: KClass<TInteractor>,
             presenterClass: KClass<TPresenter>,
-            useCaseClass: KClass<TUseCase>): AbstractViewModel<TInteractor> {
-        val presenter = presenterFactory.create(presenterClass, this)
+            useCaseClass: KClass<TUseCase>
+
+    ): AbstractViewModel<TInteractor> {
+        val presenter = presenterFactory.create(presenterClass, viewModel)
         val useCase = useCaseFactory.create(useCaseClass, presenter)
-        interactor = interactorFactory.create(interactorClass, useCase)
-        return this
+        viewModel.interactor = interactorFactory.create(interactorClass, useCase) as TInteractor
+        return viewModel
     }
 }

@@ -1,5 +1,6 @@
 package ru.iandreyshev.gumballmachine.ui.activity
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.annotation.LayoutRes
@@ -21,7 +22,11 @@ abstract class BaseActivity<TInteractor : IInteractor<*>, in TViewModel : Abstra
 
     protected abstract fun onProvideViewModel(viewModel: TViewModel)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    protected open fun onActivityCreated(savedInstanceState: Bundle?) {
+        // skip
+    }
+
+    final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout)
 
@@ -35,7 +40,16 @@ abstract class BaseActivity<TInteractor : IInteractor<*>, in TViewModel : Abstra
         ViewModelProviders.of(this, factory)
                 .get(modelClass.java)
                 .let {
+                    interactor = it.interactor
                     onProvideViewModel(it)
                 }
+
+        onActivityCreated(savedInstanceState)
+    }
+
+    protected fun <T> LiveData<T>.observe(action: (T?) -> Unit) {
+        this.observe(this@BaseActivity, android.arch.lifecycle.Observer<T?> {
+            action(it)
+        })
     }
 }

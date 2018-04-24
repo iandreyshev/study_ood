@@ -1,5 +1,6 @@
 package ru.iandreyshev.gumballmachine.factory.useCase
 
+import ru.iandreyshev.gumballmachine.machine.GumballMachine
 import ru.iandreyshev.gumballmachine.presenter.interfaces.IMachinePresenter
 import ru.iandreyshev.gumballmachine.presenter.interfaces.IPresenter
 import ru.iandreyshev.gumballmachine.presenter.interfaces.ISettingsPresenter
@@ -12,15 +13,17 @@ import kotlin.reflect.KClass
 
 object UseCaseFactory : IUseCaseFactory {
     override fun <TUseCase : IUseCase<*>>
-            create(useCaseClass: KClass<TUseCase>, presenter: IPresenter<*>): TUseCase {
+            create(useCaseClass: KClass<TUseCase>, presenter: IPresenter<*>): IUseCase<*> {
         return when(useCaseClass) {
             IMachineUseCase::class -> {
-                MachineUseCase(presenter as IMachinePresenter)
+                MachineUseCase(
+                        machine = GumballMachine(),
+                        presenter = presenter as IMachinePresenter)
             }
             ISettingsUseCase::class -> {
                 SettingsUseCase(presenter as ISettingsPresenter)
             }
-            else -> throw IllegalArgumentException("Unknown use case class")
-        } as TUseCase
+            else -> throw IllegalArgumentException("Unknown use case class ${useCaseClass.qualifiedName}")
+        }
     }
 }

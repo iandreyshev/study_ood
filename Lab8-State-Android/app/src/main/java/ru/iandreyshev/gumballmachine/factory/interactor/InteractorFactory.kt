@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 
 object InteractorFactory : IInteractorFactory {
     override fun <TInteractor : IInteractor<*>>
-            create(interactorClass: KClass<TInteractor>, useCase: IUseCase<*>): TInteractor {
+            create(interactorClass: KClass<TInteractor>, useCase: IUseCase<*>): IInteractor<*> {
         return when (interactorClass) {
             IMachineInteractor::class -> {
                 MachineInteractor(useCase as IMachineUseCase)
@@ -21,6 +21,6 @@ object InteractorFactory : IInteractorFactory {
                 SettingsInteractor(useCase as ISettingsUseCase)
             }
             else -> throw IllegalArgumentException("Unknown interactor class ${interactorClass.qualifiedName}")
-        } as TInteractor
+        }
     }
 }

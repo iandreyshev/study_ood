@@ -6,5 +6,5 @@ import kotlin.reflect.KClass
 
 interface IPresenterFactory {
     fun <TPresenter : IPresenter<AbstractViewModel<*>>>
-            create(presenterClass: KClass<TPresenter>, viewModel: AbstractViewModel<*>?): TPresenter
+            create(presenterClass: KClass<TPresenter>, viewModel: AbstractViewModel<*>?): IPresenter<AbstractViewModel<*>>
 }
