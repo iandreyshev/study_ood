@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GumballMachine</string>
+    <string name="app_name">Gumball Machine</string>
 
     <string name="metric_balls">Balls count</string>
     <string name="metric_inserted_quarters">Inserted quarters</string>

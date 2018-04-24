@@ -8,10 +8,12 @@ abstract class IMachineViewModel(
         app: Application
 ) : AbstractViewModel<IMachineInteractor>(app) {
     // OBSERVABLES
-    val totalQuartersCount = MutableLiveData<Int>()
-    val insertedQuartersCount = MutableLiveData<Int>()
-    val ballsCount = MutableLiveData<Int>()
+    abstract val totalQuartersCount: MutableLiveData<Int>
+    abstract val insertedQuartersCount: MutableLiveData<Int>
+    abstract val ballsCount: MutableLiveData<Int>
     // OBSERVABLES
+
+    abstract var onErrorListener: ((String) -> Unit)
 
     abstract fun onError(error: String)
 }

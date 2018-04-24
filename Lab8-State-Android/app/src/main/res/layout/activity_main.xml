@@ -91,11 +91,12 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <pl.bclogic.pulsator4droid.library.PulsatorLayout
-                        android:id="@+id/pulsInsertQuarter"
+                        android:id="@+id/plsInsertQuarter"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:pulse_color="@android:color/holo_blue_light"
                         app:pulse_count="1"
-                        app:pulse_duration="500"
+                        app:pulse_duration="400"
                         app:pulse_repeat="1">
 
                     </pl.bclogic.pulsator4droid.library.PulsatorLayout>
@@ -119,11 +120,12 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <pl.bclogic.pulsator4droid.library.PulsatorLayout
-                        android:id="@+id/pulsReleaseQuarter"
+                        android:id="@+id/plsReleaseQuarter"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:pulse_color="@android:color/holo_blue_light"
                         app:pulse_count="1"
-                        app:pulse_duration="500"
+                        app:pulse_duration="400"
                         app:pulse_repeat="1">
 
                     </pl.bclogic.pulsator4droid.library.PulsatorLayout>
@@ -147,11 +149,12 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <pl.bclogic.pulsator4droid.library.PulsatorLayout
-                        android:id="@+id/pulsReleaseBall"
+                        android:id="@+id/plsReleaseBall"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:pulse_color="@android:color/holo_blue_light"
                         app:pulse_count="1"
-                        app:pulse_duration="500"
+                        app:pulse_duration="400"
                         app:pulse_repeat="1">
 
                     </pl.bclogic.pulsator4droid.library.PulsatorLayout>

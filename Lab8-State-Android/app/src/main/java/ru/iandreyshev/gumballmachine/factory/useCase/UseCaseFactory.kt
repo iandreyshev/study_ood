@@ -1,6 +1,8 @@
 package ru.iandreyshev.gumballmachine.factory.useCase
 
 import ru.iandreyshev.gumballmachine.machine.GumballMachine
+import ru.iandreyshev.gumballmachine.machine.GumballMachineError
+import ru.iandreyshev.gumballmachine.machine.IMachineEventsHandler
 import ru.iandreyshev.gumballmachine.presenter.interfaces.IMachinePresenter
 import ru.iandreyshev.gumballmachine.presenter.interfaces.IPresenter
 import ru.iandreyshev.gumballmachine.presenter.interfaces.ISettingsPresenter
@@ -17,7 +19,9 @@ object UseCaseFactory : IUseCaseFactory {
         return when(useCaseClass) {
             IMachineUseCase::class -> {
                 MachineUseCase(
-                        machine = GumballMachine(),
+                        machine = GumballMachine(
+                                startBallsCount = 10
+                        ),
                         presenter = presenter as IMachinePresenter)
             }
             ISettingsUseCase::class -> {

@@ -29,5 +29,5 @@ internal class NoQuarterState(
             error { message = "Please insert quarter to get the ball" }
 
     override fun dispense() =
-            error { message = "Please insert quarter to get the ball" }
+            error { message = "Sorry, I can`t dispense ball to you" }
 }

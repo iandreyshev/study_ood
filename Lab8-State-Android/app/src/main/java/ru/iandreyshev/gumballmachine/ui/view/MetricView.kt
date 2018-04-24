@@ -29,4 +29,10 @@ class MetricView @JvmOverloads constructor(
             metric.textSize = getDimension(R.styleable.MetricView_metric_size, DEFAULT_METRIC_SIZE)
         }
     }
+
+    var value: CharSequence
+        get() = metric.text
+        set(value) {
+            metric.text = value
+        }
 }

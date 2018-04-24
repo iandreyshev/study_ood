@@ -3,13 +3,14 @@ package ru.iandreyshev.gumballmachine.machine
 import ru.iandreyshev.gumballmachine.machine.state.*
 
 class GumballMachine(
-        private var startBallsCount: Int = 0,
-        private val eventsHandler: IMachineEventsHandler = object : IMachineEventsHandler {}
+        private var startBallsCount: Int = 0
 ) : IGumballMachine {
     companion object {
         private const val MAX_BALLS_COUNT = Int.MAX_VALUE
         private const val MAX_INSERTED_QUARTERS = 5
     }
+
+    override var eventsHandler: IMachineEventsHandler = object : IMachineEventsHandler {}
 
     private var mBallsCount = startBallsCount
     private var mInsertedQuartersCount = 0
@@ -17,10 +18,10 @@ class GumballMachine(
     private lateinit var mCurrentState: MachineState
 
     private val mContext = GumballMachineContext()
-    private val mHasQuarterState: MachineState = HasQuarterState(mContext, eventsHandler::onError)
-    private val mNoQuarterState: MachineState = NoQuarterState(mContext, eventsHandler::onError)
-    private val mSoldOutState: MachineState = SoldOutState(mContext, eventsHandler::onError)
-    private val mSoldState: MachineState = SoldState(mContext, eventsHandler::onError)
+    private val mHasQuarterState: MachineState = HasQuarterState(mContext, ::onError)
+    private val mNoQuarterState: MachineState = NoQuarterState(mContext, ::onError)
+    private val mSoldOutState: MachineState = SoldOutState(mContext, ::onError)
+    private val mSoldState: MachineState = SoldState(mContext, ::onError)
 
     init {
         reset()
@@ -36,7 +37,7 @@ class GumballMachine(
     override fun fill(newBallsCount: Int) {
         mBallsCount = newBallsCount.coerceIn(0, MAX_BALLS_COUNT)
 
-        if (mBallsCount == 0) {
+        if (mBallsCount <= 0) {
             mContext.setSoldOutState()
         } else {
             mContext.setNoQuarterState()
@@ -59,6 +60,10 @@ class GumballMachine(
         mInsertedQuartersCount = 0
         mTotalQuartersCount = 0
         fill(mBallsCount)
+    }
+
+    private fun onError(error: GumballMachineError) {
+        eventsHandler.onError(error)
     }
 
     inner class GumballMachineContext : IGumballMachineContext {
