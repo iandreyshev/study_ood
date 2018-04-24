@@ -13,7 +13,7 @@ import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
 import ru.iandreyshev.gumballmachine.viewModel.abstractions.AbstractViewModel
 import kotlin.reflect.KClass
 
-abstract class BaseActivity<TInteractor : IInteractor<*>, in TViewModel : AbstractViewModel>(
+abstract class BaseActivity<TInteractor : IInteractor<*>, in TViewModel : AbstractViewModel<TInteractor>>(
         private val modelClass: KClass<TViewModel>,
         @LayoutRes private val layout: Int
 ) : AppCompatActivity() {

@@ -6,8 +6,7 @@ import ru.iandreyshev.gumballmachine.viewModel.abstractions.AbstractMachineViewM
 
 class MainActivity : BaseActivity<IMachineInteractor, AbstractMachineViewModel>(
         AbstractMachineViewModel::class,
-        R.layout.activity_main
-) {
+        R.layout.activity_main) {
     override fun onProvideViewModel(viewModel: AbstractMachineViewModel) {
     }
 }
