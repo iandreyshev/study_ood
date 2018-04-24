@@ -1,6 +1,5 @@
 package ru.iandreyshev.gumballmachine.presenter.interfaces
 
-import ru.iandreyshev.gumballmachine.interactor.interfaces.ISettingsInteractor
-import ru.iandreyshev.gumballmachine.viewModel.abstractions.AbstractSettingsViewModel
+import ru.iandreyshev.gumballmachine.viewModel.interfaces.ISettingsViewModel
 
-interface ISettingsPresenter : IPresenter<AbstractSettingsViewModel>
+interface ISettingsPresenter : IPresenter<ISettingsViewModel>

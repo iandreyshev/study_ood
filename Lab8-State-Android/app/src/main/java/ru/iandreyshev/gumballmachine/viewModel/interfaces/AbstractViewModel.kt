@@ -1,4 +1,4 @@
-package ru.iandreyshev.gumballmachine.viewModel.abstractions
+package ru.iandreyshev.gumballmachine.viewModel.interfaces
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel

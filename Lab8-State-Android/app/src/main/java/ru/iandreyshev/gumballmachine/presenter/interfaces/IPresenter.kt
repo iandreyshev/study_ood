@@ -1,7 +1,7 @@
 package ru.iandreyshev.gumballmachine.presenter.interfaces
 
-import ru.iandreyshev.gumballmachine.viewModel.abstractions.AbstractViewModel
+import ru.iandreyshev.gumballmachine.viewModel.interfaces.AbstractViewModel
 
-interface IPresenter<TViewModel : AbstractViewModel<*>> {
-    var viewModel: TViewModel?
+interface IPresenter<out TViewModel : AbstractViewModel<*>> {
+    val viewModel: TViewModel?
 }

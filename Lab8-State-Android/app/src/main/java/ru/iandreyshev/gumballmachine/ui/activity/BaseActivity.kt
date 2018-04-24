@@ -10,7 +10,7 @@ import ru.iandreyshev.gumballmachine.factory.presenter.PresenterFactory
 import ru.iandreyshev.gumballmachine.factory.useCase.UseCaseFactory
 import ru.iandreyshev.gumballmachine.factory.viewModel.CleanArchitectureFactory
 import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
-import ru.iandreyshev.gumballmachine.viewModel.abstractions.AbstractViewModel
+import ru.iandreyshev.gumballmachine.viewModel.interfaces.AbstractViewModel
 import kotlin.reflect.KClass
 
 abstract class BaseActivity<TInteractor : IInteractor<*>, in TViewModel : AbstractViewModel<TInteractor>>(

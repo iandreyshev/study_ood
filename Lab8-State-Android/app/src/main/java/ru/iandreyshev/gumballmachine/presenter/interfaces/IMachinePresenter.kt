@@ -1,5 +1,5 @@
 package ru.iandreyshev.gumballmachine.presenter.interfaces
 
-import ru.iandreyshev.gumballmachine.viewModel.abstractions.AbstractMachineViewModel
+import ru.iandreyshev.gumballmachine.viewModel.interfaces.IMachineViewModel
 
-interface IMachinePresenter : IPresenter<AbstractMachineViewModel>
+interface IMachinePresenter : IPresenter<IMachineViewModel>

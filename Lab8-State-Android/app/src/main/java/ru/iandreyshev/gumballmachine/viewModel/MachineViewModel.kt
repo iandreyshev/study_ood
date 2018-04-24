@@ -1,6 +1,6 @@
 package ru.iandreyshev.gumballmachine.viewModel
 
 import android.app.Application
-import ru.iandreyshev.gumballmachine.viewModel.abstractions.AbstractMachineViewModel
+import ru.iandreyshev.gumballmachine.viewModel.interfaces.IMachineViewModel
 
-class MachineViewModel(app: Application) : AbstractMachineViewModel(app)
+class MachineViewModel(app: Application) : IMachineViewModel(app)

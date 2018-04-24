@@ -1,8 +1,6 @@
 package ru.iandreyshev.gumballmachine.presenter
 
 import ru.iandreyshev.gumballmachine.presenter.interfaces.ISettingsPresenter
-import ru.iandreyshev.gumballmachine.viewModel.abstractions.AbstractSettingsViewModel
+import ru.iandreyshev.gumballmachine.viewModel.interfaces.ISettingsViewModel
 
-class SettingsPresenter : ISettingsPresenter {
-    override var viewModel: AbstractSettingsViewModel? = null
-}
+class SettingsPresenter(override val viewModel: ISettingsViewModel?) : ISettingsPresenter

@@ -3,19 +3,24 @@ package ru.iandreyshev.gumballmachine.factory.interactor
 import ru.iandreyshev.gumballmachine.interactor.MachineInteractor
 import ru.iandreyshev.gumballmachine.interactor.SettingsInteractor
 import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
+import ru.iandreyshev.gumballmachine.interactor.interfaces.IMachineInteractor
+import ru.iandreyshev.gumballmachine.interactor.interfaces.ISettingsInteractor
+import ru.iandreyshev.gumballmachine.useCase.interfaces.IMachineUseCase
+import ru.iandreyshev.gumballmachine.useCase.interfaces.ISettingsUseCase
+import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
 import kotlin.reflect.KClass
 
 object InteractorFactory : IInteractorFactory {
     override fun <TInteractor : IInteractor<*>>
-            create(interactorClass: KClass<TInteractor>): TInteractor {
+            create(interactorClass: KClass<TInteractor>, useCase: IUseCase<*>): TInteractor {
         return when (interactorClass) {
-            MachineInteractor::class -> {
-                MachineInteractor()
+            IMachineInteractor::class -> {
+                MachineInteractor(useCase as IMachineUseCase)
             }
-            SettingsInteractor::class -> {
-                SettingsInteractor()
+            ISettingsInteractor::class -> {
+                SettingsInteractor(useCase as ISettingsUseCase)
             }
-            else -> throw IllegalArgumentException("Unknown interactor class")
+            else -> throw IllegalArgumentException("Unknown interactor class ${interactorClass.qualifiedName}")
         } as TInteractor
     }
 }
