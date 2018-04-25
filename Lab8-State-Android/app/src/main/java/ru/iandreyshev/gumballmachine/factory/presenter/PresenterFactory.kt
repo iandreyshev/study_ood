@@ -11,8 +11,8 @@ import ru.iandreyshev.gumballmachine.viewModel.interfaces.AbstractViewModel
 import kotlin.reflect.KClass
 
 object PresenterFactory : IPresenterFactory {
-    override fun <TPresenter : IPresenter<AbstractViewModel<*>>>
-            create(presenterClass: KClass<TPresenter>, viewModel: AbstractViewModel<*>?): IPresenter<AbstractViewModel<*>> {
+    override fun <TPresenter : IPresenter>
+            create(presenterClass: KClass<TPresenter>, viewModel: AbstractViewModel<*>?): IPresenter {
         return when (presenterClass) {
             IMachinePresenter::class -> {
                 MachinePresenter(viewModel as IMachineViewModel)

@@ -7,7 +7,7 @@ import ru.iandreyshev.gumballmachine.presenter.interfaces.IMachinePresenter
 import ru.iandreyshev.gumballmachine.useCase.interfaces.IMachineUseCase
 
 class MachineUseCase(
-        override var presenter: IMachinePresenter?,
+        private var presenter: IMachinePresenter,
         private val machine: IGumballMachine
 ) : IMachineUseCase {
     init {

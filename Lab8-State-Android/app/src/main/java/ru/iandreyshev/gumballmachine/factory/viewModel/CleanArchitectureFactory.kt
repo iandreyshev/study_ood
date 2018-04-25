@@ -17,7 +17,6 @@ import ru.iandreyshev.gumballmachine.useCase.interfaces.ISettingsUseCase
 import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
 import ru.iandreyshev.gumballmachine.viewModel.MachineViewModel
 import ru.iandreyshev.gumballmachine.viewModel.SettingsViewModel
-import ru.iandreyshev.gumballmachine.viewModel.interfaces.IMachineViewModel
 import ru.iandreyshev.gumballmachine.viewModel.interfaces.AbstractViewModel
 import kotlin.reflect.KClass
 
@@ -29,7 +28,7 @@ class CleanArchitectureFactory(
 ) : ViewModelProvider.Factory {
     override fun <TViewModel : ViewModel?> create(modelClass: Class<TViewModel>): TViewModel =
             when (modelClass) {
-                IMachineViewModel::class.java -> injectDependencies(
+                MachineViewModel::class.java -> injectDependencies(
                         viewModel = MachineViewModel(application),
                         interactorClass = IMachineInteractor::class,
                         presenterClass = IMachinePresenter::class,
@@ -45,9 +44,9 @@ class CleanArchitectureFactory(
             } as TViewModel
 
     private fun <
-            TInteractor : IInteractor<*>,
-            TPresenter : IPresenter<*>,
-            TUseCase : IUseCase<*>>
+            TInteractor : IInteractor,
+            TPresenter : IPresenter,
+            TUseCase : IUseCase>
 
             injectDependencies(
 
