@@ -3,7 +3,7 @@ package ru.iandreyshev.gumballmachine.machine
 interface IMachineEventsHandler {
     fun onReleaseBall() {}
 
-    fun onReleaseQuarter() {}
+    fun onReleaseCoins() {}
 
     fun onError(error: GumballMachineError) {}
 }

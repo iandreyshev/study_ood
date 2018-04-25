@@ -7,19 +7,19 @@ class GumballMachine(
 ) : IGumballMachine {
     companion object {
         private const val MAX_BALLS_COUNT = Int.MAX_VALUE
-        private const val MAX_INSERTED_QUARTERS = 5
+        private const val MAX_INSERTED_COINS = 5
     }
 
     override var eventsHandler: IMachineEventsHandler = object : IMachineEventsHandler {}
 
     private var mBallsCount = startBallsCount
-    private var mInsertedQuartersCount = 0
-    private var mTotalQuartersCount = 0
+    private var mInsertedCoinsCount = 0
+    private var mTotalCoinsCount = 0
     private lateinit var mCurrentState: MachineState
 
     private val mContext = GumballMachineContext()
-    private val mHasQuarterState: MachineState = HasQuarterState(mContext, ::onError)
-    private val mNoQuarterState: MachineState = NoQuarterState(mContext, ::onError)
+    private val mHasCoinState: MachineState = HasCoinState(mContext, ::onError)
+    private val mNoCoinState: MachineState = NoCoinState(mContext, ::onError)
     private val mSoldOutState: MachineState = SoldOutState(mContext, ::onError)
     private val mSoldState: MachineState = SoldState(mContext, ::onError)
 
@@ -30,25 +30,25 @@ class GumballMachine(
     override val data: GumballMachineData
         get() = GumballMachineData(
                 ballsCount = mBallsCount,
-                insertedQuartersCount = mInsertedQuartersCount,
-                totalQuartersCount = mTotalQuartersCount,
-                maxQuartersCount = MAX_INSERTED_QUARTERS)
+                insertedCoinsCount = mInsertedCoinsCount,
+                totalCoinsCount = mTotalCoinsCount,
+                maxCoinsCount = MAX_INSERTED_COINS)
 
     override fun fill(newBallsCount: Int) {
-        mBallsCount = newBallsCount.coerceIn(0, MAX_BALLS_COUNT)
+        mBallsCount += newBallsCount.coerceIn(0, MAX_BALLS_COUNT)
 
-        if (mBallsCount <= 0) {
-            mContext.setSoldOutState()
-        } else {
-            mContext.setNoQuarterState()
+        when {
+            mBallsCount <= 0 -> mContext.setSoldOutState()
+            mInsertedCoinsCount <= 0 -> mContext.setNoCoinState()
+            else -> mContext.setHasCoinState()
         }
     }
 
-    override fun insertQuarter() =
-            mCurrentState.insertQuarter()
+    override fun insertCoin() =
+            mCurrentState.insertCoin()
 
-    override fun ejectQuarter() =
-            mCurrentState.ejectQuarter()
+    override fun ejectCoin() =
+            mCurrentState.ejectCoin()
 
     override fun turnCrank() {
         mCurrentState.turnCrank()
@@ -56,10 +56,10 @@ class GumballMachine(
     }
 
     override fun reset() {
-        mBallsCount = startBallsCount
-        mInsertedQuartersCount = 0
-        mTotalQuartersCount = 0
-        fill(mBallsCount)
+        mBallsCount = 0
+        mInsertedCoinsCount = 0
+        mTotalCoinsCount = 0
+        fill(startBallsCount)
     }
 
     private fun onError(error: GumballMachineError) {
@@ -75,29 +75,40 @@ class GumballMachine(
             eventsHandler.onReleaseBall()
         }
 
-        override fun insertQuarter() {
-            ++mInsertedQuartersCount
+        override fun insertCoin() {
+            ++mInsertedCoinsCount
         }
 
-        override fun releaseQuarter() {
-            --mInsertedQuartersCount
-            eventsHandler.onReleaseQuarter()
+        override fun releaseCoins() {
+            while (mInsertedCoinsCount > 0) {
+                --mInsertedCoinsCount
+            }
+            eventsHandler.onReleaseCoins()
+        }
+
+        override fun takeCoin() {
+            --mInsertedCoinsCount
+            ++mTotalCoinsCount
+        }
+
+        override fun fill(newBallsCount: Int) {
+            mBallsCount = newBallsCount
         }
 
         override fun setSoldOutState() {
             mCurrentState = mSoldOutState
         }
 
-        override fun setNoQuarterState() {
-            mCurrentState = mNoQuarterState
+        override fun setNoCoinState() {
+            mCurrentState = mNoCoinState
         }
 
         override fun setSoldState() {
             mCurrentState = mSoldState
         }
 
-        override fun setHasQuarterState() {
-            mCurrentState = mHasQuarterState
+        override fun setHasCoinState() {
+            mCurrentState = mHasCoinState
         }
     }
 }

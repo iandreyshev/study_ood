@@ -2,24 +2,31 @@ package ru.iandreyshev.gumballmachine.machine.state
 
 import ru.iandreyshev.gumballmachine.machine.GumballMachineError
 
-internal class SoldOutState(
+internal class HasCoinState(
         override val context: IGumballMachineContext,
         override val errorHandler: (GumballMachineError) -> Unit
 ) : MachineState() {
-    override fun insertCoin() =
-            error { message = "You can't insert a quarter, the machine is sold out" }
-
-    override fun ejectCoin() {
-        if (!isCoinInserted) {
-            error { message = "You can't eject, you haven't inserted a quarter yet" }
+    override fun insertCoin() {
+        if (isMaxCoinsInserted) {
+            error { message = "Inserted max coins" }
             return
         }
 
-        context.releaseCoins()
+        context.insertCoin()
     }
 
-    override fun turnCrank() =
-            error { message = "You turned but there's no gumballs" }
+    override fun ejectCoin() {
+        context.releaseCoins()
+
+        if (!isCoinInserted) {
+            context.setNoCoinState()
+        }
+    }
+
+    override fun turnCrank() {
+        context.takeCoin()
+        context.setSoldState()
+    }
 
     override fun dispense() =
             error { message = "No gumball dispensed" }

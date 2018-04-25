@@ -7,9 +7,9 @@ interface IGumballMachine {
 
     fun fill(newBallsCount: Int)
 
-    fun insertQuarter()
+    fun insertCoin()
 
-    fun ejectQuarter()
+    fun ejectCoin()
 
     fun turnCrank()
 

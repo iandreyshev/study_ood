@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ru.iandreyshev.gumballmachine.ui.view.MetricView
+            android:id="@+id/mvBalls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/mvTotalCoins"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:metric="Value"
+            app:metric_size="@dimen/metric_value_size"
+            app:title="@string/metric_balls"
+            app:title_size="@dimen/metric_title_size">
+
+        </ru.iandreyshev.gumballmachine.ui.view.MetricView>
+
+        <ru.iandreyshev.gumballmachine.ui.view.MetricView
+            android:id="@+id/mvTotalCoins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/mvInsertedCoins"
+            app:layout_constraintStart_toEndOf="@+id/mvBalls"
+            app:layout_constraintTop_toTopOf="parent"
+            app:metric="Value"
+            app:metric_size="@dimen/metric_value_size"
+            app:title="@string/metric_total_coins"
+            app:title_size="@dimen/metric_title_size">
+
+        </ru.iandreyshev.gumballmachine.ui.view.MetricView>
+
+        <ru.iandreyshev.gumballmachine.ui.view.MetricView
+            android:id="@+id/mvInsertedCoins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mvTotalCoins"
+            app:layout_constraintTop_toTopOf="parent"
+            app:metric="Value"
+            app:metric_size="@dimen/metric_value_size"
+            app:title="@string/metric_inserted_coins"
+            app:title_size="@dimen/metric_title_size">
+
+        </ru.iandreyshev.gumballmachine.ui.view.MetricView>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

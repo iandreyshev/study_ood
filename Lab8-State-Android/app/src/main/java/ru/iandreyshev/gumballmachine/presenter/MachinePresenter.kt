@@ -9,8 +9,8 @@ class MachinePresenter(override val viewModel: IMachineViewModel) : IMachinePres
     override fun updateMachineData(newData: GumballMachineData) {
         with(viewModel) {
             ballsCount.postValue(newData.ballsCount)
-            insertedQuartersCount.postValue(newData.insertedQuartersCount)
-            totalQuartersCount.postValue(newData.totalQuartersCount)
+            insertedCoinsCount.postValue(newData.insertedCoinsCount)
+            totalCoinsCount.postValue(newData.totalCoinsCount)
         }
     }
 

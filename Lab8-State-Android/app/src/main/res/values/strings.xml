@@ -2,7 +2,7 @@
     <string name="app_name">Gumball Machine</string>
 
     <string name="metric_balls">Balls count</string>
-    <string name="metric_inserted_quarters">Inserted quarters</string>
-    <string name="metric_total_quarters">Total quarters</string>
+    <string name="metric_inserted_coins">Inserted coins</string>
+    <string name="metric_total_coins">Total coins</string>
 
 </resources>

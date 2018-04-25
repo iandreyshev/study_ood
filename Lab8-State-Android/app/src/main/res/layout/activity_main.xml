@@ -15,8 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TableLayout
-                android:id="@+id/constraintLayout"
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
@@ -24,150 +23,142 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ru.iandreyshev.gumballmachine.ui.view.MetricView
-                    android:id="@+id/mvBalls"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
-                    app:layout_constraintEnd_toStartOf="@+id/mvTotalQuarters"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:metric="Value"
-                    app:metric_size="@dimen/metric_value_size"
-                    app:title="@string/metric_balls"
-                    app:title_size="@dimen/metric_title_size">
+                <include layout="@layout/lay_metrics" />
 
-                </ru.iandreyshev.gumballmachine.ui.view.MetricView>
+            </FrameLayout>
 
-                <ru.iandreyshev.gumballmachine.ui.view.MetricView
-                    android:id="@+id/mvTotalQuarters"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
-                    app:layout_constraintEnd_toStartOf="@+id/mvInsertedQuarters"
-                    app:layout_constraintStart_toEndOf="@+id/mvBalls"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:metric="Value"
-                    app:metric_size="@dimen/metric_value_size"
-                    app:title="@string/metric_total_quarters"
-                    app:title_size="@dimen/metric_title_size">
-
-                </ru.iandreyshev.gumballmachine.ui.view.MetricView>
-
-                <ru.iandreyshev.gumballmachine.ui.view.MetricView
-                    android:id="@+id/mvInsertedQuarters"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/mvTotalQuarters"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:metric="Value"
-                    app:metric_size="@dimen/metric_value_size"
-                    app:title="@string/metric_inserted_quarters"
-                    app:title_size="@dimen/metric_title_size">
-
-                </ru.iandreyshev.gumballmachine.ui.view.MetricView>
-
-            </TableLayout>
-
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
                 android:id="@+id/constraintLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:paddingBottom="16dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <FrameLayout
-                    android:id="@+id/frameLayout2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="h,1:1"
-                    app:layout_constraintEnd_toStartOf="@+id/frameLayout3"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:padding="10dp">
 
-                    <pl.bclogic.pulsator4droid.library.PulsatorLayout
-                        android:id="@+id/plsInsertQuarter"
-                        android:layout_width="match_parent"
+                    <FrameLayout
+                        android:id="@+id/layButton1"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        app:pulse_color="@android:color/holo_blue_light"
-                        app:pulse_count="1"
-                        app:pulse_duration="400"
-                        app:pulse_repeat="1">
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="h,1:1"
+                        app:layout_constraintEnd_toStartOf="@+id/layButton2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+                        <pl.bclogic.pulsator4droid.library.PulsatorLayout
+                            android:id="@+id/plsInsertCoin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:pulse_color="@android:color/holo_blue_light"
+                            app:pulse_count="1"
+                            app:pulse_duration="400"
+                            app:pulse_repeat="1">
 
-                    <ImageButton
-                        android:id="@+id/btnInsertQuarter"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/ic_money" />
+                        </pl.bclogic.pulsator4droid.library.PulsatorLayout>
 
-                </FrameLayout>
+                        <ImageButton
+                            android:id="@+id/btnInsertCoin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/ic_money" />
 
-                <FrameLayout
-                    android:id="@+id/frameLayout3"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="h,1:1"
-                    app:layout_constraintEnd_toStartOf="@+id/frameLayout"
-                    app:layout_constraintStart_toEndOf="@+id/frameLayout2"
-                    app:layout_constraintTop_toTopOf="parent">
+                    </FrameLayout>
 
-                    <pl.bclogic.pulsator4droid.library.PulsatorLayout
-                        android:id="@+id/plsReleaseQuarter"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:pulse_color="@android:color/holo_blue_light"
-                        app:pulse_count="1"
-                        app:pulse_duration="400"
-                        app:pulse_repeat="1">
+                    <FrameLayout
+                        android:id="@+id/layButton2"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="h,1:1"
+                        app:layout_constraintEnd_toStartOf="@+id/layButton3"
+                        app:layout_constraintStart_toEndOf="@+id/layButton1"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+                        <pl.bclogic.pulsator4droid.library.PulsatorLayout
+                            android:id="@+id/plsReleaseCoin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:pulse_color="@android:color/holo_blue_light"
+                            app:pulse_count="1"
+                            app:pulse_duration="400"
+                            app:pulse_repeat="1">
 
-                    <ImageButton
-                        android:id="@+id/btnReleaseQuarter"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/ic_money_off_black_24dp" />
+                        </pl.bclogic.pulsator4droid.library.PulsatorLayout>
 
-                </FrameLayout>
+                        <ImageButton
+                            android:id="@+id/btnReleaseCoin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/ic_money_off_black_24dp" />
 
-                <FrameLayout
-                    android:id="@+id/frameLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="h,1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/frameLayout3"
-                    app:layout_constraintTop_toTopOf="parent">
+                    </FrameLayout>
 
-                    <pl.bclogic.pulsator4droid.library.PulsatorLayout
-                        android:id="@+id/plsReleaseBall"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:pulse_color="@android:color/holo_blue_light"
-                        app:pulse_count="1"
-                        app:pulse_duration="400"
-                        app:pulse_repeat="1">
+                    <FrameLayout
+                        android:id="@+id/layButton3"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="h,1:1"
+                        app:layout_constraintEnd_toStartOf="@+id/layButton4"
+                        app:layout_constraintStart_toEndOf="@+id/layButton2"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+                        <pl.bclogic.pulsator4droid.library.PulsatorLayout
+                            android:id="@+id/plsFill"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:pulse_color="@android:color/holo_blue_light"
+                            app:pulse_count="1"
+                            app:pulse_duration="400"
+                            app:pulse_repeat="1">
 
-                    <ImageButton
-                        android:id="@+id/btnReleaseBall"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/ic_child_care_black_24dp" />
+                        </pl.bclogic.pulsator4droid.library.PulsatorLayout>
 
-                </FrameLayout>
+                        <ImageButton
+                            android:id="@+id/btnFill"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/ic_refresh_black_24dp" />
 
-            </android.support.constraint.ConstraintLayout>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/layButton4"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="h,1:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/layButton3"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <pl.bclogic.pulsator4droid.library.PulsatorLayout
+                            android:id="@+id/plsReleaseBall"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:pulse_color="@android:color/holo_blue_light"
+                            app:pulse_count="1"
+                            app:pulse_duration="400"
+                            app:pulse_repeat="1">
+
+                        </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+
+                        <ImageButton
+                            android:id="@+id/btnReleaseBall"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/ic_child_care_black_24dp" />
+
+                    </FrameLayout>
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.v7.widget.CardView>
 
         </android.support.constraint.ConstraintLayout>
 

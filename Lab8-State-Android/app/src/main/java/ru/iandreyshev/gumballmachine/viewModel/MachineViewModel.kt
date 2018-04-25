@@ -5,8 +5,8 @@ import android.arch.lifecycle.MutableLiveData
 import ru.iandreyshev.gumballmachine.viewModel.interfaces.IMachineViewModel
 
 class MachineViewModel(app: Application) : IMachineViewModel(app) {
-    override val totalQuartersCount: MutableLiveData<Int> = MutableLiveData()
-    override val insertedQuartersCount: MutableLiveData<Int> = MutableLiveData()
+    override val totalCoinsCount: MutableLiveData<Int> = MutableLiveData()
+    override val insertedCoinsCount: MutableLiveData<Int> = MutableLiveData()
     override val ballsCount: MutableLiveData<Int> = MutableLiveData()
 
     override var onErrorListener: ((String) -> Unit) = {}

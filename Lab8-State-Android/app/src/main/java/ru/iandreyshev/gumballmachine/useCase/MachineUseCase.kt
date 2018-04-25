@@ -15,11 +15,13 @@ class MachineUseCase(
         actionWrap {}
     }
 
-    override fun insertQuarter() = actionWrap { machine.insertQuarter() }
+    override fun insertCoin() = actionWrap { machine.insertCoin() }
 
     override fun turnCrank() = actionWrap { machine.turnCrank() }
 
-    override fun removeQuarter() = actionWrap { machine.ejectQuarter() }
+    override fun removeCoin() = actionWrap { machine.ejectCoin() }
+
+    override fun fill(newBallsCount: Int) = actionWrap { machine.fill(newBallsCount) }
 
     override fun reset() = actionWrap { machine.reset() }
 

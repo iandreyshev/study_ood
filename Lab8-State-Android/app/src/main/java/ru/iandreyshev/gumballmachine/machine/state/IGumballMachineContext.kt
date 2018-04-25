@@ -7,15 +7,19 @@ internal interface IGumballMachineContext {
 
     fun releaseBall()
 
-    fun insertQuarter()
+    fun insertCoin()
 
-    fun releaseQuarter()
+    fun releaseCoins()
+
+    fun takeCoin()
+
+    fun fill(newBallsCount: Int)
 
     fun setSoldOutState()
 
-    fun setNoQuarterState()
+    fun setNoCoinState()
 
     fun setSoldState()
 
-    fun setHasQuarterState()
+    fun setHasCoinState()
 }

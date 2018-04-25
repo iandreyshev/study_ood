@@ -3,11 +3,13 @@ package ru.iandreyshev.gumballmachine.useCase.interfaces
 import ru.iandreyshev.gumballmachine.presenter.interfaces.IMachinePresenter
 
 interface IMachineUseCase : IUseCase<IMachinePresenter> {
-    fun insertQuarter()
+    fun insertCoin()
 
     fun turnCrank()
 
-    fun removeQuarter()
+    fun removeCoin()
+
+    fun fill(newBallsCount: Int)
 
     fun reset()
 }

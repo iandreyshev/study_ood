@@ -7,18 +7,20 @@ internal abstract class MachineState {
 
     protected open val errorHandler: (GumballMachineError) -> Unit = {}
 
-    protected val isMaxQuartersInserted: Boolean
-        get() = context.data.maxQuartersCount <= context.data.insertedQuartersCount
+    protected val isMaxCoinsInserted: Boolean
+        get() = context.data.maxCoinsCount <= context.data.insertedCoinsCount
 
-    protected val isQuarterInserted: Boolean
-        get() = context.data.insertedQuartersCount > 0
+    protected val isCoinInserted: Boolean
+        get() = context.data.insertedCoinsCount > 0
 
     protected val isBallsExist: Boolean
         get() = context.data.ballsCount > 0
 
-    abstract fun insertQuarter()
+    abstract fun fill(newBallsCount: Int)
 
-    abstract fun ejectQuarter()
+    abstract fun insertCoin()
+
+    abstract fun ejectCoin()
 
     abstract fun turnCrank()
 

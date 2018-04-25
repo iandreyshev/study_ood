@@ -6,16 +6,20 @@ import ru.iandreyshev.gumballmachine.useCase.interfaces.IMachineUseCase
 class MachineInteractor(
         override val useCase: IMachineUseCase?
 ) : IMachineInteractor {
-    override fun insertQuarter() {
-        useCase?.insertQuarter()
+    override fun insertCoin() {
+        useCase?.insertCoin()
     }
 
     override fun turnCrank() {
         useCase?.turnCrank()
     }
 
-    override fun removeQuarter() {
-        useCase?.removeQuarter()
+    override fun removeCoin() {
+        useCase?.removeCoin()
+    }
+
+    override fun fill(newBallsCount: Int) {
+        useCase?.fill(newBallsCount)
     }
 
     override fun reset() {

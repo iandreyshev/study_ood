@@ -1,7 +1,10 @@
 package ru.iandreyshev.gumballmachine.ui.activity
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_fill.view.*
+import kotlinx.android.synthetic.main.lay_metrics.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 import pl.bclogic.pulsator4droid.library.PulsatorLayout
@@ -16,21 +19,36 @@ class MainActivity : BaseActivity<IMachineInteractor, IMachineViewModel>(
     override fun onProvideViewModel(viewModel: IMachineViewModel) {
         with(viewModel) {
             ballsCount.observe(this@MainActivity::updateBallsCount)
-            insertedQuartersCount.observe(this@MainActivity::updateInsertedQuartersCount)
-            totalQuartersCount.observe(this@MainActivity::updateTotalQuartersCount)
+            insertedCoinsCount.observe(this@MainActivity::updateInsertedCoinsCount)
+            totalCoinsCount.observe(this@MainActivity::updateTotalCoinsCount)
             onErrorListener = { handleError(it) }
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        btnInsertQuarter.setOnClickListener {
-            interactor?.insertQuarter()
-            plsInsertQuarter.restart()
+        btnInsertCoin.setOnClickListener {
+            interactor?.insertCoin()
+            plsInsertCoin.restart()
         }
 
-        btnReleaseQuarter.setOnClickListener {
-            interactor?.removeQuarter()
-            plsReleaseQuarter.restart()
+        btnReleaseCoin.setOnClickListener {
+            interactor?.removeCoin()
+            plsReleaseCoin.restart()
+        }
+
+        btnFill.setOnClickListener {
+            plsFill.restart()
+            alert {
+                title = "Fill the machine"
+                val view = LayoutInflater.from(this@MainActivity)
+                        .inflate(R.layout.dialog_fill, null)
+                customView = view
+                isCancelable = false
+                positiveButton("Fill") {
+                    interactor?.fill(view.sbBallsCount.progress)
+                }
+                negativeButton("Cancel") { it.dismiss() }
+            }.show()
         }
 
         btnReleaseBall.setOnClickListener {
@@ -48,12 +66,12 @@ class MainActivity : BaseActivity<IMachineInteractor, IMachineViewModel>(
         mvBalls.value = value.toString()
     }
 
-    private fun updateInsertedQuartersCount(value: Int?) {
-        mvInsertedQuarters.value = value.toString()
+    private fun updateInsertedCoinsCount(value: Int?) {
+        mvInsertedCoins.value = value.toString()
     }
 
-    private fun updateTotalQuartersCount(value: Int?) {
-        mvTotalQuarters.value = value.toString()
+    private fun updateTotalCoinsCount(value: Int?) {
+        mvTotalCoins.value = value.toString()
     }
 
     private fun handleError(message: String) {
