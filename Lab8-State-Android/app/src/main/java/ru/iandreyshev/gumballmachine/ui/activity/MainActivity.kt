@@ -10,13 +10,13 @@ import org.jetbrains.anko.okButton
 import pl.bclogic.pulsator4droid.library.PulsatorLayout
 import ru.iandreyshev.gumballmachine.R
 import ru.iandreyshev.gumballmachine.interactor.interfaces.IMachineInteractor
-import ru.iandreyshev.gumballmachine.viewModel.interfaces.IMachineViewModel
+import ru.iandreyshev.gumballmachine.viewModel.MachineViewModel
 
-class MainActivity : BaseActivity<IMachineInteractor, IMachineViewModel>(
-        IMachineViewModel::class,
+class MainActivity : BaseActivity<IMachineInteractor, MachineViewModel>(
+        MachineViewModel::class,
         R.layout.activity_main) {
 
-    override fun onProvideViewModel(viewModel: IMachineViewModel) {
+    override fun onProvideViewModel(viewModel: MachineViewModel) {
         with(viewModel) {
             ballsCount.observe(::updateBallsCount)
             insertedCoinsCount.observe(::updateInsertedCoinsCount)

@@ -11,8 +11,8 @@ import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
 import kotlin.reflect.KClass
 
 object InteractorFactory : IInteractorFactory {
-    override fun <TInteractor : IInteractor<*>>
-            create(interactorClass: KClass<TInteractor>, useCase: IUseCase<*>): IInteractor<*> {
+    override fun <TInteractor : IInteractor>
+            create(interactorClass: KClass<TInteractor>, useCase: IUseCase): IInteractor {
         return when (interactorClass) {
             IMachineInteractor::class -> {
                 MachineInteractor(useCase as IMachineUseCase)

@@ -16,7 +16,7 @@ import ru.iandreyshev.gumballmachine.ui.analytics.IAnalyticsLogger
 import ru.iandreyshev.gumballmachine.viewModel.interfaces.AbstractViewModel
 import kotlin.reflect.KClass
 
-abstract class BaseActivity<TInteractor : IInteractor<*>, in TViewModel : AbstractViewModel<TInteractor>>(
+abstract class BaseActivity<TInteractor : IInteractor, in TViewModel : AbstractViewModel<TInteractor>>(
         private val modelClass: KClass<TViewModel>,
         @LayoutRes private val layout: Int
 ) : AppCompatActivity() {

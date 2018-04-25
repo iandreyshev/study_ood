@@ -1,3 +1,3 @@
 package ru.iandreyshev.gumballmachine.viewModel.interfaces
 
-interface ISettingsViewModel
+interface IViewModel
