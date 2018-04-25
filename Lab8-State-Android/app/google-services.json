@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "549556640028",
+    "firebase_url": "https://lab8-state-android.firebaseio.com",
+    "project_id": "lab8-state-android",
+    "storage_bucket": "lab8-state-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:549556640028:android:335412c522b48be8",
+        "android_client_info": {
+          "package_name": "ru.iandreyshev.gumballmachine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "549556640028-22p3e53gd48nvmu76su34dpd07p7k571.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.iandreyshev.gumballmachine",
+            "certificate_hash": "d9ff56b7aae0687d1b56dc89344216c68a3574d6"
+          }
+        },
+        {
+          "client_id": "549556640028-5k3lmdft42919ejeknrpbsh519vppprk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT-th0pAqkIy_o-I7Fsn4yvE6EBrQtnGo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "549556640028-5k3lmdft42919ejeknrpbsh519vppprk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

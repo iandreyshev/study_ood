@@ -18,9 +18,9 @@ class MainActivity : BaseActivity<IMachineInteractor, IMachineViewModel>(
 
     override fun onProvideViewModel(viewModel: IMachineViewModel) {
         with(viewModel) {
-            ballsCount.observe(this@MainActivity::updateBallsCount)
-            insertedCoinsCount.observe(this@MainActivity::updateInsertedCoinsCount)
-            totalCoinsCount.observe(this@MainActivity::updateTotalCoinsCount)
+            ballsCount.observe(::updateBallsCount)
+            insertedCoinsCount.observe(::updateInsertedCoinsCount)
+            totalCoinsCount.observe(::updateTotalCoinsCount)
             onErrorListener = { handleError(it) }
         }
     }
@@ -28,16 +28,17 @@ class MainActivity : BaseActivity<IMachineInteractor, IMachineViewModel>(
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         btnInsertCoin.setOnClickListener {
             interactor?.insertCoin()
-            plsInsertCoin.restart()
+            plsInsertCoin.onClick()
         }
 
         btnReleaseCoin.setOnClickListener {
             interactor?.removeCoin()
-            plsReleaseCoin.restart()
+            plsReleaseCoin.onClick()
         }
 
         btnFill.setOnClickListener {
-            plsFill.restart()
+            analyticsLogger.onStartFillMachine()
+            plsFill.onClick()
             alert {
                 title = "Fill the machine"
                 val view = LayoutInflater.from(this@MainActivity)
@@ -53,7 +54,7 @@ class MainActivity : BaseActivity<IMachineInteractor, IMachineViewModel>(
 
         btnReleaseBall.setOnClickListener {
             interactor?.turnCrank()
-            plsReleaseBall.restart()
+            plsReleaseBall.onClick()
         }
 
         layRefresh.setOnRefreshListener {
@@ -82,7 +83,7 @@ class MainActivity : BaseActivity<IMachineInteractor, IMachineViewModel>(
         }.show()
     }
 
-    private fun PulsatorLayout.restart() {
+    private fun PulsatorLayout.onClick() {
         stop()
         start()
     }

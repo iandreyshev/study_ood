@@ -11,6 +11,8 @@ import ru.iandreyshev.gumballmachine.factory.presenter.PresenterFactory
 import ru.iandreyshev.gumballmachine.factory.useCase.UseCaseFactory
 import ru.iandreyshev.gumballmachine.factory.viewModel.CleanArchitectureFactory
 import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
+import ru.iandreyshev.gumballmachine.ui.analytics.FirebaseAnalyticsLogger
+import ru.iandreyshev.gumballmachine.ui.analytics.IAnalyticsLogger
 import ru.iandreyshev.gumballmachine.viewModel.interfaces.AbstractViewModel
 import kotlin.reflect.KClass
 
@@ -19,12 +21,16 @@ abstract class BaseActivity<TInteractor : IInteractor<*>, in TViewModel : Abstra
         @LayoutRes private val layout: Int
 ) : AppCompatActivity() {
     protected var interactor: TInteractor? = null
+    protected lateinit var analyticsLogger: IAnalyticsLogger
 
     protected abstract fun onProvideViewModel(viewModel: TViewModel)
 
     protected open fun onActivityCreated(savedInstanceState: Bundle?) {
         // skip
     }
+
+    protected open fun provideAnalyticsLogger(): IAnalyticsLogger =
+            FirebaseAnalyticsLogger(this)
 
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +50,7 @@ abstract class BaseActivity<TInteractor : IInteractor<*>, in TViewModel : Abstra
                     onProvideViewModel(it)
                 }
 
+        analyticsLogger = provideAnalyticsLogger()
         onActivityCreated(savedInstanceState)
     }
 
