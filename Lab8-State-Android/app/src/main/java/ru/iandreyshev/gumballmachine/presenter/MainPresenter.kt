@@ -2,17 +2,18 @@ package ru.iandreyshev.gumballmachine.presenter
 
 import ru.iandreyshev.gumballmachine.machine.GumballMachineData
 import ru.iandreyshev.gumballmachine.machine.GumballMachineError
-import ru.iandreyshev.gumballmachine.presenter.interfaces.IMachinePresenter
+import ru.iandreyshev.gumballmachine.presenter.interfaces.IMainPresenter
 import ru.iandreyshev.gumballmachine.viewModel.interfaces.IMachineViewModel
 
-class MachinePresenter(
+class MainPresenter(
         val viewModel: IMachineViewModel
-) : IMachinePresenter {
-    override fun updateMachineData(newData: GumballMachineData) {
+) : IMainPresenter {
+    override fun updateMachineData(data: GumballMachineData) {
         with(viewModel) {
-            updateBallsCount(newData.ballsCount)
-            updateInsertedCoisCount(newData.insertedCoinsCount)
-            updateTotalCoinsCount(newData.totalCoinsCount)
+            updateMachineName(data.name)
+            updateBallsCount(data.ballsCount)
+            updateInsertedCoinsCount(data.insertedCoinsCount)
+            updateTotalCoinsCount(data.totalCoinsCount)
         }
     }
 

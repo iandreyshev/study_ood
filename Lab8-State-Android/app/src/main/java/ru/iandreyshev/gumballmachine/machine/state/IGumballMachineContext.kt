@@ -13,7 +13,7 @@ internal interface IGumballMachineContext {
 
     fun takeCoin()
 
-    fun fill(newBallsCount: Int)
+    fun fill(ballsCount: Int)
 
     fun setSoldOutState()
 

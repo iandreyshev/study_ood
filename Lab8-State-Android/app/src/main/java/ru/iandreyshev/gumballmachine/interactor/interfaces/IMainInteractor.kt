@@ -1,6 +1,6 @@
 package ru.iandreyshev.gumballmachine.interactor.interfaces
 
-interface IMachineInteractor : IInteractor {
+interface IMainInteractor : IInteractor {
     fun insertCoin()
 
     fun turnCrank()
@@ -10,4 +10,6 @@ interface IMachineInteractor : IInteractor {
     fun fill(newBallsCount: Int)
 
     fun reset()
+
+    fun switchMachine()
 }

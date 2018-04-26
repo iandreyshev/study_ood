@@ -15,17 +15,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:layout_marginStart="32dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <TextView
+                    android:id="@+id/tvMachineName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:textAllCaps="true"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:text="Very long machine name for test this text view" />
+
                 <include layout="@layout/lay_metrics" />
 
-            </FrameLayout>
+            </LinearLayout>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/constraintLayout2"
@@ -123,7 +137,7 @@
                             android:id="@+id/btnFill"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/ic_refresh_black_24dp" />
+                            android:background="@drawable/ic_add_circle_outline_black_24dp" />
 
                     </FrameLayout>
 
@@ -133,8 +147,37 @@
                         android:layout_height="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintDimensionRatio="h,1:1"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/layButton5"
                         app:layout_constraintStart_toEndOf="@+id/layButton3"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <pl.bclogic.pulsator4droid.library.PulsatorLayout
+                            android:id="@+id/plsSwitchMachine"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:pulse_color="@android:color/holo_blue_light"
+                            app:pulse_count="1"
+                            app:pulse_duration="400"
+                            app:pulse_repeat="1">
+
+                        </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+
+                        <ImageButton
+                            android:id="@+id/btnSwitchMachine"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/ic_refresh_black_24dp" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/layButton5"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="h,1:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/layButton4"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <pl.bclogic.pulsator4droid.library.PulsatorLayout

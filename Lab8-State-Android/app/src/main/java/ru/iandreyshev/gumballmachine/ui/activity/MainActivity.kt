@@ -1,60 +1,58 @@
 package ru.iandreyshev.gumballmachine.ui.activity
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_fill.view.*
 import kotlinx.android.synthetic.main.lay_metrics.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
-import pl.bclogic.pulsator4droid.library.PulsatorLayout
 import ru.iandreyshev.gumballmachine.R
-import ru.iandreyshev.gumballmachine.interactor.interfaces.IMachineInteractor
-import ru.iandreyshev.gumballmachine.viewModel.MachineViewModel
+import ru.iandreyshev.gumballmachine.factory.CleanArchitectureFactory
+import ru.iandreyshev.gumballmachine.interactor.interfaces.IMainInteractor
+import ru.iandreyshev.gumballmachine.ui.extension.inflate
+import ru.iandreyshev.gumballmachine.ui.extension.onClick
+import ru.iandreyshev.gumballmachine.viewModel.MainViewModel
 
-class MainActivity : BaseActivity<IMachineInteractor, MachineViewModel>(
-        MachineViewModel::class,
+class MainActivity : BaseActivity<IMainInteractor, MainViewModel>(
+        CleanArchitectureFactory,
+        MainViewModel::class,
         R.layout.activity_main) {
 
-    override fun onProvideViewModel(viewModel: MachineViewModel) {
+    override fun onProvideViewModel(viewModel: MainViewModel) {
         with(viewModel) {
-            ballsCount.observe(::updateBallsCount)
-            insertedCoinsCount.observe(::updateInsertedCoinsCount)
-            totalCoinsCount.observe(::updateTotalCoinsCount)
             onErrorListener = { handleError(it) }
+            ballsCount.observe { mvBalls.value = it.toString() }
+            totalCoinsCount.observe { mvTotalCoins.value = it.toString() }
+            insertedCoinsCount.observe { mvInsertedCoins.value = it.toString() }
+            machineName.observe { tvMachineName.text = it }
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        btnInsertCoin.setOnClickListener {
+        btnInsertCoin.onClick(plsInsertCoin) {
             interactor?.insertCoin()
-            plsInsertCoin.onClick()
         }
 
-        btnReleaseCoin.setOnClickListener {
+        btnReleaseCoin.onClick(plsReleaseCoin) {
             interactor?.removeCoin()
-            plsReleaseCoin.onClick()
         }
 
-        btnFill.setOnClickListener {
-            analyticsLogger.onStartFillMachine()
-            plsFill.onClick()
+        btnReleaseBall.onClick(plsReleaseBall) {
+            interactor?.turnCrank()
+        }
+
+        btnSwitchMachine.onClick(plsSwitchMachine) {
+            interactor?.switchMachine()
+        }
+
+        btnFill.onClick(plsFill) {
             alert {
                 title = "Fill the machine"
-                val view = LayoutInflater.from(this@MainActivity)
-                        .inflate(R.layout.dialog_fill, null)
+                val view = inflate(R.layout.dialog_fill)
                 customView = view
-                isCancelable = false
-                positiveButton("Fill") {
-                    interactor?.fill(view.sbBallsCount.progress)
-                }
+                positiveButton("Fill") { interactor?.fill(view.sbBallsCount.progress) }
                 negativeButton("Cancel") { it.dismiss() }
             }.show()
-        }
-
-        btnReleaseBall.setOnClickListener {
-            interactor?.turnCrank()
-            plsReleaseBall.onClick()
         }
 
         layRefresh.setOnRefreshListener {
@@ -63,28 +61,10 @@ class MainActivity : BaseActivity<IMachineInteractor, MachineViewModel>(
         }
     }
 
-    private fun updateBallsCount(value: Int?) {
-        mvBalls.value = value.toString()
-    }
-
-    private fun updateInsertedCoinsCount(value: Int?) {
-        mvInsertedCoins.value = value.toString()
-    }
-
-    private fun updateTotalCoinsCount(value: Int?) {
-        mvTotalCoins.value = value.toString()
-    }
-
     private fun handleError(message: String) {
         alert(message) {
             title = "Error"
-            isCancelable = false
             okButton { it.dismiss() }
         }.show()
-    }
-
-    private fun PulsatorLayout.onClick() {
-        stop()
-        start()
     }
 }

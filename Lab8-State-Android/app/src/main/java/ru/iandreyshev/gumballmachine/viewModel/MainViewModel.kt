@@ -2,23 +2,29 @@ package ru.iandreyshev.gumballmachine.viewModel
 
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
-import ru.iandreyshev.gumballmachine.interactor.interfaces.IMachineInteractor
+import ru.iandreyshev.gumballmachine.interactor.interfaces.IMainInteractor
 import ru.iandreyshev.gumballmachine.viewModel.interfaces.AbstractViewModel
 import ru.iandreyshev.gumballmachine.viewModel.interfaces.IMachineViewModel
 
-class MachineViewModel(app: Application) : AbstractViewModel<IMachineInteractor>(app), IMachineViewModel {
+class MainViewModel(
+        app: Application
+) : AbstractViewModel<IMainInteractor>(app), IMachineViewModel {
 
     // OBSERVABLES
-    val totalCoinsCount: MutableLiveData<Int> = MutableLiveData()
-    val insertedCoinsCount: MutableLiveData<Int> = MutableLiveData()
-    val ballsCount: MutableLiveData<Int> = MutableLiveData()
+    val machineName = MutableLiveData<String>()
+    val totalCoinsCount = MutableLiveData<Int>()
+    val insertedCoinsCount = MutableLiveData<Int>()
+    val ballsCount = MutableLiveData<Int>()
     var onErrorListener: ((String) -> Unit) = {}
     // OBSERVABLES
+
+    override fun updateMachineName(name: String) =
+            machineName.postValue(name)
 
     override fun updateBallsCount(newCount: Int) =
             ballsCount.postValue(newCount)
 
-    override fun updateInsertedCoisCount(newCount: Int) =
+    override fun updateInsertedCoinsCount(newCount: Int) =
             insertedCoinsCount.postValue(newCount)
 
     override fun updateTotalCoinsCount(newCount: Int) =

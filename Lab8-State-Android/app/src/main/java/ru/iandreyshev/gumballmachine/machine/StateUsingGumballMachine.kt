@@ -2,26 +2,27 @@ package ru.iandreyshev.gumballmachine.machine
 
 import ru.iandreyshev.gumballmachine.machine.state.*
 
-class GumballMachine(
-        private var startBallsCount: Int = 0
+class StateUsingGumballMachine(
+        private var startBallsCount: Int
 ) : IGumballMachine {
+
     companion object {
         private const val MAX_BALLS_COUNT = Int.MAX_VALUE
         private const val MAX_INSERTED_COINS = 5
     }
 
-    override var eventsHandler: IMachineEventsHandler = object : IMachineEventsHandler {}
+    override var errorHandler = fun(_: GumballMachineError) {}
 
     private var mBallsCount = startBallsCount
     private var mInsertedCoinsCount = 0
     private var mTotalCoinsCount = 0
-    private lateinit var mCurrentState: MachineState
 
     private val mContext = GumballMachineContext()
     private val mHasCoinState: MachineState = HasCoinState(mContext, ::onError)
     private val mNoCoinState: MachineState = NoCoinState(mContext, ::onError)
     private val mSoldOutState: MachineState = SoldOutState(mContext, ::onError)
     private val mSoldState: MachineState = SoldState(mContext, ::onError)
+    private var mCurrentState: MachineState = mNoCoinState
 
     init {
         reset()
@@ -29,20 +30,14 @@ class GumballMachine(
 
     override val data: GumballMachineData
         get() = GumballMachineData(
+                name = "State pattern",
                 ballsCount = mBallsCount,
                 insertedCoinsCount = mInsertedCoinsCount,
                 totalCoinsCount = mTotalCoinsCount,
                 maxCoinsCount = MAX_INSERTED_COINS)
 
-    override fun fill(newBallsCount: Int) {
-        mBallsCount += newBallsCount.coerceIn(0, MAX_BALLS_COUNT)
-
-        when {
-            mBallsCount <= 0 -> mContext.setSoldOutState()
-            mInsertedCoinsCount <= 0 -> mContext.setNoCoinState()
-            else -> mContext.setHasCoinState()
-        }
-    }
+    override fun fill(ballsCount: Int) =
+            mCurrentState.fill(ballsCount)
 
     override fun insertCoin() =
             mCurrentState.insertCoin()
@@ -62,17 +57,15 @@ class GumballMachine(
         fill(startBallsCount)
     }
 
-    private fun onError(error: GumballMachineError) {
-        eventsHandler.onError(error)
-    }
+    private fun onError(error: GumballMachineError) =
+            errorHandler(error)
 
     inner class GumballMachineContext : IGumballMachineContext {
         override val data: GumballMachineData
-            get() = this@GumballMachine.data
+            get() = this@StateUsingGumballMachine.data
 
         override fun releaseBall() {
             --mBallsCount
-            eventsHandler.onReleaseBall()
         }
 
         override fun insertCoin() {
@@ -83,7 +76,6 @@ class GumballMachine(
             while (mInsertedCoinsCount > 0) {
                 --mInsertedCoinsCount
             }
-            eventsHandler.onReleaseCoins()
         }
 
         override fun takeCoin() {
@@ -91,8 +83,14 @@ class GumballMachine(
             ++mTotalCoinsCount
         }
 
-        override fun fill(newBallsCount: Int) {
-            mBallsCount = newBallsCount
+        override fun fill(ballsCount: Int) {
+            mBallsCount += ballsCount.coerceIn(0, MAX_BALLS_COUNT)
+
+            when {
+                mBallsCount <= 0 -> mContext.setSoldOutState()
+                mInsertedCoinsCount <= 0 -> mContext.setNoCoinState()
+                else -> mContext.setHasCoinState()
+            }
         }
 
         override fun setSoldOutState() {

@@ -1,11 +1,11 @@
 package ru.iandreyshev.gumballmachine.machine
 
 interface IGumballMachine {
-    var eventsHandler: IMachineEventsHandler
+    var errorHandler: (GumballMachineError) -> Unit
 
     val data: GumballMachineData
 
-    fun fill(newBallsCount: Int)
+    fun fill(ballsCount: Int)
 
     fun insertCoin()
 

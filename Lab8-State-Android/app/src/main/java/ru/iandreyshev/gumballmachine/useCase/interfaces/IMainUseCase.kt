@@ -1,6 +1,6 @@
 package ru.iandreyshev.gumballmachine.useCase.interfaces
 
-interface IMachineUseCase : IUseCase {
+interface IMainUseCase : IUseCase {
     fun insertCoin()
 
     fun turnCrank()
@@ -10,4 +10,6 @@ interface IMachineUseCase : IUseCase {
     fun fill(newBallsCount: Int)
 
     fun reset()
+
+    fun switchMachine()
 }
