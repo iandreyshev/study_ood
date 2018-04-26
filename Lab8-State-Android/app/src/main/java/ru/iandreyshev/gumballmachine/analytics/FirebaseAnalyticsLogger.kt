@@ -1,4 +1,4 @@
-package ru.iandreyshev.gumballmachine.ui.analytics
+package ru.iandreyshev.gumballmachine.analytics
 
 import android.content.Context
 import android.os.Bundle

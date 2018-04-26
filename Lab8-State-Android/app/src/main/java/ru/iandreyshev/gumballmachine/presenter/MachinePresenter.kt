@@ -11,7 +11,7 @@ class MachinePresenter(
     override fun updateMachineData(newData: GumballMachineData) {
         with(viewModel) {
             updateBallsCount(newData.ballsCount)
-            updateInsertedCoisCount(newData.insertedCoinsCount)
+            updateInsertedCoinsCount(newData.insertedCoinsCount)
             updateTotalCoinsCount(newData.totalCoinsCount)
         }
     }

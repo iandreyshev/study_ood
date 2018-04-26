@@ -1,6 +1,5 @@
-package ru.iandreyshev.gumballmachine.factory.presenter
+package ru.iandreyshev.gumballmachine.presenter.interfaces
 
-import ru.iandreyshev.gumballmachine.presenter.interfaces.IPresenter
 import ru.iandreyshev.gumballmachine.viewModel.interfaces.AbstractViewModel
 import kotlin.reflect.KClass
 

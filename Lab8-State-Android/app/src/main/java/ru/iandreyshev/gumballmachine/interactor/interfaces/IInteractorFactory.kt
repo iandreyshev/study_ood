@@ -1,6 +1,5 @@
-package ru.iandreyshev.gumballmachine.factory.interactor
+package ru.iandreyshev.gumballmachine.interactor.interfaces
 
-import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
 import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
 import kotlin.reflect.KClass
 

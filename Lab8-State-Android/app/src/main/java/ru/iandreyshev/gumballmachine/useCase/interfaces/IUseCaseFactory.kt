@@ -1,7 +1,6 @@
-package ru.iandreyshev.gumballmachine.factory.useCase
+package ru.iandreyshev.gumballmachine.useCase.interfaces
 
 import ru.iandreyshev.gumballmachine.presenter.interfaces.IPresenter
-import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
 import kotlin.reflect.KClass
 
 interface IUseCaseFactory {

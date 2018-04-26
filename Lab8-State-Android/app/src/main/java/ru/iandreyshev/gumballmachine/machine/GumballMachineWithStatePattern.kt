@@ -2,7 +2,7 @@ package ru.iandreyshev.gumballmachine.machine
 
 import ru.iandreyshev.gumballmachine.machine.state.*
 
-class GumballMachine(
+class GumballMachineWithStatePattern(
         private var startBallsCount: Int = 0
 ) : IGumballMachine {
     companion object {
@@ -68,7 +68,7 @@ class GumballMachine(
 
     inner class GumballMachineContext : IGumballMachineContext {
         override val data: GumballMachineData
-            get() = this@GumballMachine.data
+            get() = this@GumballMachineWithStatePattern.data
 
         override fun releaseBall() {
             --mBallsCount

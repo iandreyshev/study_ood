@@ -1,5 +1,6 @@
-package ru.iandreyshev.gumballmachine.factory.presenter
+package ru.iandreyshev.gumballmachine.factory
 
+import ru.iandreyshev.gumballmachine.presenter.interfaces.IPresenterFactory
 import ru.iandreyshev.gumballmachine.presenter.MachinePresenter
 import ru.iandreyshev.gumballmachine.presenter.SettingsPresenter
 import ru.iandreyshev.gumballmachine.presenter.interfaces.IMachinePresenter

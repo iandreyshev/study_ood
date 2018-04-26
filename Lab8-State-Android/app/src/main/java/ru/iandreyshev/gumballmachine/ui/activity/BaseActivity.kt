@@ -1,18 +1,19 @@
 package ru.iandreyshev.gumballmachine.ui.activity
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 import ru.iandreyshev.gumballmachine.app.GumballMachineApp
-import ru.iandreyshev.gumballmachine.factory.interactor.InteractorFactory
-import ru.iandreyshev.gumballmachine.factory.presenter.PresenterFactory
-import ru.iandreyshev.gumballmachine.factory.useCase.UseCaseFactory
-import ru.iandreyshev.gumballmachine.factory.viewModel.CleanArchitectureFactory
+import ru.iandreyshev.gumballmachine.factory.InteractorFactory
+import ru.iandreyshev.gumballmachine.factory.PresenterFactory
+import ru.iandreyshev.gumballmachine.factory.UseCaseFactory
+import ru.iandreyshev.gumballmachine.factory.CleanArchitectureFactory
 import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
-import ru.iandreyshev.gumballmachine.ui.analytics.FirebaseAnalyticsLogger
-import ru.iandreyshev.gumballmachine.ui.analytics.IAnalyticsLogger
+import ru.iandreyshev.gumballmachine.analytics.FirebaseAnalyticsLogger
+import ru.iandreyshev.gumballmachine.analytics.IAnalyticsLogger
 import ru.iandreyshev.gumballmachine.viewModel.interfaces.AbstractViewModel
 import kotlin.reflect.KClass
 
@@ -20,6 +21,7 @@ abstract class BaseActivity<TInteractor : IInteractor, in TViewModel : AbstractV
         private val modelClass: KClass<TViewModel>,
         @LayoutRes private val layout: Int
 ) : AppCompatActivity() {
+
     protected var interactor: TInteractor? = null
     protected lateinit var analyticsLogger: IAnalyticsLogger
 
@@ -29,6 +31,14 @@ abstract class BaseActivity<TInteractor : IInteractor, in TViewModel : AbstractV
         // skip
     }
 
+    protected open fun provideFactory(): ViewModelProvider.Factory =
+            CleanArchitectureFactory(
+                    application = GumballMachineApp.instance,
+                    interactorFactory = InteractorFactory,
+                    presenterFactory = PresenterFactory,
+                    useCaseFactory = UseCaseFactory
+            )
+
     protected open fun provideAnalyticsLogger(): IAnalyticsLogger =
             FirebaseAnalyticsLogger(this)
 
@@ -36,14 +46,7 @@ abstract class BaseActivity<TInteractor : IInteractor, in TViewModel : AbstractV
         super.onCreate(savedInstanceState)
         setContentView(layout)
 
-        val factory = CleanArchitectureFactory(
-                application = GumballMachineApp.instance,
-                interactorFactory = InteractorFactory,
-                presenterFactory = PresenterFactory,
-                useCaseFactory = UseCaseFactory
-        )
-
-        ViewModelProviders.of(this, factory)
+        ViewModelProviders.of(this, provideFactory())
                 .get(modelClass.java)
                 .let {
                     interactor = it.interactor

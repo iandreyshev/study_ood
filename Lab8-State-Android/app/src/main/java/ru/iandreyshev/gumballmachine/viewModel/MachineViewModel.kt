@@ -18,7 +18,7 @@ class MachineViewModel(app: Application) : AbstractViewModel<IMachineInteractor>
     override fun updateBallsCount(newCount: Int) =
             ballsCount.postValue(newCount)
 
-    override fun updateInsertedCoisCount(newCount: Int) =
+    override fun updateInsertedCoinsCount(newCount: Int) =
             insertedCoinsCount.postValue(newCount)
 
     override fun updateTotalCoinsCount(newCount: Int) =

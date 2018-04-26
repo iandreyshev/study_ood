@@ -1,4 +1,4 @@
-package ru.iandreyshev.gumballmachine.ui.analytics
+package ru.iandreyshev.gumballmachine.analytics
 
 interface IAnalyticsLogger {
     fun onStartFillMachine()

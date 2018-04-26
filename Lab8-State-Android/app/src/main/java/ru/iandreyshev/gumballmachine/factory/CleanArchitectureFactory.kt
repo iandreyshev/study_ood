@@ -1,11 +1,11 @@
-package ru.iandreyshev.gumballmachine.factory.viewModel
+package ru.iandreyshev.gumballmachine.factory
 
 import android.app.Application
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import ru.iandreyshev.gumballmachine.factory.interactor.IInteractorFactory
-import ru.iandreyshev.gumballmachine.factory.presenter.IPresenterFactory
-import ru.iandreyshev.gumballmachine.factory.useCase.IUseCaseFactory
+import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractorFactory
+import ru.iandreyshev.gumballmachine.presenter.interfaces.IPresenterFactory
+import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCaseFactory
 import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
 import ru.iandreyshev.gumballmachine.interactor.interfaces.IMachineInteractor
 import ru.iandreyshev.gumballmachine.interactor.interfaces.ISettingsInteractor
@@ -26,6 +26,7 @@ class CleanArchitectureFactory(
         private val useCaseFactory: IUseCaseFactory,
         private val interactorFactory: IInteractorFactory
 ) : ViewModelProvider.Factory {
+
     override fun <TViewModel : ViewModel?> create(modelClass: Class<TViewModel>): TViewModel =
             when (modelClass) {
                 MachineViewModel::class.java -> injectDependencies(
@@ -43,8 +44,7 @@ class CleanArchitectureFactory(
                 else -> throw IllegalArgumentException("Unknown view model class")
             } as TViewModel
 
-    private fun <
-            TInteractor : IInteractor,
+    private fun <TInteractor : IInteractor,
             TPresenter : IPresenter,
             TUseCase : IUseCase>
 
@@ -56,6 +56,7 @@ class CleanArchitectureFactory(
             useCaseClass: KClass<TUseCase>
 
     ): AbstractViewModel<TInteractor> {
+
         val presenter = presenterFactory.create(presenterClass, viewModel)
         val useCase = useCaseFactory.create(useCaseClass, presenter)
         viewModel.interactor = interactorFactory.create(interactorClass, useCase) as TInteractor

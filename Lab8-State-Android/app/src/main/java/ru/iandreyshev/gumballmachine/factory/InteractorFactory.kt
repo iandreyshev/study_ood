@@ -1,8 +1,9 @@
-package ru.iandreyshev.gumballmachine.factory.interactor
+package ru.iandreyshev.gumballmachine.factory
 
 import ru.iandreyshev.gumballmachine.interactor.MachineInteractor
 import ru.iandreyshev.gumballmachine.interactor.SettingsInteractor
 import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
+import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractorFactory
 import ru.iandreyshev.gumballmachine.interactor.interfaces.IMachineInteractor
 import ru.iandreyshev.gumballmachine.interactor.interfaces.ISettingsInteractor
 import ru.iandreyshev.gumballmachine.useCase.interfaces.IMachineUseCase
