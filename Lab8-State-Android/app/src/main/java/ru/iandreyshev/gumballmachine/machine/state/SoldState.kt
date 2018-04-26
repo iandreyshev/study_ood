@@ -13,7 +13,7 @@ internal class SoldState(
             error { message = "Sorry you already turned the crank" }
 
     override fun turnCrank() =
-            error { message = "Turning twice doesn't get you another gumball\n" }
+            error { message = "Turning twice doesn't get you another gumball" }
 
     override fun dispense() {
         context.releaseBall()

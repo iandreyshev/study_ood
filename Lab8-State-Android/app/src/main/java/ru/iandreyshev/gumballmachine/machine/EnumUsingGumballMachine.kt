@@ -91,7 +91,7 @@ class EnumUsingGumballMachine(
 
     override fun turnCrank() = stateAction {
         onSold {
-            error { message = "Turning twice doesn't get you another gumball\n" }
+            error { message = "Turning twice doesn't get you another gumball" }
         }
 
         onSoldOut {
@@ -149,7 +149,7 @@ class EnumUsingGumballMachine(
     }.let { switchTo(it) }
 
     private fun stateAction(action: StateEventBuilder.() -> Unit) =
-            StateEventBuilder().apply(action).create().invoke()
+            StateEventBuilder().apply(action).create()()
 
     private fun error(errorAction: GumballMachineError.() -> Unit) {
         val error = GumballMachineError()
@@ -158,34 +158,34 @@ class EnumUsingGumballMachine(
     }
 
     private inner class StateEventBuilder {
-        private var mSold: (() -> Unit)? = null
-        private var mSoldOut: (() -> Unit)? = null
-        private var mNoCoin: (() -> Unit)? = null
-        private var mHasCoin: (() -> Unit)? = null
+        private var mOnSold: (() -> Unit)? = null
+        private var mOnSoldOut: (() -> Unit)? = null
+        private var mOnNoCoin: (() -> Unit)? = null
+        private var mOnHasCoin: (() -> Unit)? = null
 
         fun onSold(action: () -> Unit) {
-            mSold = action
+            mOnSold = action
         }
 
         fun onSoldOut(action: () -> Unit) {
-            mSoldOut = action
+            mOnSoldOut = action
         }
 
         fun onNoCoin(action: () -> Unit) {
-            mNoCoin = action
+            mOnNoCoin = action
         }
 
         fun onHasCoin(action: () -> Unit) {
-            mHasCoin = action
+            mOnHasCoin = action
         }
 
-        fun create(): () -> Unit = {
+        fun create(): (() -> Unit) = {
             when (mCurrentState) {
-                EnumUsingGumballMachine.State.SOLD -> mSold?.invoke()
-                EnumUsingGumballMachine.State.SOLD_OUT -> mSoldOut?.invoke()
-                EnumUsingGumballMachine.State.NO_COIN -> mNoCoin?.invoke()
-                EnumUsingGumballMachine.State.HAS_COIN -> mHasCoin?.invoke()
-            }
+                State.SOLD -> mOnSold
+                State.SOLD_OUT -> mOnSoldOut
+                State.NO_COIN -> mOnNoCoin
+                State.HAS_COIN -> mOnHasCoin
+            }?.invoke()
         }
     }
 }
