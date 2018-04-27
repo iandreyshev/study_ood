@@ -4,9 +4,9 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
-import canvas.Color
+import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.converter.ColorConverter
+import ru.iandreyshev.compositeshapespaint.model.converter.ColorConverter
 import ru.iandreyshev.compositeshapespaint.model.containers.Vec2f
 
 class AndroidCanvasAdapter(private val canvas: Canvas) : ICanvas {

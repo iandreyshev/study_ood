@@ -1,6 +1,6 @@
 package ru.iandreyshev.compositeshapespaint.model.shape
 
-import canvas.Color
+import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
 
 abstract class TermShape(

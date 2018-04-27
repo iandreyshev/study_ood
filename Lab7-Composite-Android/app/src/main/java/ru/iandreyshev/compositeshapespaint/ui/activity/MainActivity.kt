@@ -1,63 +1,55 @@
 package ru.iandreyshev.compositeshapespaint.ui.activity
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import ru.iandreyshev.compositeshapespaint.R
 import ru.iandreyshev.compositeshapespaint.ui.adapter.ShapesListRVAdapter
 import ru.iandreyshev.compositeshapespaint.viewModel.MainViewModel
-import android.support.v7.widget.DividerItemDecoration
 import android.view.Menu
 import android.view.MenuItem
-import canvas.Color
+import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_shape_info.*
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.toast
+import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IMainInteractor
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.ui.ActionError
 import ru.iandreyshev.compositeshapespaint.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.compositeshapespaint.ui.dialog.ActionDialog
+import ru.iandreyshev.compositeshapespaint.factory.CleanArchitectureFactory
+import ru.iandreyshev.compositeshapespaint.ui.dialog.DialogFactory
 
-class MainActivity : AppCompatActivity() {
-    private val mViewModel by lazy {
-        ViewModelProviders.of(this).get(MainViewModel::class.java)
+class MainActivity : BaseActivity<IMainInteractor, MainViewModel>(
+        layout = R.layout.activity_main,
+        viewModelClass = MainViewModel::class,
+        viewModelFactory = CleanArchitectureFactory) {
+
+    private val mAdapter: ShapesListRVAdapter by lazy {
+        ShapesListRVAdapter({ interactor?.selectShape(it) })
     }
-    private val mAdapter by lazy {
-        ShapesListRVAdapter(
-                { mViewModel.shapes.value },
-                { mViewModel.setTarget(it) }
-        )
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        mViewModel.shapes.observe(this, Observer { shapes ->
-            mAdapter.notifyDataSetChanged()
-            shapes ?: return@Observer
+    override val onSubscribeToViewModel: MainViewModel.() -> Unit = {
+        shapes.observe {
+            val shapes = it ?: listOf()
+            mAdapter.shapes = shapes
             reDraw(shapes)
-        })
+        }
+        targetShape.observe {
+            shapeInfoView.setShape(it)
+        }
+    }
 
-        mViewModel.targetShape.observe(this, Observer { shape ->
-            shapeInfoView.setShape(shape)
-        })
-
-        mViewModel.actionError.observe(this, Observer { error ->
-            handleActionError(error)
-        })
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        refreshLayout.onRefresh {
+            interactor?.refresh()
+            refreshLayout.isRefreshing = false
+        }
 
         with(rvShapesList) {
             adapter = mAdapter
             addItemDecoration(DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation))
-        }
-
-        refreshLayout.onRefresh {
-            mViewModel.refresh()
-            refreshLayout.isRefreshing = false
         }
     }
 
@@ -68,12 +60,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.act_resize -> ActionDialog(this, R.string.act_resize, mViewModel::resize)
-            R.id.act_move -> ActionDialog(this, R.string.act_move, mViewModel::move)
-            R.id.act_resize_stroke -> ActionDialog(this, R.string.act_resize_stroke, mViewModel::resizeStroke)
-            R.id.act_fill_color -> ActionDialog(this, R.string.act_fill_color, mViewModel::changeFillColor)
-            R.id.act_stroke_color -> ActionDialog(this, R.string.act_stroke_color, mViewModel::changeStrokeColor)
+            R.id.act_resize -> DialogFactory.shapeSizeDialog(this) {
+            }
+            R.id.act_move -> ActionDialog(this, R.string.act_move, {})
+            R.id.act_resize_stroke -> DialogFactory.strokeSizeDialog(this) {
+            }
+            R.id.act_fill_color -> DialogFactory.fillColorDialog(this) {
+            }
+            R.id.act_stroke_color -> DialogFactory.strokeColorDialog(this) {
+            }
         }
+
         return super.onOptionsItemSelected(item)
     }
 

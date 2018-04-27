@@ -1,4 +1,4 @@
-package canvas
+package ru.iandreyshev.compositeshapespaint.model.canvas
 
 enum class Color {
     NONE,

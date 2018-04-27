@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.view_action_dialog.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 import ru.iandreyshev.compositeshapespaint.R
+import ru.iandreyshev.compositeshapespaint.ui.extension.inflate
 
 class ActionDialog(
         private val context: Context,
@@ -14,8 +15,7 @@ class ActionDialog(
         private val onSubmit: String.() -> Unit
 ) {
     init {
-        val view = LayoutInflater.from(context)
-                .inflate(R.layout.view_action_dialog, null)
+        val view = context.inflate(R.layout.view_action_dialog)
         context.alert {
             title = context.resources.getString(titleResId)
             customView = view

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CompositeShapesPaint</string>
+    <string name="app_name">Paint killer</string>
 
     <string name="shape_info_view_not_selected">Shape not selected</string>
 

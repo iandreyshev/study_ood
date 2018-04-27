@@ -1,11 +1,11 @@
 package ru.iandreyshev.compositeshapespaint.ui.shapes
 
-import canvas.Color
+import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.containers.Vec2f
 import ru.iandreyshev.compositeshapespaint.model.shape.*
 
 object ImageGenerator {
-    fun get(): List<IShape> = with(mutableListOf<IShape>()) {
+    fun create(): List<IShape> = with(mutableListOf<IShape>()) {
         val rect = Rectangle(
                 leftTop = Vec2f(200, 500),
                 rightBottom = Vec2f(600, 700),

@@ -1,15 +1,13 @@
 package ru.iandreyshev.compositeshapespaint.ui.view
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Paint
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
-import canvas.Color
+import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import kotlinx.android.synthetic.main.view_shape_info.view.*
 import ru.iandreyshev.compositeshapespaint.R
-import ru.iandreyshev.compositeshapespaint.converter.ColorConverter
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
+import ru.iandreyshev.compositeshapespaint.ui.extension.fill
 import ru.iandreyshev.compositeshapespaint.ui.extension.setTextOrGone
 import ru.iandreyshev.compositeshapespaint.ui.extension.visible
 
@@ -57,11 +55,4 @@ class ShapeInfoView @JvmOverloads constructor(
         get() = "w: ${frame.width} h: ${frame.height}"
     private val IShape.strokeSizeString: String
         get() = "ss: ${getStrokeSize() ?: "?"}"
-
-    private fun Canvas.fill(color: Color) {
-        val paint = Paint()
-        paint.color = ColorConverter.convert(color)
-        paint.style = Paint.Style.FILL
-        drawPaint(paint)
-    }
 }
