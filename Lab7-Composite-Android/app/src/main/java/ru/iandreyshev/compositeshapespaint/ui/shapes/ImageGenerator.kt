@@ -1,7 +1,7 @@
 package ru.iandreyshev.compositeshapespaint.ui.shapes
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
-import ru.iandreyshev.compositeshapespaint.model.containers.Vec2f
+import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 import ru.iandreyshev.compositeshapespaint.model.shape.*
 
 object ImageGenerator {

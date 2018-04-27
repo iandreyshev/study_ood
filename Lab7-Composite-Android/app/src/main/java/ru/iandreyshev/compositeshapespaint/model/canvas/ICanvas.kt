@@ -1,6 +1,6 @@
 package ru.iandreyshev.compositeshapespaint.model.canvas
 
-import ru.iandreyshev.compositeshapespaint.model.containers.Vec2f
+import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 
 interface ICanvas {
     var color: Color

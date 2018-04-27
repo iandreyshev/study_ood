@@ -7,7 +7,7 @@ import android.graphics.RectF
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
 import ru.iandreyshev.compositeshapespaint.model.converter.ColorConverter
-import ru.iandreyshev.compositeshapespaint.model.containers.Vec2f
+import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 
 class AndroidCanvasAdapter(private val canvas: Canvas) : ICanvas {
     private var mPath = Path()

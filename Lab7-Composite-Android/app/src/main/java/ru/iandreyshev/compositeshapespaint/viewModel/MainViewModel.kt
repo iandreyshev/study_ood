@@ -11,9 +11,16 @@ class MainViewModel : AbstractViewModel<IMainInteractor>(
         ShapesApp.instance
 ), IMainViewModel {
 
+    enum class ViewState {
+        NORMAL,
+        RESIZE,
+        MOVE
+    }
+
     // OBSERVABLES
     val targetShape = MutableLiveData<IShape>()
     val shapes = MutableLiveData<List<IShape>>()
+    val state = MutableLiveData<ViewState>()
     // OBSERVABLES
 
     override fun draw(shapes: List<IShape>) {

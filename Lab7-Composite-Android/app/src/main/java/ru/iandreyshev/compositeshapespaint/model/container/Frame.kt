@@ -1,10 +1,16 @@
-package ru.iandreyshev.compositeshapespaint.model.containers
+package ru.iandreyshev.compositeshapespaint.model.container
 
 class Frame @JvmOverloads constructor(
         override var position: Vec2f = Vec2f(),
-        override var width: Float = 0f,
-        override var height: Float = 0f
+        width: Float,
+        height: Float
 ) : AbstractFrame() {
+
+    override var width: Float = width
+        private set
+    override var height: Float = height
+        private set
+
     override fun onResize(newWidth: Float, newHeight: Float) {
         width = newWidth
         height = newHeight

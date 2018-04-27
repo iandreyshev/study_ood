@@ -2,9 +2,9 @@ package ru.iandreyshev.compositeshapespaint.model.shape
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.model.containers.AbstractFrame
-import ru.iandreyshev.compositeshapespaint.model.containers.Frame
-import ru.iandreyshev.compositeshapespaint.model.containers.Vec2f
+import ru.iandreyshev.compositeshapespaint.model.container.AbstractFrame
+import ru.iandreyshev.compositeshapespaint.model.container.Frame
+import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 
 class Ellipse(
         center: Vec2f,

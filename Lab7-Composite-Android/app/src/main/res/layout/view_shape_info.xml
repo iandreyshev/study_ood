@@ -2,6 +2,7 @@
 
 <ru.iandreyshev.compositeshapespaint.ui.view.ShapeInfoView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/shapeInfoView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,96 +17,127 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="title" />
 
-        <TextView
-            android:id="@+id/tvPosition"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvName" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle">
 
-        <TextView
-            android:id="@+id/tvSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@+id/tvPosition"
-            app:layout_constraintTop_toBottomOf="@+id/tvName" />
+            <TextView
+                android:id="@+id/tvPosition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+                tools:text="position" />
 
-        <TextView
-            android:id="@+id/tvStrokeSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@+id/tvSize"
-            app:layout_constraintTop_toBottomOf="@+id/tvName" />
+            <TextView
+                android:id="@+id/tvSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@+id/tvPosition"
+                app:layout_constraintTop_toBottomOf="parent"
+                tools:text="size" />
 
-        <FrameLayout
-            android:id="@+id/flFillColor"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:background="@android:color/black"
-            android:padding="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="w,1:1"
-            app:layout_constraintStart_toEndOf="@+id/tvStrokeSize"
-            app:layout_constraintTop_toBottomOf="@+id/tvName">
+            <TextView
+                android:id="@+id/tvStrokeSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@+id/tvSize"
+                app:layout_constraintTop_toBottomOf="parent"
+                tools:text="stroke size" />
 
             <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white">
+                android:id="@+id/flFillColor"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:background="@android:color/black"
+                android:padding="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintStart_toEndOf="@+id/tvStrokeSize"
+                app:layout_constraintTop_toBottomOf="parent">
 
-                <ru.iandreyshev.compositeshapespaint.ui.view.CanvasView
-                    android:id="@+id/cvFillColor"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/undefined_color">
+                    android:background="@android:color/white">
 
-                </ru.iandreyshev.compositeshapespaint.ui.view.CanvasView>
+                    <ru.iandreyshev.compositeshapespaint.ui.view.CanvasView
+                        android:id="@+id/cvFillColor"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/undefined_color">
+
+                    </ru.iandreyshev.compositeshapespaint.ui.view.CanvasView>
+                </FrameLayout>
+
             </FrameLayout>
-
-        </FrameLayout>
-
-
-        <FrameLayout
-            android:id="@+id/flStrokeColor"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:background="@android:color/black"
-            android:padding="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="w,1:1"
-            app:layout_constraintStart_toEndOf="@+id/flFillColor"
-            app:layout_constraintTop_toBottomOf="@+id/tvName">
 
             <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white">
+                android:id="@+id/flStrokeColor"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:background="@android:color/black"
+                android:padding="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintStart_toEndOf="@+id/flFillColor"
+                app:layout_constraintTop_toBottomOf="parent">
 
-                <ru.iandreyshev.compositeshapespaint.ui.view.CanvasView
-                    android:id="@+id/cvStrokeColor"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/undefined_color">
+                    android:background="@android:color/white">
 
-                </ru.iandreyshev.compositeshapespaint.ui.view.CanvasView>
+                    <ru.iandreyshev.compositeshapespaint.ui.view.CanvasView
+                        android:id="@+id/cvStrokeColor"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/undefined_color">
+
+                    </ru.iandreyshev.compositeshapespaint.ui.view.CanvasView>
+
+                    <FrameLayout
+                        android:id="@+id/cvStrokeColorTint"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="4dp"
+                        android:background="@android:color/black"
+                        android:padding="1dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/cardview_light_background">
+
+                        </FrameLayout>
+                    </FrameLayout>
+                </FrameLayout>
+
             </FrameLayout>
+        </LinearLayout>
 
-        </FrameLayout>
 
     </android.support.constraint.ConstraintLayout>
 

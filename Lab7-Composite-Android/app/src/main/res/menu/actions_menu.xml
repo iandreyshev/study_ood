@@ -13,12 +13,4 @@
         android:id="@+id/act_resize_stroke"
         android:title="@string/act_resize_stroke" />
 
-    <item
-        android:id="@+id/act_fill_color"
-        android:title="@string/act_fill_color" />
-
-    <item
-        android:id="@+id/act_stroke_color"
-        android:title="@string/act_stroke_color" />
-
 </menu>

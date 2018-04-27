@@ -13,4 +13,5 @@ class MainPresenter(
 
     override fun setTarget(shape: IShape?) =
             viewModel.setTarget(shape)
+
 }

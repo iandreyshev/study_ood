@@ -1,4 +1,4 @@
-package ru.iandreyshev.compositeshapespaint.model.containers
+package ru.iandreyshev.compositeshapespaint.model.container
 
 class CompositeFrame(
         private val frames: InnerFramesIterator

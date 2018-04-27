@@ -17,7 +17,6 @@ import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IMainInteractor
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.ui.ActionError
 import ru.iandreyshev.compositeshapespaint.ui.adapter.AndroidCanvasAdapter
-import ru.iandreyshev.compositeshapespaint.ui.dialog.ActionDialog
 import ru.iandreyshev.compositeshapespaint.factory.CleanArchitectureFactory
 import ru.iandreyshev.compositeshapespaint.ui.dialog.DialogFactory
 
@@ -30,7 +29,7 @@ class MainActivity : BaseActivity<IMainInteractor, MainViewModel>(
         ShapesListRVAdapter({ interactor?.selectShape(it) })
     }
 
-    override val onSubscribeToViewModel: MainViewModel.() -> Unit = {
+    override val onProvideViewModel: MainViewModel.() -> Unit = {
         shapes.observe {
             val shapes = it ?: listOf()
             mAdapter.shapes = shapes
@@ -38,6 +37,13 @@ class MainActivity : BaseActivity<IMainInteractor, MainViewModel>(
         }
         targetShape.observe {
             shapeInfoView.setShape(it)
+        }
+        state.observe {
+            when (it) {
+                MainViewModel.ViewState.NORMAL -> TODO()
+                MainViewModel.ViewState.RESIZE -> TODO()
+                MainViewModel.ViewState.MOVE -> TODO()
+            }
         }
     }
 
@@ -51,6 +57,17 @@ class MainActivity : BaseActivity<IMainInteractor, MainViewModel>(
             adapter = mAdapter
             addItemDecoration(DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation))
         }
+
+        shapeInfoView.setOnFillColorClick {
+            DialogFactory.fillColorDialog(this) {
+                interactor?.changeFillColor(it)
+            }
+        }
+        shapeInfoView.setOnStrokeColorClick {
+            DialogFactory.strokeColorDialog(this) {
+                interactor?.changeStrokeColor(it)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -60,14 +77,15 @@ class MainActivity : BaseActivity<IMainInteractor, MainViewModel>(
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.act_resize -> DialogFactory.shapeSizeDialog(this) {
+            R.id.act_move -> {
             }
-            R.id.act_move -> ActionDialog(this, R.string.act_move, {})
-            R.id.act_resize_stroke -> DialogFactory.strokeSizeDialog(this) {
+
+            R.id.act_resize -> interactor?.apply {
+                DialogFactory.shapeSizeDialog(this@MainActivity, ::resize)
             }
-            R.id.act_fill_color -> DialogFactory.fillColorDialog(this) {
-            }
-            R.id.act_stroke_color -> DialogFactory.strokeColorDialog(this) {
+
+            R.id.act_resize_stroke -> interactor?.apply {
+                DialogFactory.strokeSizeDialog(this@MainActivity, ::resizeStroke)
             }
         }
 

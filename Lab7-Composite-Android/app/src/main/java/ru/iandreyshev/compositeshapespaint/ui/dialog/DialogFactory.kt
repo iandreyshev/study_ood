@@ -40,7 +40,7 @@ object DialogFactory {
         }.show()
 
         adapter.onItemClick = {
-            onClick(it)
+            onClick.invoke(it)
             dialog.dismiss()
         }
     }

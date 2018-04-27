@@ -2,8 +2,8 @@ package ru.iandreyshev.compositeshapespaint.model.shape
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.model.containers.CompositeFrame
-import ru.iandreyshev.compositeshapespaint.model.containers.AbstractFrame
+import ru.iandreyshev.compositeshapespaint.model.container.CompositeFrame
+import ru.iandreyshev.compositeshapespaint.model.container.AbstractFrame
 import ru.iandreyshev.compositeshapespaint.model.extension.forEach2
 import ru.iandreyshev.compositeshapespaint.model.extension.getAllSameOrNull
 

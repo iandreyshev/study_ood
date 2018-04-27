@@ -1,4 +1,4 @@
-package ru.iandreyshev.compositeshapespaint.model.containers
+package ru.iandreyshev.compositeshapespaint.model.container
 
 data class Vec2f(
         val x: Float = 0f,

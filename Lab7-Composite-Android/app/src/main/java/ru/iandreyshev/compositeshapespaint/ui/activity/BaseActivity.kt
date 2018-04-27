@@ -17,7 +17,7 @@ abstract class BaseActivity<TInteractor : IInteractor, in TViewModel : AbstractV
 ) : AppCompatActivity() {
     protected var interactor: TInteractor? = null
 
-    protected abstract val onSubscribeToViewModel: (TViewModel.() -> Unit)
+    protected abstract val onProvideViewModel: (TViewModel.() -> Unit)
 
     protected abstract fun onActivityCreated(savedInstanceState: Bundle?)
 
@@ -29,7 +29,7 @@ abstract class BaseActivity<TInteractor : IInteractor, in TViewModel : AbstractV
                 .get(viewModelClass.java)
                 .let { viewModel ->
                     interactor = viewModel.interactor
-                    onSubscribeToViewModel(viewModel)
+                    onProvideViewModel(viewModel)
                 }
 
         onActivityCreated(savedInstanceState)

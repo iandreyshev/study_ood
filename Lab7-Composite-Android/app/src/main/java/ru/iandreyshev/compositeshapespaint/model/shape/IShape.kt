@@ -2,7 +2,7 @@ package ru.iandreyshev.compositeshapespaint.model.shape
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.model.containers.AbstractFrame
+import ru.iandreyshev.compositeshapespaint.model.container.AbstractFrame
 
 interface IShape {
     val composite: ICompositeShape?
