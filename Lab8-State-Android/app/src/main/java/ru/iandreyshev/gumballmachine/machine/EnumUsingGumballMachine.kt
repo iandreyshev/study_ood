@@ -13,8 +13,8 @@ class EnumUsingGumballMachine(
 
     override val data: GumballMachineData
         get() = GumballMachineData(
-                name = getStateName(),
-                stateName = mCurrentState.name,
+                name = "Enum using",
+                stateName = getStateName(),
                 ballsCount = mBallsCount,
                 insertedCoinsCount = mInsertedCoinsCount,
                 totalCoinsCount = mTotalCoinsCount,
