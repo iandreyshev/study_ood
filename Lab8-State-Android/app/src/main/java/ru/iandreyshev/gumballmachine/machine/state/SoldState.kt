@@ -27,4 +27,6 @@ internal class SoldState(
 
     override fun fill(newBallsCount: Int) =
             error { message = "Can`t to insert balls during release balls" }
+
+    override fun toString() = "Sold"
 }

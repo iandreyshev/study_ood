@@ -16,12 +16,11 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:layout_marginStart="32dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
+                android:padding="24dp"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -31,11 +30,21 @@
                     android:id="@+id/tvMachineName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:textAllCaps="true"
+                    android:textSize="26dp"
+                    android:textStyle="bold"
+                    tools:text="Machine name" />
+
+                <TextView
+                    android:id="@+id/tvStateName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
                     android:layout_marginBottom="20dp"
                     android:textAllCaps="true"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    tools:text="Very long machine name for test this text view" />
+                    android:textSize="18sp"
+                    tools:text="State name" />
 
                 <include layout="@layout/lay_metrics" />
 

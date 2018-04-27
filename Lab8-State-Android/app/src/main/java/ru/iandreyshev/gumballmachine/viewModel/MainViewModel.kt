@@ -12,6 +12,7 @@ class MainViewModel(
 
     // OBSERVABLES
     val machineName = MutableLiveData<String>()
+    val stateName = MutableLiveData<String>()
     val totalCoinsCount = MutableLiveData<Int>()
     val insertedCoinsCount = MutableLiveData<Int>()
     val ballsCount = MutableLiveData<Int>()
@@ -20,6 +21,9 @@ class MainViewModel(
 
     override fun updateMachineName(name: String) =
             machineName.postValue(name)
+
+    override fun updateStateName(name: String) =
+            stateName.postValue(name)
 
     override fun updateBallsCount(newCount: Int) =
             ballsCount.postValue(newCount)

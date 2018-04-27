@@ -33,4 +33,6 @@ internal class HasCoinState(
 
     override fun fill(newBallsCount: Int) =
             context.fill(newBallsCount)
+
+    override fun toString() = "Has coin"
 }

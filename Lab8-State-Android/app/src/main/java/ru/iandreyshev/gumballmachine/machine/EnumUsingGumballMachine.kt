@@ -13,7 +13,8 @@ class EnumUsingGumballMachine(
 
     override val data: GumballMachineData
         get() = GumballMachineData(
-                name = "Enum using",
+                name = getStateName(),
+                stateName = mCurrentState.name,
                 ballsCount = mBallsCount,
                 insertedCoinsCount = mInsertedCoinsCount,
                 totalCoinsCount = mTotalCoinsCount,
@@ -147,6 +148,15 @@ class EnumUsingGumballMachine(
         mInsertedCoinsCount <= 0 -> State.NO_COIN
         else -> State.HAS_COIN
     }.let { switchTo(it) }
+
+    private fun getStateName(): String {
+        return when(mCurrentState) {
+            EnumUsingGumballMachine.State.SOLD -> "Sold"
+            EnumUsingGumballMachine.State.SOLD_OUT -> "Sold out"
+            EnumUsingGumballMachine.State.NO_COIN -> "No coin"
+            EnumUsingGumballMachine.State.HAS_COIN -> "Has coin"
+        }
+    }
 
     private fun stateAction(action: StateEventBuilder.() -> Unit) =
             StateEventBuilder().apply(action).create()()

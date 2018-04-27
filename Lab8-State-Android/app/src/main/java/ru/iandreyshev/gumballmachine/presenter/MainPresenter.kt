@@ -11,6 +11,7 @@ class MainPresenter(
     override fun updateMachineData(data: GumballMachineData) {
         with(viewModel) {
             updateMachineName(data.name)
+            updateStateName(data.stateName)
             updateBallsCount(data.ballsCount)
             updateInsertedCoinsCount(data.insertedCoinsCount)
             updateTotalCoinsCount(data.totalCoinsCount)

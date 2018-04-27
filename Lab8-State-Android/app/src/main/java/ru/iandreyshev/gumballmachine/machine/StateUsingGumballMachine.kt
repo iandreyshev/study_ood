@@ -31,6 +31,7 @@ class StateUsingGumballMachine(
     override val data: GumballMachineData
         get() = GumballMachineData(
                 name = "State pattern",
+                stateName = mCurrentState.toString(),
                 ballsCount = mBallsCount,
                 insertedCoinsCount = mInsertedCoinsCount,
                 totalCoinsCount = mTotalCoinsCount,

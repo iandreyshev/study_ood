@@ -26,4 +26,6 @@ internal class SoldOutState(
 
     override fun fill(newBallsCount: Int) =
             context.fill(newBallsCount)
+
+    override fun toString() = "Sold out"
 }

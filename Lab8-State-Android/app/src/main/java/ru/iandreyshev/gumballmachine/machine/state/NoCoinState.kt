@@ -27,4 +27,6 @@ internal class NoCoinState(
 
     override fun fill(newBallsCount: Int) =
             context.fill(newBallsCount)
+
+    override fun toString() = "No coin"
 }

@@ -22,6 +22,7 @@ class MainActivity : BaseActivity<IMainInteractor, MainViewModel>(
         with(viewModel) {
             onErrorListener = { handleError(it) }
             ballsCount.observe { mvBalls.value = it.toString() }
+            stateName.observe { tvStateName.text = it.toString() }
             totalCoinsCount.observe { mvTotalCoins.value = it.toString() }
             insertedCoinsCount.observe { mvInsertedCoins.value = it.toString() }
             machineName.observe { tvMachineName.text = it }
