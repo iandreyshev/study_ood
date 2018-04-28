@@ -1,7 +1,7 @@
 package ru.iandreyshev.compositeshapespaint.presenter
 
 import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IProgressPresenter
-import ru.iandreyshev.compositeshapespaint.viewModel.interfaces.IProgressViewModel
+import ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces.IProgressViewModel
 
 class ProgressController(
         private val viewModel: IProgressViewModel

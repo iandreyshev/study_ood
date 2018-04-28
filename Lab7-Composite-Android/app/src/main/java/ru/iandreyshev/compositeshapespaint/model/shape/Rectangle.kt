@@ -2,8 +2,8 @@ package ru.iandreyshev.compositeshapespaint.model.shape
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.model.container.AbstractFrame
-import ru.iandreyshev.compositeshapespaint.model.container.Frame
+import ru.iandreyshev.compositeshapespaint.model.frame.IFrame
+import ru.iandreyshev.compositeshapespaint.model.frame.Frame
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 
 class Rectangle(
@@ -14,7 +14,7 @@ class Rectangle(
         strokeColor: Color = Color.WHITE,
         override val name: String = Rectangle::class.java.simpleName
 ) : TermShape(strokeSize, fillColor, strokeColor) {
-    override val frame: AbstractFrame by lazy {
+    override val frame: IFrame by lazy {
         val minX = Math.min(leftTop.x, rightBottom.x)
         val maxY = Math.max(leftTop.y, rightBottom.y)
 

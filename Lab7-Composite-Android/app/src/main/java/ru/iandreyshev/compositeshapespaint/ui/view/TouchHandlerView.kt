@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import ru.iandreyshev.compositeshapespaint.ui.OnClickCallback
 import ru.iandreyshev.compositeshapespaint.ui.OnTouchMoveCallback
 
 abstract class TouchHandlerView @JvmOverloads constructor(
@@ -13,6 +14,22 @@ abstract class TouchHandlerView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     var onMove: OnTouchMoveCallback? = null
+    var onClick: OnClickCallback? = null
+        set(value) {
+            field = value
+            setOnLongClickListener { e ->
+                field?.invoke(e.x, e.y) ?: return@setOnLongClickListener false
+                return@setOnLongClickListener true
+            }
+        }
+    var onLongClick: OnClickCallback? = null
+        set(value) {
+            field = value
+            setOnLongClickListener { e ->
+                field?.invoke(e.x, e.y) ?: return@setOnLongClickListener false
+                return@setOnLongClickListener true
+            }
+        }
 
     final override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false

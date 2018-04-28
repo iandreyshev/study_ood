@@ -5,7 +5,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import ru.iandreyshev.compositeshapespaint.R
 import ru.iandreyshev.compositeshapespaint.ui.adapter.ShapesListRVAdapter
-import ru.iandreyshev.compositeshapespaint.viewModel.main.MainViewModel
+import ru.iandreyshev.compositeshapespaint.ui.viewModel.main.MainViewModel
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,7 +18,8 @@ import ru.iandreyshev.compositeshapespaint.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.compositeshapespaint.factory.CleanArchitectureFactory
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.ui.dialog.DialogFactory
-import ru.iandreyshev.compositeshapespaint.viewModel.main.IMainActivityStateContext
+import ru.iandreyshev.compositeshapespaint.ui.extension.visibleIfOrGone
+import ru.iandreyshev.compositeshapespaint.ui.viewModel.main.IMainActivityStateContext
 
 class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         layout = R.layout.activity_main,
@@ -44,13 +45,13 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
 
         shapeInfoView.setOnFillColorClick {
             DialogFactory.fillColorDialog(this) { color ->
-                actionWithShape { interactor.changeFillColor(it, color) }
+                actionWithTargetShape { interactor.changeFillColor(it, color) }
             }
         }
 
         shapeInfoView.setOnStrokeColorClick {
             DialogFactory.editStrokeDialog(this) { color ->
-                actionWithShape { interactor.changeStrokeColor(it, color) }
+                actionWithTargetShape { interactor.changeStrokeColor(it, color) }
             }
         }
     }
@@ -68,7 +69,10 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
 
         state.observeNotNull { state ->
             state.context = StateContext()
-            state.tuneToolbar(tbToolbar)
+            cvCanvas.onMove = state::handleCanvasTouchMove
+            state.actionCallback?.let {
+                startSupportActionMode(it)
+            }
         }
 
         showProgress.observe { isPrecess ->
@@ -91,8 +95,8 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
             R.id.act_resizing -> interactor.beginResizing()
             R.id.act_moving -> interactor.beginMoving()
             R.id.act_grouping -> interactor.beginGrouping()
-            R.id.act_show_info -> actionWithShape { interactor.showShapeInfo(it) }
-            R.id.act_delete -> actionWithShape { interactor.deleteShape(it) }
+            R.id.act_show_info -> actionWithTargetShape { interactor.showShapeInfo(it) }
+            R.id.act_delete -> actionWithTargetShape { interactor.deleteShape(it) }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -112,7 +116,7 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         }
     }
 
-    private fun actionWithShape(action: (IShape) -> Unit) {
+    private fun actionWithTargetShape(action: (IShape) -> Unit) {
         mTargetShape.apply {
             when (this) {
                 null -> toast(R.string.shape_not_selected)
@@ -121,5 +125,15 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         }
     }
 
-    private class StateContext : IMainActivityStateContext
+    private inner class StateContext : IMainActivityStateContext {
+        override val interactor: IMainInteractor
+            get() = this@MainActivity.interactor
+        override var targetShape: IShape? = null
+            get() = this@MainActivity.mTargetShape
+
+        override fun setRefreshingLayoutEnabled(isEnabled: Boolean) {
+            refreshLayout.isEnabled = isEnabled
+        }
+
+    }
 }

@@ -15,6 +15,9 @@ class MainInteractor(
     override fun addShape(id: String) {
     }
 
+    override fun updateShape(shape: IShape) =
+            mainUseCase.updateShape(shape)
+
     override fun beginNormal() =
             mainUseCase.setState("normal")
 

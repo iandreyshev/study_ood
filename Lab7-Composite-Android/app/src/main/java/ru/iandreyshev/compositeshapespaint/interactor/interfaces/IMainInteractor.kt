@@ -17,6 +17,8 @@ interface IMainInteractor : IInteractor {
 
     fun beginGrouping()
 
+    fun updateShape(shape: IShape)
+
     fun resizeStroke(shape: IShape, size: Int)
 
     fun changeFillColor(shape: IShape, color: Color)

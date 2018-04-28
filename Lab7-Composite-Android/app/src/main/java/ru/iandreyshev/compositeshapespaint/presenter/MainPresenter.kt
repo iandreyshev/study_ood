@@ -3,7 +3,7 @@ package ru.iandreyshev.compositeshapespaint.presenter
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IMainPresenter
 import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IProgressPresenter
-import ru.iandreyshev.compositeshapespaint.viewModel.interfaces.IMainViewModel
+import ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces.IMainViewModel
 
 class MainPresenter(
         val viewModel: IMainViewModel

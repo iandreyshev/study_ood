@@ -2,8 +2,8 @@ package ru.iandreyshev.compositeshapespaint.model.shape
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.model.container.AbstractFrame
-import ru.iandreyshev.compositeshapespaint.model.container.Frame
+import ru.iandreyshev.compositeshapespaint.model.frame.IFrame
+import ru.iandreyshev.compositeshapespaint.model.frame.Frame
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 
 class Triangle(
@@ -20,7 +20,7 @@ class Triangle(
     private lateinit var mVertex2Proportion: Vec2f
     private lateinit var mVertex3Proportion: Vec2f
 
-    override val frame: AbstractFrame by lazy {
+    override val frame: IFrame by lazy {
         val minX = vertex1.x min vertex2.x min vertex3.x
         val maxX = vertex1.x max vertex2.x max vertex3.x
         val width = maxX - minX

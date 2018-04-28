@@ -2,8 +2,8 @@ package ru.iandreyshev.compositeshapespaint.model.shape
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.model.container.CompositeFrame
-import ru.iandreyshev.compositeshapespaint.model.container.AbstractFrame
+import ru.iandreyshev.compositeshapespaint.model.frame.CompositeFrame
+import ru.iandreyshev.compositeshapespaint.model.frame.IFrame
 import ru.iandreyshev.compositeshapespaint.model.extension.forEach2
 import ru.iandreyshev.compositeshapespaint.model.extension.getAllSameOrNull
 
@@ -19,7 +19,7 @@ class CompositeShape(
 
     override val composite: ICompositeShape? = this
 
-    override val frame: AbstractFrame =
+    override val frame: IFrame =
             CompositeFrame(frames = this)
 
     override fun getFillColor(): Color? =
@@ -50,5 +50,5 @@ class CompositeShape(
 
     override fun draw(canvas: ICanvas) = mShapes.forEach2 { draw(canvas) }
 
-    override fun forEach(action: AbstractFrame.() -> Unit) = mShapes.forEach2 { action(frame) }
+    override fun forEach(action: IFrame.() -> Unit) = mShapes.forEach2 { action(frame) }
 }

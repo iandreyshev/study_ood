@@ -1,12 +1,16 @@
-package ru.iandreyshev.compositeshapespaint.viewModel.main
+package ru.iandreyshev.compositeshapespaint.ui.viewModel.main
 
 import android.arch.lifecycle.MutableLiveData
 import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IMainInteractor
 import ru.iandreyshev.compositeshapespaint.model.observable.LiveEvent
 import ru.iandreyshev.compositeshapespaint.model.shape.*
 import ru.iandreyshev.compositeshapespaint.ui.ActionError
-import ru.iandreyshev.compositeshapespaint.viewModel.interfaces.IMainViewModel
-import ru.iandreyshev.compositeshapespaint.viewModel.interfaces.ProgressViewModel
+import ru.iandreyshev.compositeshapespaint.ui.activity.mainActivityState.GroupingMainActivityState
+import ru.iandreyshev.compositeshapespaint.ui.activity.mainActivityState.MovingMainActivityState
+import ru.iandreyshev.compositeshapespaint.ui.activity.mainActivityState.NormalMainActivityState
+import ru.iandreyshev.compositeshapespaint.ui.activity.mainActivityState.ResizingMainActivityState
+import ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces.IMainViewModel
+import ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces.ProgressViewModel
 
 class MainViewModel : ProgressViewModel<IMainInteractor>(), IMainViewModel {
 

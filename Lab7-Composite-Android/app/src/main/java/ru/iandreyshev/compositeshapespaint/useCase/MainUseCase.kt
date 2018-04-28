@@ -30,6 +30,10 @@ class MainUseCase(
         presenter.setTarget(shape)
     }
 
+    override fun updateShape(shape: IShape) {
+        presenter.updateShapes(mShapes)
+    }
+
     override fun resizeStroke(shape: IShape, size: Int) {
     }
 

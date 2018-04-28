@@ -1,8 +1,8 @@
-package ru.iandreyshev.compositeshapespaint.viewModel.interfaces
+package ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces
 
 import android.arch.lifecycle.MutableLiveData
 
-open class ProgressViewModel<T> : AbstractViewModel<T>(), IProgressViewModel {
+abstract class ProgressViewModel<TInteractor> : AbstractViewModel<TInteractor>(), IProgressViewModel {
 
     // OBSERVABLES
     val showProgress = MutableLiveData<Boolean>()

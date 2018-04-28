@@ -2,8 +2,8 @@ package ru.iandreyshev.compositeshapespaint.model.shape
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.model.container.AbstractFrame
-import ru.iandreyshev.compositeshapespaint.model.container.Frame
+import ru.iandreyshev.compositeshapespaint.model.frame.IFrame
+import ru.iandreyshev.compositeshapespaint.model.frame.Frame
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 
 class Ellipse(
@@ -19,7 +19,7 @@ class Ellipse(
         if (horizontalRadius < 0 || verticalRadius < 0) throw IllegalArgumentException("Radius can not be negative")
     }
 
-    override val frame: AbstractFrame by lazy {
+    override val frame: IFrame by lazy {
         val x = center.x - horizontalRadius / 2
         val y = center.y - verticalRadius / 2
         return@lazy Frame(Vec2f(x, y), horizontalRadius, verticalRadius)

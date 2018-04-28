@@ -7,6 +7,8 @@ import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
 interface IMainUseCase : IUseCase {
     fun setState(stateName: String)
 
+    fun updateShape(shape: IShape)
+
     fun resizeStroke(shape: IShape, size: Int)
 
     fun changeFillColor(shape: IShape, color: Color)

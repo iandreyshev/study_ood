@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
-import ru.iandreyshev.compositeshapespaint.viewModel.interfaces.AbstractViewModel
+import ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces.AbstractViewModel
 import kotlin.reflect.KClass
 
 abstract class InteractorActivity<TInteractor : IInteractor, in TViewModel : AbstractViewModel<TInteractor>>(

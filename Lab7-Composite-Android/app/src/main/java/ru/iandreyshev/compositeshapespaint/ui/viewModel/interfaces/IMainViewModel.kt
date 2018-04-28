@@ -1,4 +1,4 @@
-package ru.iandreyshev.compositeshapespaint.viewModel.interfaces
+package ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces
 
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 

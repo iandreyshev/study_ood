@@ -2,8 +2,8 @@ package ru.iandreyshev.compositeshapespaint.model.shape
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.model.container.AbstractFrame
-import ru.iandreyshev.compositeshapespaint.model.container.Frame
+import ru.iandreyshev.compositeshapespaint.model.frame.IFrame
+import ru.iandreyshev.compositeshapespaint.model.frame.Frame
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 
 class RegularPolygon(
@@ -24,7 +24,7 @@ class RegularPolygon(
         if (radius < 0) throw IllegalArgumentException("Radius can not be negative")
     }
 
-    override val frame: AbstractFrame by lazy {
+    override val frame: IFrame by lazy {
         return@lazy Frame(center, radius, radius)
     }
 
@@ -54,9 +54,9 @@ class RegularPolygon(
         }
     }
 
-    private val AbstractFrame.radius: Float
+    private val IFrame.radius: Float
         get() = Math.min(width, height)
 
-    private val AbstractFrame.center: Vec2f
+    private val IFrame.center: Vec2f
         get() = Vec2f(position.x + width / 2, position.y + height / 2)
 }
