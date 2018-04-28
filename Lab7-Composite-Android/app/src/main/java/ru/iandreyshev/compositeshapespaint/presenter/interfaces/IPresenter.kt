@@ -1,3 +1,3 @@
-package ru.iandreyshev.gumballmachine.presenter.interfaces
+package ru.iandreyshev.compositeshapespaint.presenter.interfaces
 
 interface IPresenter

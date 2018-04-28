@@ -1,20 +1,21 @@
 package ru.iandreyshev.compositeshapespaint.useCase.interfaces
 
+import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
 
 interface IMainUseCase : IUseCase {
+    fun setState(stateName: String)
+
+    fun resizeStroke(shape: IShape, size: Int)
+
+    fun changeFillColor(shape: IShape, color: Color)
+
+    fun changeStrokeColor(shape: IShape, color: Color)
+
+    fun setTargetShape(shape: IShape)
+
+    fun deleteShape(shape: IShape)
+
     fun refresh()
-
-    fun resize(args: String)
-
-    fun move(args: String)
-
-    fun resizeStroke(args: String)
-
-    fun changeFillColor(args: String)
-
-    fun changeStrokeColor(args: String)
-
-    fun selectShape(shape: IShape)
 }

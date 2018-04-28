@@ -4,7 +4,7 @@ import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IMainPresenter
 import ru.iandreyshev.compositeshapespaint.useCase.MainUseCase
 import ru.iandreyshev.compositeshapespaint.useCase.interfaces.IMainUseCase
 import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCaseFactory
-import ru.iandreyshev.gumballmachine.presenter.interfaces.IPresenter
+import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IPresenter
 import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
 import kotlin.reflect.KClass
 

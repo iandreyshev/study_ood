@@ -3,12 +3,18 @@
 
     <string name="shape_info_view_not_selected">Shape not selected</string>
 
-    <string name="act_resize">Resize</string>
-    <string name="act_move">Move</string>
-    <string name="act_fill_color">Change fill color</string>
-    <string name="act_resize_stroke">Resize stroke</string>
-    <string name="act_stroke_color">Change stroke color</string>
+    <string name="act_add">Add shape</string>
+    <string name="act_resizing">Resizing</string>
+    <string name="act_moving">Moving</string>
+    <string name="act_grouping">Grouping</string>
+    <string name="act_show_info">Shape info</string>
+    <string name="act_delete">Delete shape</string>
+
+    <string name="dialog_title_change_fill_color">Change fill color</string>
+    <string name="dialog_title_edit_stroke">Edit stroke</string>
 
     <string name="action_error_null_shape">Please, select shape before invoke any action</string>
-    <string name="action_error_undefined">Undefined error :(</string>
+    <string name="action_error_undefined">Undefined error</string>
+
+    <string name="shape_not_selected">Shape not selected</string>
 </resources>

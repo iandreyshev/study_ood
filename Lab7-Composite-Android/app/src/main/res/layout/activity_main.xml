@@ -7,11 +7,27 @@
     tools:context="ru.iandreyshev.compositeshapespaint.ui.activity.MainActivity">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/shapeInfoViewCard"
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <include layout="@layout/view_shape_info" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tbToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:padding="0dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <include layout="@layout/view_shape_info" />
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.v7.widget.CardView>
 
@@ -22,7 +38,7 @@
         app:layout_constraintBottom_toTopOf="@+id/rvShapesListCard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shapeInfoViewCard">
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <ru.iandreyshev.compositeshapespaint.ui.view.CanvasView
             android:id="@+id/cvCanvas"

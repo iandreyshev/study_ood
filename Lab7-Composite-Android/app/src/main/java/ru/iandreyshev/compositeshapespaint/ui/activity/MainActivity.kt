@@ -5,68 +5,78 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import ru.iandreyshev.compositeshapespaint.R
 import ru.iandreyshev.compositeshapespaint.ui.adapter.ShapesListRVAdapter
-import ru.iandreyshev.compositeshapespaint.viewModel.MainViewModel
+import ru.iandreyshev.compositeshapespaint.viewModel.main.MainViewModel
 import android.view.Menu
 import android.view.MenuItem
-import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_shape_info.*
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.toast
 import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IMainInteractor
-import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.ui.ActionError
 import ru.iandreyshev.compositeshapespaint.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.compositeshapespaint.factory.CleanArchitectureFactory
+import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.ui.dialog.DialogFactory
+import ru.iandreyshev.compositeshapespaint.viewModel.main.IMainActivityStateContext
 
-class MainActivity : BaseActivity<IMainInteractor, MainViewModel>(
+class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         layout = R.layout.activity_main,
         viewModelClass = MainViewModel::class,
         viewModelFactory = CleanArchitectureFactory) {
 
-    private val mAdapter: ShapesListRVAdapter by lazy {
-        ShapesListRVAdapter({ interactor?.selectShape(it) })
+    private var mTargetShape: IShape? = null
+    private val mShapesListAdapter: ShapesListRVAdapter by lazy {
+        ShapesListRVAdapter({ interactor.setTargetShape(it) })
     }
 
-    override val onProvideViewModel: MainViewModel.() -> Unit = {
-        shapes.observe {
-            val shapes = it ?: listOf()
-            mAdapter.shapes = shapes
-            reDraw(shapes)
-        }
-        targetShape.observe {
-            shapeInfoView.setShape(it)
-        }
-        state.observe {
-            when (it) {
-                MainViewModel.ViewState.NORMAL -> TODO()
-                MainViewModel.ViewState.RESIZE -> TODO()
-                MainViewModel.ViewState.MOVE -> TODO()
-            }
-        }
-    }
+    override fun onLayoutCreated(savedInstanceState: Bundle?) {
+        setSupportActionBar(tbToolbar)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
         refreshLayout.onRefresh {
-            interactor?.refresh()
-            refreshLayout.isRefreshing = false
+            interactor.refresh()
         }
 
         with(rvShapesList) {
-            adapter = mAdapter
+            adapter = mShapesListAdapter
             addItemDecoration(DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation))
         }
 
         shapeInfoView.setOnFillColorClick {
-            DialogFactory.fillColorDialog(this) {
-                interactor?.changeFillColor(it)
+            DialogFactory.fillColorDialog(this) { color ->
+                actionWithShape { interactor.changeFillColor(it, color) }
             }
         }
+
         shapeInfoView.setOnStrokeColorClick {
-            DialogFactory.strokeColorDialog(this) {
-                interactor?.changeStrokeColor(it)
+            DialogFactory.editStrokeDialog(this) { color ->
+                actionWithShape { interactor.changeStrokeColor(it, color) }
             }
+        }
+    }
+
+    override val onProvideViewModel: MainViewModel.() -> Unit = {
+        shapes.observe { shapes ->
+            mShapesListAdapter.shapes = shapes ?: listOf()
+            reDraw()
+        }
+
+        targetShape.observe { shape ->
+            mTargetShape = shape
+            shapeInfoView.setShape(mTargetShape)
+        }
+
+        state.observeNotNull { state ->
+            state.context = StateContext()
+            state.tuneToolbar(tbToolbar)
+        }
+
+        showProgress.observe { isPrecess ->
+            refreshLayout.isRefreshing = isPrecess ?: false
+        }
+
+        error.observe { error ->
+            handleActionError(error)
         }
     }
 
@@ -77,25 +87,20 @@ class MainActivity : BaseActivity<IMainInteractor, MainViewModel>(
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.act_move -> {
-            }
-
-            R.id.act_resize -> interactor?.apply {
-                DialogFactory.shapeSizeDialog(this@MainActivity, ::resize)
-            }
-
-            R.id.act_resize_stroke -> interactor?.apply {
-                DialogFactory.strokeSizeDialog(this@MainActivity, ::resizeStroke)
-            }
+            R.id.act_add -> DialogFactory.addShapeDialog(this, interactor::addShape)
+            R.id.act_resizing -> interactor.beginResizing()
+            R.id.act_moving -> interactor.beginMoving()
+            R.id.act_grouping -> interactor.beginGrouping()
+            R.id.act_show_info -> actionWithShape { interactor.showShapeInfo(it) }
+            R.id.act_delete -> actionWithShape { interactor.deleteShape(it) }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
-    private fun reDraw(shapes: List<IShape>) {
+    private fun reDraw() {
         cvCanvas.onDrawAction { canvas ->
             val adapter = AndroidCanvasAdapter(canvas)
-            shapes.forEach { it.draw(adapter) }
+            mShapesListAdapter.shapes.forEach { it.draw(adapter) }
         }
         cvCanvas.invalidate()
     }
@@ -103,11 +108,18 @@ class MainActivity : BaseActivity<IMainInteractor, MainViewModel>(
     private fun handleActionError(error: ActionError?) {
         when (error) {
             ActionError.SHAPE_NOT_SELECTED -> toast(R.string.action_error_null_shape)
-            ActionError.RESIZE_ARGS_ERR -> toast("Use only float values separated by space")
-            ActionError.MOVE_ARGS_ERR -> toast("Use only float values separated by space")
-            ActionError.RESIZE_STROKE_ERR -> toast("Use only positive float values")
-            ActionError.INVALID_COLOR -> toast("Available colors: ${Color.values().joinToString()}")
             ActionError.UNDEFINED_ERR -> toast(R.string.action_error_undefined)
         }
     }
+
+    private fun actionWithShape(action: (IShape) -> Unit) {
+        mTargetShape.apply {
+            when (this) {
+                null -> toast(R.string.shape_not_selected)
+                else -> action(this)
+            }
+        }
+    }
+
+    private class StateContext : IMainActivityStateContext
 }

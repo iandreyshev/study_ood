@@ -1,5 +1,6 @@
 package ru.iandreyshev.compositeshapespaint.useCase
 
+import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IMainPresenter
 import ru.iandreyshev.compositeshapespaint.ui.shapes.ImageGenerator
@@ -9,33 +10,46 @@ class MainUseCase(
         private var presenter: IMainPresenter
 ) : IMainUseCase {
 
-    private var shapes = ImageGenerator.create()
+    private var mShapes = ImageGenerator.create()
 
     init {
-        presenter.draw(shapes)
-        presenter.setTarget(null)
+        processWrap {
+            presenter.updateShapes(mShapes)
+            presenter.setTarget(null)
+        }
     }
 
-    override fun selectShape(shape: IShape) =
-            presenter.setTarget(shape)
+    override fun setState(stateName: String) =
+            presenter.setState(stateName.trim().toLowerCase())
 
-    override fun refresh() {
-        shapes = ImageGenerator.create()
-        presenter.draw(shapes)
+    override fun setTargetShape(shape: IShape) {
+        if (!mShapes.contains(shape)) {
+            return // TODO: Create notification about invalid target shape
+        }
+
+        presenter.setTarget(shape)
     }
 
-    override fun resize(args: String) {
+    override fun resizeStroke(shape: IShape, size: Int) {
     }
 
-    override fun move(args: String) {
+    override fun changeFillColor(shape: IShape, color: Color) {
     }
 
-    override fun resizeStroke(args: String) {
+    override fun changeStrokeColor(shape: IShape, color: Color) {
     }
 
-    override fun changeFillColor(args: String) {
+    override fun deleteShape(shape: IShape) {
     }
 
-    override fun changeStrokeColor(args: String) {
+    override fun refresh() = processWrap {
+        mShapes = ImageGenerator.create()
+        presenter.updateShapes(mShapes)
+    }
+
+    private fun processWrap(process: () -> Unit) {
+        presenter.startProcess()
+        process.invoke()
+        presenter.finishProcess()
     }
 }

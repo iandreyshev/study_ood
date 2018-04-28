@@ -5,10 +5,10 @@ import android.arch.lifecycle.ViewModelProvider
 import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IMainInteractor
 import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IMainPresenter
 import ru.iandreyshev.compositeshapespaint.useCase.interfaces.IMainUseCase
-import ru.iandreyshev.compositeshapespaint.viewModel.MainViewModel
+import ru.iandreyshev.compositeshapespaint.viewModel.main.MainViewModel
 import ru.iandreyshev.compositeshapespaint.viewModel.interfaces.AbstractViewModel
 import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
-import ru.iandreyshev.gumballmachine.presenter.interfaces.IPresenter
+import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IPresenter
 import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
 import kotlin.reflect.KClass
 

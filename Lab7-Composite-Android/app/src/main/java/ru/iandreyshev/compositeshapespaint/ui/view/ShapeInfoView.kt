@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import kotlinx.android.synthetic.main.view_shape_info.view.*
-import ru.iandreyshev.compositeshapespaint.R
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.ui.extension.*
@@ -16,12 +15,10 @@ class ShapeInfoView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     fun setShape(shape: IShape?) {
-        tvTitle.gone()
-        tvPosition.setTextOrGone(shape?.positionString)
-        tvSize.setTextOrGone(shape?.sizeString)
-        tvStrokeSize.setTextOrGone(shape?.strokeSizeString)
-
+        flFillColor.visibleIfOrGone(shape != null)
         cvFillColor.fill(shape?.getFillColor())
+
+        flStrokeColor.visibleIfOrGone(shape != null)
         cvStrokeColor.fill(shape?.getStrokeColor())
 
         shape?.getStrokeColor().apply {
@@ -35,11 +32,6 @@ class ShapeInfoView @JvmOverloads constructor(
 
         cvFillColor.invalidate()
         cvStrokeColor.invalidate()
-
-        if (shape == null) {
-            tvTitle.visible()
-            tvTitle.text = resources.getString(R.string.shape_info_view_not_selected)
-        }
     }
 
     fun setOnFillColorClick(action: () -> Unit) =

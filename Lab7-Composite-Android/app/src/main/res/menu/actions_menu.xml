@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/act_resize"
-        android:title="@string/act_resize" />
+        android:id="@+id/act_add"
+        android:icon="@drawable/ic_add"
+        android:title="@string/act_add"
+        app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/act_move"
-        android:title="@string/act_move" />
+        android:id="@+id/act_resizing"
+        android:icon="@drawable/ic_resize"
+        android:title="@string/act_resizing" />
 
     <item
-        android:id="@+id/act_resize_stroke"
-        android:title="@string/act_resize_stroke" />
+        android:id="@+id/act_moving"
+        android:icon="@drawable/ic_move"
+        android:title="@string/act_moving" />
+
+    <item
+        android:id="@+id/act_grouping"
+        android:icon="@drawable/ic_move"
+        android:title="@string/act_grouping" />
+
+    <item
+        android:id="@+id/act_show_info"
+        android:icon="@drawable/ic_info_outline_black_24dp"
+        android:title="@string/act_show_info" />
+
+    <item
+        android:id="@+id/act_delete"
+        android:icon="@drawable/ic_delete_forever_black_24dp"
+        android:title="@string/act_delete" />
 
 </menu>

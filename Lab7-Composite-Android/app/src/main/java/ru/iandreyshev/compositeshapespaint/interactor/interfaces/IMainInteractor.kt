@@ -7,15 +7,25 @@ import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
 interface IMainInteractor : IInteractor {
     fun refresh()
 
-    fun resize(size: Int)
+    fun addShape(id: String)
 
-    fun move(args: String)
+    fun beginNormal()
 
-    fun resizeStroke(size: Int)
+    fun beginResizing()
 
-    fun changeFillColor(color: Color)
+    fun beginMoving()
 
-    fun changeStrokeColor(color: Color)
+    fun beginGrouping()
 
-    fun selectShape(shape: IShape)
+    fun resizeStroke(shape: IShape, size: Int)
+
+    fun changeFillColor(shape: IShape, color: Color)
+
+    fun changeStrokeColor(shape: IShape, color: Color)
+
+    fun setTargetShape(shape: IShape)
+
+    fun showShapeInfo(shape: IShape)
+
+    fun deleteShape(shape: IShape)
 }
