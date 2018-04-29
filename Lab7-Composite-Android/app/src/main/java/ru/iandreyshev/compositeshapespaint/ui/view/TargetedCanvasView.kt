@@ -4,8 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
-import ru.iandreyshev.compositeshapespaint.model.frame.Frame
-import ru.iandreyshev.compositeshapespaint.model.frame.IFrame
+import ru.iandreyshev.compositeshapespaint.model.frame.*
 import ru.iandreyshev.compositeshapespaint.ui.OnTouchMoveCallback
 
 class TargetedCanvasView @JvmOverloads constructor(
@@ -122,39 +121,50 @@ class TargetedCanvasView @JvmOverloads constructor(
                     xRange.contains(newX) && yRange.contains(newY)
         }
 
-        fun createNewFrame(): IFrame {
-            return Frame()
-        }
+        val position = frame.position
 
-        return with(frame) {
-            when {
-            // Left top
-                hitTest(position.x, position.y) -> {
-                    if (newX + MIN_WIDTH > position.x + width) return null
-                    if (newY + MIN_HEIGHT > position.y + height) return null
+        return when {
+            hitTest(frame.left, frame.top) -> {
+                // Left top
+                if (newX > frame.right - MIN_WIDTH) return null
+                if (newY > frame.bottom - MIN_HEIGHT) return null
 
-                    val newWidth = position.x + width - newX
-                    val newHeight = position.y + height - newY
+                val newWidth = frame.right - newX
+                val newHeight = frame.bottom - newY
 
-                    return Frame(Vec2f(newX, newY), newWidth, newHeight)
-                }
-            // Right top
-                hitTest(position.x + width, position.y) -> {
-                    if (newX - MIN_WIDTH < position.x) return null
-                    if (newY + MIN_HEIGHT > position.y + height) return null
-
-                    createNewFrame()
-                }
-            // Right bottom
-                hitTest(position.x + width, position.y + height) -> {
-                    createNewFrame()
-                }
-            // Left bottom
-                hitTest(position.x, position.y + height) -> {
-                    createNewFrame()
-                }
-                else -> null
+                return Frame(Vec2f(newX, newY), newWidth, newHeight)
             }
+            hitTest(frame.right, frame.top) -> {
+                // Right top
+                if (newX < frame.left + MIN_WIDTH) return null
+                if (newY > frame.bottom - MIN_HEIGHT) return null
+
+                val newWidth = newX - frame.left
+                val newHeight = frame.bottom - newY
+
+                return Frame(Vec2f(frame.left, newY), newWidth, newHeight)
+            }
+            hitTest(frame.right, frame.bottom) -> {
+                // Right bottom
+                if (newX < frame.left + MIN_WIDTH) return null
+                if (newY < frame.top + MIN_HEIGHT) return null
+
+                val newWidth = newX - frame.left
+                val newHeight = newY - frame.top
+
+                return Frame(position, newWidth, newHeight)
+            }
+            hitTest(frame.left, frame.bottom) -> {
+                // Left bottom
+                if (newX > frame.right - MIN_WIDTH) return null
+                if (newY < frame.top + MIN_HEIGHT) return null
+
+                val newWidth = frame.right - newX
+                val newHeight = newY - frame.top
+
+                return Frame(Vec2f(newX, frame.top), newWidth, newHeight)
+            }
+            else -> null
         }
     }
 
