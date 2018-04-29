@@ -11,10 +11,6 @@ interface IMainInteractor : IInteractor {
 
     fun beginNormal()
 
-    fun beginResizing()
-
-    fun beginMoving()
-
     fun beginGrouping()
 
     fun updateShape(shape: IShape)

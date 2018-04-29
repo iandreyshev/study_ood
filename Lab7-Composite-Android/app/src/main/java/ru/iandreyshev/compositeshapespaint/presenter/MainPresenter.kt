@@ -17,8 +17,6 @@ class MainPresenter(
     override fun setState(stateName: String) {
         when (stateName) {
             "normal" -> viewModel.beginNormal()
-            "resizing" -> viewModel.beginResizing()
-            "moving" -> viewModel.beginMoving()
             "grouping" -> viewModel.beginGrouping()
         }
     }

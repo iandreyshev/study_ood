@@ -29,17 +29,16 @@ class Rectangle(
     override fun onDrawStroke(canvas: ICanvas) = onDraw(canvas)
 
     private fun onDraw(canvas: ICanvas) {
-        val leftTop = frame.position
-        val rightTop = Vec2f(frame.position.x + frame.width, frame.position.y)
-        val rightBottom = Vec2f(frame.position.x + frame.width, frame.position.y + frame.height)
-        val leftBottom = Vec2f(frame.position.x, frame.position.y + frame.height)
+        val position = frame.position
+        val width = frame.width
+        val height = frame.height
 
         with(canvas) {
-            moveTo(leftTop)
-            lineTo(rightTop)
-            lineTo(rightBottom)
-            lineTo(leftBottom)
-            lineTo(leftTop)
+            moveTo(position)
+            lineTo(position.x + width, position.y)
+            lineTo(position.x + width, position.y + height)
+            lineTo(position.x, position.y + height)
+            lineTo(position)
         }
     }
 }

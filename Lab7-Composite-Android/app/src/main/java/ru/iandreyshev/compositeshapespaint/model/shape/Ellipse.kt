@@ -20,9 +20,9 @@ class Ellipse(
     }
 
     override val frame: IFrame by lazy {
-        val x = center.x - horizontalRadius / 2
-        val y = center.y - verticalRadius / 2
-        return@lazy Frame(Vec2f(x, y), horizontalRadius, verticalRadius)
+        val x = center.x - horizontalRadius
+        val y = center.y - verticalRadius
+        return@lazy Frame(Vec2f(x, y), horizontalRadius * 2, verticalRadius * 2)
     }
 
     override fun onDrawShape(canvas: ICanvas) = onDraw(canvas)
@@ -30,8 +30,10 @@ class Ellipse(
     override fun onDrawStroke(canvas: ICanvas) = onDraw(canvas)
 
     private fun onDraw(canvas: ICanvas) {
-        val centerX = frame.position.x + frame.width / 2
-        val centerY = frame.position.y + frame.height / 2
-        canvas.drawEllipse(Vec2f(centerX, centerY), frame.width, frame.height)
+        val radiusX = frame.width / 2
+        val radiusY = frame.height / 2
+        val centerX = frame.position.x + radiusX
+        val centerY = frame.position.y + radiusY
+        canvas.drawEllipse(centerX, centerY, radiusX, radiusY)
     }
 }

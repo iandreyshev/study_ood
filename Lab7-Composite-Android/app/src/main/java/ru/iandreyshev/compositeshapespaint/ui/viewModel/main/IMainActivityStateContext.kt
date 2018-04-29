@@ -6,6 +6,4 @@ import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 interface IMainActivityStateContext {
     var targetShape: IShape?
     val interactor: IMainInteractor
-
-    fun setRefreshingLayoutEnabled(isEnabled: Boolean)
 }

@@ -11,9 +11,13 @@ interface ICanvas {
 
     fun stroke()
 
-    fun moveTo(dest: Vec2f)
+    fun moveTo(position: Vec2f)
 
-    fun lineTo(dest: Vec2f)
+    fun moveTo(x: Float, y: Float)
 
-    fun drawEllipse(center: Vec2f, horizontalRadius: Float, verticalRadius: Float)
+    fun lineTo(position: Vec2f)
+
+    fun lineTo(x: Float, y: Float)
+
+    fun drawEllipse(centerX: Float, centerY: Float, horizontalRadius: Float, verticalRadius: Float)
 }

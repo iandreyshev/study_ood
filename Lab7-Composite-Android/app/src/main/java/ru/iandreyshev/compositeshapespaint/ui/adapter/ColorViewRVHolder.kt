@@ -7,5 +7,5 @@ import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.ui.extension.fill
 
 class ColorViewRVHolder(view: View) : RecyclerView.ViewHolder(view) {
-    fun initColor(color: Color) = itemView.cvCanvas.fill(color)
+    fun initColor(color: Color) = itemView.tcvCanvas.fill(color)
 }

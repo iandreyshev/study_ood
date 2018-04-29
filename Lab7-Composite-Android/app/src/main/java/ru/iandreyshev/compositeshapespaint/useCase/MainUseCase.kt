@@ -43,12 +43,16 @@ class MainUseCase(
     override fun changeStrokeColor(shape: IShape, color: Color) {
     }
 
-    override fun deleteShape(shape: IShape) {
+    override fun deleteShape(shape: IShape) = processWrap {
+        mShapes.remove(shape)
+        presenter.updateShapes(mShapes)
+        presenter.setTarget(mShapes.firstOrNull())
     }
 
     override fun refresh() = processWrap {
         mShapes = ImageGenerator.create()
         presenter.updateShapes(mShapes)
+        presenter.setTarget(null)
     }
 
     private fun processWrap(process: () -> Unit) {

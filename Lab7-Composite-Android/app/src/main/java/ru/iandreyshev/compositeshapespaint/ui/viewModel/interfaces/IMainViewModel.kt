@@ -9,9 +9,5 @@ interface IMainViewModel : IProgressViewModel {
 
     fun beginNormal()
 
-    fun beginResizing()
-
-    fun beginMoving()
-
     fun beginGrouping()
 }

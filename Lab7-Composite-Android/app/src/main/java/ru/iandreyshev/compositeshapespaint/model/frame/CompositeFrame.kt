@@ -7,16 +7,16 @@ class CompositeFrame(
 ) : IFrame {
 
     override val width: Float
-        get() = frames.getSize({ position.x }, { width })
+        get() = getSize(position.x, { position.x }, { width })
 
     override val height: Float
-        get() = frames.getSize({ position.y }, { height })
+        get() = getSize(position.y, { position.y }, { height })
 
     override var position: Vec2f
         get() {
             var x = Float.MAX_VALUE
             var y = Float.MAX_VALUE
-            val isEmpty = frames.doActionOrFalse {
+            val isNotEmpty = frames.doActionOrFalse {
                 if (position.x < x) {
                     x = position.x
                 }
@@ -25,7 +25,7 @@ class CompositeFrame(
                 }
             }
 
-            return if (isEmpty) Vec2f() else Vec2f(x, y)
+            return if (isNotEmpty) Vec2f(x, y) else Vec2f()
         }
         set(value) {
             val currPosition = position
@@ -53,35 +53,32 @@ class CompositeFrame(
         }
     }
 
+    private fun getSize(
+            positionOnAxis: Float,
+            getPositionOnAxis: IFrame.() -> Float,
+            getSizeOnAxis: IFrame.() -> Float): Float {
+        var max = Float.MIN_VALUE
+
+        val isNotEmpty = frames.doActionOrFalse {
+            val newMax = getPositionOnAxis(this) + getSizeOnAxis(this)
+            if (newMax > max) {
+                max = newMax
+            }
+        }
+
+        return if (isNotEmpty) max - positionOnAxis else 0f
+    }
+
     interface InnerFramesIterator {
         fun forEach(action: IFrame.() -> Unit)
     }
 
     private fun InnerFramesIterator.doActionOrFalse(action: IFrame.() -> Unit): Boolean {
-        var isEmpty = true
+        var isNotEmpty = false
         forEach {
-            isEmpty = false
-            action(this)
+            isNotEmpty = true
+            this.apply(action)
         }
-        return isEmpty
-    }
-
-    private fun InnerFramesIterator.getSize(
-            toAxisPosition: IFrame.() -> Float,
-            toAxisSize: IFrame.() -> Float): Float {
-        var min = Float.MAX_VALUE
-        var max = Float.MIN_VALUE
-        val isEmpty = doActionOrFalse {
-            val axisPos = toAxisPosition(this)
-            if (axisPos < min) {
-                min = axisPos
-            }
-            val newMaxX = min + toAxisSize(this)
-            if (newMaxX > max) {
-                max = newMaxX
-            }
-        }
-
-        return if (isEmpty) 0f else max - min
+        return isNotEmpty
     }
 }

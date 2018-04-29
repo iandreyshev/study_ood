@@ -25,7 +25,8 @@ class RegularPolygon(
     }
 
     override val frame: IFrame by lazy {
-        return@lazy Frame(center, radius, radius)
+        val position = Vec2f(center.x - radius, center.y - radius)
+        return@lazy Frame(position, radius * 2, radius * 2)
     }
 
     override fun onDrawShape(canvas: ICanvas) = onDraw(canvas)
@@ -55,7 +56,7 @@ class RegularPolygon(
     }
 
     private val IFrame.radius: Float
-        get() = Math.min(width, height)
+        get() = Math.min(width, height) / 2
 
     private val IFrame.center: Vec2f
         get() = Vec2f(position.x + width / 2, position.y + height / 2)

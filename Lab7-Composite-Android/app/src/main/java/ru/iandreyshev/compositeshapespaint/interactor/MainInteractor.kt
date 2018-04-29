@@ -21,12 +21,6 @@ class MainInteractor(
     override fun beginNormal() =
             mainUseCase.setState("normal")
 
-    override fun beginResizing() =
-            mainUseCase.setState("resizing")
-
-    override fun beginMoving() =
-            mainUseCase.setState("moving")
-
     override fun beginGrouping() =
             mainUseCase.setState("grouping")
 

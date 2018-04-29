@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ru.iandreyshev.compositeshapespaint.ui.view.CanvasView
-            android:id="@+id/cvCanvas"
+            android:id="@+id/tcvCanvas"
             android:layout_width="69dp"
             android:layout_height="69dp"
             android:background="@drawable/none_color"

@@ -13,8 +13,8 @@ abstract class TouchHandlerView @JvmOverloads constructor(
         defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    var onMove: OnTouchMoveCallback? = null
-    var onClick: OnClickCallback? = null
+    open var onMove: OnTouchMoveCallback? = null
+    open var onClick: OnClickCallback? = null
         set(value) {
             field = value
             setOnLongClickListener { e ->
@@ -22,7 +22,7 @@ abstract class TouchHandlerView @JvmOverloads constructor(
                 return@setOnLongClickListener true
             }
         }
-    var onLongClick: OnClickCallback? = null
+    open var onLongClick: OnClickCallback? = null
         set(value) {
             field = value
             setOnLongClickListener { e ->

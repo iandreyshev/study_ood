@@ -9,28 +9,19 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/act_resizing"
-        android:icon="@drawable/ic_resize"
-        android:title="@string/act_resizing" />
-
-    <item
-        android:id="@+id/act_moving"
-        android:icon="@drawable/ic_move"
-        android:title="@string/act_moving" />
-
-    <item
         android:id="@+id/act_grouping"
-        android:icon="@drawable/ic_move"
         android:title="@string/act_grouping" />
 
     <item
         android:id="@+id/act_show_info"
-        android:icon="@drawable/ic_info_outline_black_24dp"
         android:title="@string/act_show_info" />
 
     <item
+        android:id="@+id/act_refresh"
+        android:title="@string/act_refresh" />
+
+    <item
         android:id="@+id/act_delete"
-        android:icon="@drawable/ic_delete_forever_black_24dp"
         android:title="@string/act_delete" />
 
 </menu>

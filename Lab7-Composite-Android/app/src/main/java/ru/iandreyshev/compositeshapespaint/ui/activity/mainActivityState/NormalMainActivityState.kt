@@ -6,8 +6,4 @@ import ru.iandreyshev.compositeshapespaint.ui.viewModel.main.MainActivityState
 class NormalMainActivityState : MainActivityState() {
     override val title: String = ""
     override var actionCallback: ActionMode.Callback? = null
-
-    override fun onContextAttached() {
-        context?.setRefreshingLayoutEnabled(true)
-    }
 }

@@ -4,8 +4,8 @@ import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 
 class Frame @JvmOverloads constructor(
         override var position: Vec2f = Vec2f(),
-        width: Float,
-        height: Float
+        width: Float = 0f,
+        height: Float = 0f
 ) : IFrame {
 
     companion object {

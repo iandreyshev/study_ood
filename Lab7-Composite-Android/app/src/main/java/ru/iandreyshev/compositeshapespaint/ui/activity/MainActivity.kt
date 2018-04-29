@@ -10,13 +10,12 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_shape_info.*
-import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.toast
 import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IMainInteractor
 import ru.iandreyshev.compositeshapespaint.ui.ActionError
-import ru.iandreyshev.compositeshapespaint.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.compositeshapespaint.factory.CleanArchitectureFactory
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
+import ru.iandreyshev.compositeshapespaint.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.compositeshapespaint.ui.dialog.DialogFactory
 import ru.iandreyshev.compositeshapespaint.ui.extension.visibleIfOrGone
 import ru.iandreyshev.compositeshapespaint.ui.viewModel.main.IMainActivityStateContext
@@ -26,6 +25,7 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         viewModelClass = MainViewModel::class,
         viewModelFactory = CleanArchitectureFactory) {
 
+    private var mCanvasAdapter = AndroidCanvasAdapter()
     private var mTargetShape: IShape? = null
     private val mShapesListAdapter: ShapesListRVAdapter by lazy {
         ShapesListRVAdapter({ interactor.setTargetShape(it) })
@@ -33,10 +33,6 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
 
     override fun onLayoutCreated(savedInstanceState: Bundle?) {
         setSupportActionBar(tbToolbar)
-
-        refreshLayout.onRefresh {
-            interactor.refresh()
-        }
 
         with(rvShapesList) {
             adapter = mShapesListAdapter
@@ -54,10 +50,20 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
                 actionWithTargetShape { interactor.changeStrokeColor(it, color) }
             }
         }
+
+        tcvCanvas.onChangeTarget { newFrame ->
+            mTargetShape?.frame?.apply {
+                position = newFrame.position
+                resize(newFrame.width, newFrame.height)
+            }
+
+            mTargetShape?.let { interactor.updateShape(it) }
+        }
     }
 
     override val onProvideViewModel: MainViewModel.() -> Unit = {
         shapes.observe { shapes ->
+            tvEmptyMessage.visibleIfOrGone(shapes?.isEmpty() ?: false)
             mShapesListAdapter.shapes = shapes ?: listOf()
             reDraw()
         }
@@ -65,18 +71,16 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         targetShape.observe { shape ->
             mTargetShape = shape
             shapeInfoView.setShape(mTargetShape)
+            tcvCanvas.isEnabled = shape?.frame != null
+            shape?.frame?.apply { tcvCanvas.setTarget(position, width, height) }
         }
 
         state.observeNotNull { state ->
             state.context = StateContext()
-            cvCanvas.onMove = state::handleCanvasTouchMove
+            tcvCanvas.onMove = state::handleCanvasTouchMove
             state.actionCallback?.let {
                 startSupportActionMode(it)
             }
-        }
-
-        showProgress.observe { isPrecess ->
-            refreshLayout.isRefreshing = isPrecess ?: false
         }
 
         error.observe { error ->
@@ -92,21 +96,20 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.act_add -> DialogFactory.addShapeDialog(this, interactor::addShape)
-            R.id.act_resizing -> interactor.beginResizing()
-            R.id.act_moving -> interactor.beginMoving()
             R.id.act_grouping -> interactor.beginGrouping()
             R.id.act_show_info -> actionWithTargetShape { interactor.showShapeInfo(it) }
+            R.id.act_refresh -> interactor.refresh()
             R.id.act_delete -> actionWithTargetShape { interactor.deleteShape(it) }
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun reDraw() {
-        cvCanvas.onDrawAction { canvas ->
-            val adapter = AndroidCanvasAdapter(canvas)
-            mShapesListAdapter.shapes.forEach { it.draw(adapter) }
+        tcvCanvas.onDrawAction { canvas ->
+            mCanvasAdapter.canvas = canvas
+            mShapesListAdapter.shapes.forEach { it.draw(mCanvasAdapter) }
         }
-        cvCanvas.invalidate()
+        tcvCanvas.invalidate()
     }
 
     private fun handleActionError(error: ActionError?) {
@@ -130,10 +133,5 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
             get() = this@MainActivity.interactor
         override var targetShape: IShape? = null
             get() = this@MainActivity.mTargetShape
-
-        override fun setRefreshingLayoutEnabled(isEnabled: Boolean) {
-            refreshLayout.isEnabled = isEnabled
-        }
-
     }
 }

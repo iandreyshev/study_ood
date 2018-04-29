@@ -6,17 +6,13 @@ import ru.iandreyshev.compositeshapespaint.model.observable.LiveEvent
 import ru.iandreyshev.compositeshapespaint.model.shape.*
 import ru.iandreyshev.compositeshapespaint.ui.ActionError
 import ru.iandreyshev.compositeshapespaint.ui.activity.mainActivityState.GroupingMainActivityState
-import ru.iandreyshev.compositeshapespaint.ui.activity.mainActivityState.MovingMainActivityState
 import ru.iandreyshev.compositeshapespaint.ui.activity.mainActivityState.NormalMainActivityState
-import ru.iandreyshev.compositeshapespaint.ui.activity.mainActivityState.ResizingMainActivityState
 import ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces.IMainViewModel
 import ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces.ProgressViewModel
 
 class MainViewModel : ProgressViewModel<IMainInteractor>(), IMainViewModel {
 
     private val mNormalState = NormalMainActivityState()
-    private val mResizingState = ResizingMainActivityState()
-    private val mMovingState = MovingMainActivityState()
     private val mGroupingState = GroupingMainActivityState()
 
     // OBSERVABLES
@@ -34,12 +30,6 @@ class MainViewModel : ProgressViewModel<IMainInteractor>(), IMainViewModel {
 
     override fun beginNormal() =
             state.postValue(mNormalState)
-
-    override fun beginResizing() =
-            state.postValue(mResizingState)
-
-    override fun beginMoving() =
-            state.postValue(mMovingState)
 
     override fun beginGrouping() =
             state.postValue(mGroupingState)
