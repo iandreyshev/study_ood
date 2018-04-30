@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="ru.iandreyshev.compositeshapespaint.ui.activity.MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -32,44 +33,95 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ru.iandreyshev.compositeshapespaint.ui.view.TargetedCanvasView
-        android:id="@+id/tcvCanvas"
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/supSlidingPanel"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/rvShapesListCard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ablToolbar">
-
-    </ru.iandreyshev.compositeshapespaint.ui.view.TargetedCanvasView>
-
-    <TextView
-        android:id="@+id/tvEmptyMessage"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="@string/shape_not_found"
-        android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/rvShapesListCard"
-        app:layout_constraintTop_toTopOf="@+id/tcvCanvas" />
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/rvShapesListCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ablToolbar"
+        app:umanoOverlay="true"
+        app:umanoPanelHeight="@dimen/panel_height"
+        app:umanoScrollableView="@+id/rvShapesList"
+        app:umanoShadowHeight="0dp">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvShapesList"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvEmptyMessage"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/shape_not_found"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ru.iandreyshev.compositeshapespaint.ui.view.TargetedCanvasView
+                android:id="@+id/tcvCanvas"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ru.iandreyshev.compositeshapespaint.ui.view.TargetedCanvasView>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/llPanelContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_select_shape" />
+            android:orientation="vertical"
+            android:paddingEnd="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingStart="8dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
 
-    </android.support.v7.widget.CardView>
+            <ImageButton
+                android:id="@+id/ibPanelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/panel_height"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/ic_open_panel" />
 
-</android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvPanelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:paddingBottom="10dp"
+                android:paddingEnd="0dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="0dp"
+                android:paddingStart="4dp"
+                android:paddingTop="10dp"
+                android:text="@string/shapes_list_title"
+                android:textAllCaps="true"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvShapesList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_shape" />
+
+        </LinearLayout>
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+</LinearLayout>

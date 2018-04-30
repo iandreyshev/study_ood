@@ -1,30 +1,35 @@
 package ru.iandreyshev.compositeshapespaint.ui.activity
 
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
 import ru.iandreyshev.compositeshapespaint.R
 import ru.iandreyshev.compositeshapespaint.ui.adapter.ShapesListRVAdapter
 import ru.iandreyshev.compositeshapespaint.ui.viewModel.main.MainViewModel
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_shape_info.*
+import org.jetbrains.anko.collections.forEachReversedWithIndex
 import org.jetbrains.anko.toast
 import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IMainInteractor
 import ru.iandreyshev.compositeshapespaint.ui.ActionError
 import ru.iandreyshev.compositeshapespaint.factory.CleanArchitectureFactory
+import ru.iandreyshev.compositeshapespaint.model.frame.hitTest
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.compositeshapespaint.ui.dialog.DialogFactory
+import ru.iandreyshev.compositeshapespaint.ui.extension.getWindowSize
 import ru.iandreyshev.compositeshapespaint.ui.extension.visibleIfOrGone
 import ru.iandreyshev.compositeshapespaint.ui.viewModel.main.IMainActivityStateContext
+import kotlin.math.pow
 
 class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         layout = R.layout.activity_main,
         viewModelClass = MainViewModel::class,
         viewModelFactory = CleanArchitectureFactory) {
 
+    private val mPanelContentOffset by lazy { getWindowSize().heightPixels }
     private var mCanvasAdapter = AndroidCanvasAdapter()
     private var mTargetShape: IShape? = null
     private val mShapesListAdapter: ShapesListRVAdapter by lazy {
@@ -36,7 +41,6 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
 
         with(rvShapesList) {
             adapter = mShapesListAdapter
-            addItemDecoration(DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation))
         }
 
         shapeInfoView.setOnFillColorClick {
@@ -51,7 +55,8 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
             }
         }
 
-        tcvCanvas.onChangeTarget { newFrame ->
+        tcvCanvas.onTouch = ::handleCanvasTouch
+        tcvCanvas.onTargetChanged { newFrame ->
             mTargetShape?.frame?.apply {
                 position = newFrame.position
                 resize(newFrame.width, newFrame.height)
@@ -59,6 +64,9 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
 
             mTargetShape?.let { interactor.updateShape(it) }
         }
+
+        supSlidingPanel.addPanelSlideListener(PanelListener())
+        llPanelContent?.background?.alpha = 0
     }
 
     override val onProvideViewModel: MainViewModel.() -> Unit = {
@@ -128,10 +136,39 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         }
     }
 
+    private fun handleCanvasTouch(x: Float, y: Float) {
+        mShapesListAdapter.shapes.forEachReversedWithIndex { _, shape ->
+            if (tcvCanvas.hitTest(x, y)) {
+                return
+            }
+            if (shape.frame.hitTest(x, y)) {
+                interactor.setTargetShape(shape)
+                return
+            }
+        }
+    }
+
     private inner class StateContext : IMainActivityStateContext {
         override val interactor: IMainInteractor
             get() = this@MainActivity.interactor
         override var targetShape: IShape? = null
             get() = this@MainActivity.mTargetShape
+    }
+
+    private inner class PanelListener : SlidingUpPanelLayout.PanelSlideListener {
+        override fun onPanelSlide(panel: View?, slideOffset: Float) {
+            ibPanelButton.rotation = 180 * slideOffset
+            val translation = slideOffset.pow(1.2f) * mPanelContentOffset
+            tvPanelTitle.translationY = mPanelContentOffset - translation
+            rvShapesList.translationY = mPanelContentOffset - translation
+
+            val alpha = slideOffset.pow(1.2f)
+            tvPanelTitle.alpha = alpha
+            rvShapesList.alpha = alpha
+            llPanelContent?.background?.alpha = (255 * alpha).toInt()
+        }
+
+        override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
+        }
     }
 }

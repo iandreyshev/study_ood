@@ -4,7 +4,7 @@ import ru.iandreyshev.compositeshapespaint.presenter.MainPresenter
 import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IMainPresenter
 import ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces.AbstractViewModel
 import ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces.IMainViewModel
-import ru.iandreyshev.gumballmachine.presenter.interfaces.IPresenterFactory
+import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IPresenterFactory
 import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IPresenter
 import kotlin.reflect.KClass
 

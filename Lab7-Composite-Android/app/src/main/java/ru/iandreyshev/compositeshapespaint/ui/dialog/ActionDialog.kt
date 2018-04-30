@@ -2,7 +2,6 @@ package ru.iandreyshev.compositeshapespaint.ui.dialog
 
 import android.content.Context
 import android.support.annotation.StringRes
-import android.view.LayoutInflater
 import kotlinx.android.synthetic.main.view_action_dialog.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton

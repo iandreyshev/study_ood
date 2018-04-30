@@ -3,9 +3,9 @@ package ru.iandreyshev.compositeshapespaint.factory
 import ru.iandreyshev.compositeshapespaint.interactor.MainInteractor
 import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IMainInteractor
 import ru.iandreyshev.compositeshapespaint.useCase.interfaces.IMainUseCase
-import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractorFactory
-import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
-import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
+import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IInteractorFactory
+import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IInteractor
+import ru.iandreyshev.compositeshapespaint.useCase.interfaces.IUseCase
 import kotlin.reflect.KClass
 
 object InteractorFactory : IInteractorFactory {

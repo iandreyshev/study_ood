@@ -9,12 +9,15 @@ import ru.iandreyshev.compositeshapespaint.model.extension.getAllSameOrNull
 
 class CompositeShape(
         override val name: String,
-        vararg shape: IShape
+        shapes: List<IShape>
 ) : ICompositeShape, CompositeFrame.InnerFramesIterator {
+
+    constructor(name: String, vararg shape: IShape) : this(name, listOf(*shape))
+
     private val mShapes: MutableList<IShape> = mutableListOf()
 
     init {
-        shape.forEach { mShapes.add(it) }
+        shapes.forEach { mShapes.add(it) }
     }
 
     override val composite: ICompositeShape? = this

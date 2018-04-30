@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import ru.iandreyshev.compositeshapespaint.ui.OnClickCallback
+import ru.iandreyshev.compositeshapespaint.ui.OnTouchCallback
 import ru.iandreyshev.compositeshapespaint.ui.OnTouchMoveCallback
 
 abstract class TouchHandlerView @JvmOverloads constructor(
@@ -13,33 +13,28 @@ abstract class TouchHandlerView @JvmOverloads constructor(
         defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    open var onTouch: OnTouchCallback? = null
     open var onMove: OnTouchMoveCallback? = null
-    open var onClick: OnClickCallback? = null
-        set(value) {
-            field = value
-            setOnLongClickListener { e ->
-                field?.invoke(e.x, e.y) ?: return@setOnLongClickListener false
-                return@setOnLongClickListener true
-            }
-        }
-    open var onLongClick: OnClickCallback? = null
-        set(value) {
-            field = value
-            setOnLongClickListener { e ->
-                field?.invoke(e.x, e.y) ?: return@setOnLongClickListener false
-                return@setOnLongClickListener true
-            }
-        }
 
     final override fun onTouchEvent(event: MotionEvent?): Boolean {
-        event ?: return false
+        event ?: return super.onTouchEvent(event)
 
         when (event.action) {
-            MotionEvent.ACTION_MOVE -> ::handleMove
-            else -> return true
-        }(event)
+            MotionEvent.ACTION_DOWN -> {
+                handleClick(event)
+                return true
+            }
+            MotionEvent.ACTION_MOVE -> {
+                handleMove(event)
+                return true
+            }
+        }
 
-        return true
+        return super.onTouchEvent(event)
+    }
+
+    private fun handleClick(event: MotionEvent) {
+        onTouch?.invoke(event.x, event.y)
     }
 
     private fun handleMove(event: MotionEvent) {

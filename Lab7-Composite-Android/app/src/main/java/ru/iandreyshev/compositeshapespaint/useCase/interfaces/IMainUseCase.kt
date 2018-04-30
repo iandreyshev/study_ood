@@ -2,7 +2,6 @@ package ru.iandreyshev.compositeshapespaint.useCase.interfaces
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
-import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
 
 interface IMainUseCase : IUseCase {
     fun setState(stateName: String)

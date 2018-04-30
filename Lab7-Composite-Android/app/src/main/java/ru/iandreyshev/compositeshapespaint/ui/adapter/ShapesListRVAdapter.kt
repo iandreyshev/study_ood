@@ -17,7 +17,7 @@ class ShapesListRVAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShapeViewRVHolder =
-            ShapeViewRVHolder(parent.context.inflate(R.layout.item_select_shape))
+            ShapeViewRVHolder(parent.context.inflate(R.layout.item_shape, parent))
 
     override fun onBindViewHolder(holder: ShapeViewRVHolder, position: Int) {
         val item = shapes[position]

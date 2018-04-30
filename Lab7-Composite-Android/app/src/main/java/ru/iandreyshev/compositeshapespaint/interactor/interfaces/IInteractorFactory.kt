@@ -1,6 +1,6 @@
-package ru.iandreyshev.gumballmachine.interactor.interfaces
+package ru.iandreyshev.compositeshapespaint.interactor.interfaces
 
-import ru.iandreyshev.gumballmachine.useCase.interfaces.IUseCase
+import ru.iandreyshev.compositeshapespaint.useCase.interfaces.IUseCase
 import kotlin.reflect.KClass
 
 interface IInteractorFactory {

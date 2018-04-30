@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 import ru.iandreyshev.compositeshapespaint.model.frame.*
 import ru.iandreyshev.compositeshapespaint.ui.OnTouchMoveCallback
+import ru.iandreyshev.compositeshapespaint.ui.shape.TargetFrameHelper
 
 class TargetedCanvasView @JvmOverloads constructor(
         context: Context,
@@ -24,20 +25,16 @@ class TargetedCanvasView @JvmOverloads constructor(
     override var onMove: OnTouchMoveCallback? = null
         set(value) {
             field = { lastX, lastY, newX, newY ->
-                mTargetFrame?.let { targetFrame ->
-                    handleOnMoveEvent(targetFrame, lastX, lastY, newX, newY)?.let { newFrame ->
-                        mTargetFrame = newFrame
-                        prepareDrawingProperties(newFrame)
-                        mOnChangeCallback?.invoke(newFrame)
-                        invalidate()
-                    }
-                }
+                mTargetFrameHelper.handleMoveEvent(lastX, lastY, newX, newY)
                 value?.invoke(lastX, lastY, newX, newY)
             }
         }
 
-    private var mTargetFrame: IFrame? = null
-    private var mOnChangeCallback: ((IFrame) -> Unit)? = null
+    private val mTargetFrameHelper = TargetFrameHelper(
+            MIN_WIDTH,
+            MIN_HEIGHT,
+            CIRCLE_TOUCH_RADIUS
+    )
 
     private val mRectPath = Path()
     private val mRectProperties = Paint().apply {
@@ -57,17 +54,27 @@ class TargetedCanvasView @JvmOverloads constructor(
         onMove = { _, _, _, _ -> } // To create callback
     }
 
-    fun onChangeTarget(callback: (IFrame) -> Unit) {
-        mOnChangeCallback = callback
+    fun onTargetChanged(callback: (IFrame) -> Unit) {
+        mTargetFrameHelper.onFrameChanged { newFrame ->
+            prepareDrawingProperties(newFrame)
+            callback(newFrame)
+            invalidate()
+        }
     }
 
     fun setTarget(position: Vec2f, width: Float, height: Float) {
         isEnabled = true
-        mTargetFrame = Frame(position, width, height).apply {
+        mTargetFrameHelper.target = Frame(position, width, height).apply {
             prepareDrawingProperties(this)
             invalidate()
         }
     }
+
+    fun hitTest(x: Float, y: Float): Boolean =
+            mTargetFrameHelper.target.let {
+                it ?: return false
+                return@let it.hitTest(x, y)
+            }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -101,81 +108,5 @@ class TargetedCanvasView @JvmOverloads constructor(
             addCircle(leftBottom.x, leftBottom.y, CIRCLE_RADIUS, Path.Direction.CW)
             close()
         }
-    }
-
-    private fun handleOnMoveEvent(frame: IFrame, lastX: Float?, lastY: Float?, newX: Float, newY: Float): IFrame? {
-        lastX ?: return null
-        lastY ?: return null
-
-        return handleCircleMove(frame, lastX, lastY, newX, newY) ?: kotlin.run {
-            handleRectMove(frame, lastX, lastY, newX, newY)
-        }
-    }
-
-    private fun handleCircleMove(frame: IFrame, lastX: Float, lastY: Float, newX: Float, newY: Float): IFrame? {
-        fun hitTest(circleX: Float, circleY: Float): Boolean {
-            val xRange = (circleX - CIRCLE_TOUCH_RADIUS..circleX + CIRCLE_TOUCH_RADIUS)
-            val yRange = (circleY - CIRCLE_TOUCH_RADIUS..circleY + CIRCLE_TOUCH_RADIUS)
-
-            return xRange.contains(lastX) && yRange.contains(lastY) ||
-                    xRange.contains(newX) && yRange.contains(newY)
-        }
-
-        val position = frame.position
-
-        return when {
-            hitTest(frame.left, frame.top) -> {
-                // Left top
-                if (newX > frame.right - MIN_WIDTH) return null
-                if (newY > frame.bottom - MIN_HEIGHT) return null
-
-                val newWidth = frame.right - newX
-                val newHeight = frame.bottom - newY
-
-                return Frame(Vec2f(newX, newY), newWidth, newHeight)
-            }
-            hitTest(frame.right, frame.top) -> {
-                // Right top
-                if (newX < frame.left + MIN_WIDTH) return null
-                if (newY > frame.bottom - MIN_HEIGHT) return null
-
-                val newWidth = newX - frame.left
-                val newHeight = frame.bottom - newY
-
-                return Frame(Vec2f(frame.left, newY), newWidth, newHeight)
-            }
-            hitTest(frame.right, frame.bottom) -> {
-                // Right bottom
-                if (newX < frame.left + MIN_WIDTH) return null
-                if (newY < frame.top + MIN_HEIGHT) return null
-
-                val newWidth = newX - frame.left
-                val newHeight = newY - frame.top
-
-                return Frame(position, newWidth, newHeight)
-            }
-            hitTest(frame.left, frame.bottom) -> {
-                // Left bottom
-                if (newX > frame.right - MIN_WIDTH) return null
-                if (newY < frame.top + MIN_HEIGHT) return null
-
-                val newWidth = frame.right - newX
-                val newHeight = newY - frame.top
-
-                return Frame(Vec2f(newX, frame.top), newWidth, newHeight)
-            }
-            else -> null
-        }
-    }
-
-    private fun handleRectMove(frame: IFrame, lastX: Float, lastY: Float, newX: Float, newY: Float): IFrame? {
-        if (!frame.hitTest(lastX, lastY)) {
-            return mTargetFrame
-        }
-
-        val x = newX - frame.width / 2
-        val y = newY - frame.height / 2
-
-        return Frame(Vec2f(x, y), frame.width, frame.height)
     }
 }

@@ -39,14 +39,4 @@ class ShapeInfoView @JvmOverloads constructor(
 
     fun setOnStrokeColorClick(action: () -> Unit) =
             cvStrokeColor.setOnClickListener { action() }
-
-    private val IShape.positionString: String
-        get() = "x: ${frame.position.x.str()} y: ${frame.position.y.str()}"
-    private val IShape.sizeString: String
-        get() = "w: ${frame.width.str()} h: ${frame.height.str()}"
-    private val IShape.strokeSizeString: String
-        get() = "ss: ${getStrokeSize()?.str() ?: "?"}"
-
-    private fun Float.str(): String =
-            String.format("%.0f", this)
 }

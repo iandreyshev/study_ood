@@ -21,4 +21,6 @@
 
     <string name="shape_not_found">Shapes have not been added yet</string>
     <string name="shape_not_selected">Shape not selected</string>
+
+    <string name="shapes_list_title">Canvas shapes</string>
 </resources>

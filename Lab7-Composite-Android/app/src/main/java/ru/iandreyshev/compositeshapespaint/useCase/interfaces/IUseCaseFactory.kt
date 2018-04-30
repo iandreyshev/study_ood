@@ -1,4 +1,4 @@
-package ru.iandreyshev.gumballmachine.useCase.interfaces
+package ru.iandreyshev.compositeshapespaint.useCase.interfaces
 
 import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IPresenter
 import kotlin.reflect.KClass

@@ -37,19 +37,22 @@ class CompositeFrame(
             }
         }
 
-    override fun resize(newWidth: Float, newHeight: Float) = frames.forEach {
+    override fun resize(newWidth: Float, newHeight: Float) {
+        val positionBefore = this@CompositeFrame.position
         val widthBefore = this@CompositeFrame.width
         val heightBefore = this@CompositeFrame.height
 
         frames.forEach {
-            val xPositionProportion = 1f
-            val yPositionProportion = 1f
+            val xPositionProportion = (position.x - positionBefore.x) / widthBefore
+            val yPositionProportion = (position.y - positionBefore.y) / heightBefore
 
-            resize(newWidth = width / widthBefore * newWidth,
+            resize(
+                    newWidth = width / widthBefore * newWidth,
                     newHeight = height / heightBefore * newHeight)
 
-            position = Vec2f(x = position.x * xPositionProportion,
-                    y = position.y * yPositionProportion)
+            position = Vec2f(
+                    x = positionBefore.x + newWidth * xPositionProportion,
+                    y = positionBefore.y + newHeight * yPositionProportion)
         }
     }
 

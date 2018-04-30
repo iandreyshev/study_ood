@@ -3,7 +3,7 @@ package ru.iandreyshev.compositeshapespaint.useCase
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.presenter.interfaces.IMainPresenter
-import ru.iandreyshev.compositeshapespaint.ui.shapes.ImageGenerator
+import ru.iandreyshev.compositeshapespaint.ui.shape.ImageGenerator
 import ru.iandreyshev.compositeshapespaint.useCase.interfaces.IMainUseCase
 
 class MainUseCase(

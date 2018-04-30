@@ -1,4 +1,4 @@
-package ru.iandreyshev.compositeshapespaint.ui.shapes
+package ru.iandreyshev.compositeshapespaint.ui.shape
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
@@ -11,23 +11,30 @@ object ImageGenerator {
                 rightBottom = Vec2f(450, 700),
                 strokeColor = Color.BLACK,
                 fillColor = Color.RED)
+
         val ellipse1 = Ellipse(
-                center = Vec2f(200, 700),
+                center = Vec2f(200, 600),
                 horizontalRadius = 100f,
                 verticalRadius = 100f,
                 fillColor = Color.WHITE,
                 strokeColor = Color.BLACK,
                 strokeSize = 20f)
         val ellipse2 = Ellipse(
-                center = Vec2f(450, 700),
+                center = Vec2f(200, 850),
                 horizontalRadius = 100f,
                 verticalRadius = 100f,
                 fillColor = Color.WHITE,
                 strokeColor = Color.BLACK,
                 strokeSize = 20f)
-
         val ellipse3 = Ellipse(
-                center = Vec2f(400, 300),
+                center = Vec2f(450, 600),
+                horizontalRadius = 100f,
+                verticalRadius = 100f,
+                fillColor = Color.WHITE,
+                strokeColor = Color.BLACK,
+                strokeSize = 20f)
+        val ellipse4 = Ellipse(
+                center = Vec2f(450, 850),
                 horizontalRadius = 100f,
                 verticalRadius = 100f,
                 fillColor = Color.WHITE,
@@ -47,10 +54,26 @@ object ImageGenerator {
         )
 
         add(rect)
-        add(ellipse3)
         add(polygon)
         add(triangle)
-        add(CompositeShape("Balls", ellipse1, ellipse2))
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(triangle)
+        add(CompositeShape("Balls", ellipse1, ellipse2, ellipse3, ellipse4))
 
         return@with this
     }

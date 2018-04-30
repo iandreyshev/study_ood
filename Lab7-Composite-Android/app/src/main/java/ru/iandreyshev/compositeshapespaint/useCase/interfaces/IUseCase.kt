@@ -1,3 +1,3 @@
-package ru.iandreyshev.gumballmachine.useCase.interfaces
+package ru.iandreyshev.compositeshapespaint.useCase.interfaces
 
 interface IUseCase

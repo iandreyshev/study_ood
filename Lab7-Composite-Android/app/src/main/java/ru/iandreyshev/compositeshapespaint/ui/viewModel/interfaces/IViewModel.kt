@@ -1,3 +1,3 @@
-package ru.iandreyshev.gumballmachine.viewModel.interfaces
+package ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces
 
 interface IViewModel

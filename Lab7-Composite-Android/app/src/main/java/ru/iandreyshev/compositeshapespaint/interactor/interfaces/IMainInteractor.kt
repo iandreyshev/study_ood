@@ -2,7 +2,6 @@ package ru.iandreyshev.compositeshapespaint.interactor.interfaces
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
-import ru.iandreyshev.gumballmachine.interactor.interfaces.IInteractor
 
 interface IMainInteractor : IInteractor {
     fun refresh()

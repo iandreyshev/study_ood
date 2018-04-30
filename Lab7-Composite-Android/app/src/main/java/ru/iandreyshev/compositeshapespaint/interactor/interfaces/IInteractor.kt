@@ -1,3 +1,3 @@
-package ru.iandreyshev.gumballmachine.interactor.interfaces
+package ru.iandreyshev.compositeshapespaint.interactor.interfaces
 
 interface IInteractor

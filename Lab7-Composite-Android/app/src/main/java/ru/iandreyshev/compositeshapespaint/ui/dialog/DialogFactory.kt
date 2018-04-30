@@ -16,9 +16,6 @@ object DialogFactory {
 
     }
 
-    fun shapeInfoDialog(context: Context, shape: IShape) {
-    }
-
     fun fillColorDialog(context: Context, onClick: (Color) -> Unit) {
         val adapter = ColorsListRVAdapter()
         val dialog = context.alert {
