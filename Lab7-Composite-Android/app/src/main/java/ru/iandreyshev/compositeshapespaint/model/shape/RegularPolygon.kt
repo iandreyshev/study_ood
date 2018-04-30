@@ -13,7 +13,7 @@ class RegularPolygon(
         strokeSize: Float = 5f,
         fillColor: Color = Color.BLACK,
         strokeColor: Color = Color.WHITE,
-        override val name: String = RegularPolygon::class.java.simpleName
+        override val name: String = "Regular polygon"
 ) : TermShape(strokeSize, fillColor, strokeColor) {
     companion object {
         const val MIN_VERTEX = 3

@@ -43,7 +43,7 @@ object ImageGenerator {
 
         val polygon = RegularPolygon(
                 Vec2f(400, 200),
-                6,
+                7,
                 100f
         )
 
@@ -55,23 +55,6 @@ object ImageGenerator {
 
         add(rect)
         add(polygon)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
-        add(triangle)
         add(triangle)
         add(CompositeShape("Balls", ellipse1, ellipse2, ellipse3, ellipse4))
 
