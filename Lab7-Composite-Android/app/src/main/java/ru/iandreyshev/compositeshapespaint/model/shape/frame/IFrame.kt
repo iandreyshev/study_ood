@@ -1,4 +1,4 @@
-package ru.iandreyshev.compositeshapespaint.model.frame
+package ru.iandreyshev.compositeshapespaint.model.shape.frame
 
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 

@@ -15,7 +15,7 @@ import org.jetbrains.anko.toast
 import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IMainInteractor
 import ru.iandreyshev.compositeshapespaint.ui.ActionError
 import ru.iandreyshev.compositeshapespaint.factory.CleanArchitectureFactory
-import ru.iandreyshev.compositeshapespaint.model.frame.hitTest
+import ru.iandreyshev.compositeshapespaint.model.shape.frame.hitTest
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.compositeshapespaint.ui.dialog.DialogFactory
@@ -29,7 +29,12 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         viewModelClass = MainViewModel::class,
         viewModelFactory = CleanArchitectureFactory) {
 
-    private val mPanelContentOffset by lazy { getWindowSize().heightPixels }
+    companion object {
+        private const val OPEN_PANEL_SPEED = 1f // offset pow
+        private const val CHANGE_PANEL_ALPHA_SPEED = 2f // offset pow
+    }
+
+    private val mPanelContentOffset by lazy { getWindowSize().heightPixels / 2 }
     private var mCanvasAdapter = AndroidCanvasAdapter()
     private var mTargetShape: IShape? = null
     private val mShapesListAdapter: ShapesListRVAdapter by lazy {
@@ -66,7 +71,6 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         }
 
         supSlidingPanel.addPanelSlideListener(PanelListener())
-        llPanelContent?.background?.alpha = 0
     }
 
     override val onProvideViewModel: MainViewModel.() -> Unit = {
@@ -158,11 +162,11 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
     private inner class PanelListener : SlidingUpPanelLayout.PanelSlideListener {
         override fun onPanelSlide(panel: View?, slideOffset: Float) {
             ibPanelButton.rotation = 180 * slideOffset
-            val translation = slideOffset.pow(1.2f) * mPanelContentOffset
+            val translation = slideOffset.pow(OPEN_PANEL_SPEED) * mPanelContentOffset
             tvPanelTitle.translationY = mPanelContentOffset - translation
             rvShapesList.translationY = mPanelContentOffset - translation
 
-            val alpha = slideOffset.pow(1.2f)
+            val alpha = slideOffset.pow(CHANGE_PANEL_ALPHA_SPEED)
             tvPanelTitle.alpha = alpha
             rvShapesList.alpha = alpha
             llPanelContent?.background?.alpha = (255 * alpha).toInt()

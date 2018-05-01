@@ -1,20 +1,18 @@
 package ru.iandreyshev.compositeshapespaint.model.shape
 
-import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.model.frame.IFrame
-import ru.iandreyshev.compositeshapespaint.model.frame.Frame
+import ru.iandreyshev.compositeshapespaint.model.shape.frame.IFrame
+import ru.iandreyshev.compositeshapespaint.model.shape.frame.Frame
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
+import ru.iandreyshev.compositeshapespaint.model.shape.style.IStyle
 
 class Triangle(
         vertex1: Vec2f,
         vertex2: Vec2f,
         vertex3: Vec2f,
-        strokeSize: Float = 5f,
-        fillColor: Color = Color.BLACK,
-        strokeColor: Color = Color.WHITE,
+        style: IStyle,
         override val name: String = Triangle::class.java.simpleName
-) : TermShape(strokeSize, fillColor, strokeColor) {
+) : TermShape(style) {
 
     private lateinit var mVertex1Proportion: Vec2f
     private lateinit var mVertex2Proportion: Vec2f
@@ -39,9 +37,11 @@ class Triangle(
         return@lazy Frame(Vec2f(minX, minY), width, height)
     }
 
-    override fun onDrawShape(canvas: ICanvas) = onDraw(canvas)
+    override fun onDrawShape(canvas: ICanvas) =
+            onDraw(canvas)
 
-    override fun onDrawStroke(canvas: ICanvas) = onDraw(canvas)
+    override fun onDrawStroke(canvas: ICanvas) =
+            onDraw(canvas)
 
     private fun onDraw(canvas: ICanvas) {
         fun calcPosition(vertexProperty: Vec2f): Vec2f =

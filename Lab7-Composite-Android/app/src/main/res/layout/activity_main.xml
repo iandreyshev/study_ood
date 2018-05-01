@@ -44,6 +44,7 @@
         app:layout_constraintTop_toTopOf="@id/ablToolbar"
         app:umanoOverlay="true"
         app:umanoPanelHeight="@dimen/panel_height"
+        app:umanoParallaxOffset="50dp"
         app:umanoScrollableView="@+id/rvShapesList"
         app:umanoShadowHeight="0dp">
 
@@ -82,7 +83,7 @@
             android:id="@+id/llPanelContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?android:attr/colorBackground"
+            android:background="@color/slide_panel_background"
             android:orientation="vertical"
             android:paddingEnd="8dp"
             android:paddingLeft="8dp"
@@ -96,11 +97,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/panel_height"
                 android:layout_gravity="center_horizontal"
+                android:alpha="0.5"
                 android:background="@drawable/ic_open_panel" />
 
             <TextView
                 android:id="@+id/tvPanelTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:paddingBottom="10dp"
@@ -111,8 +113,8 @@
                 android:paddingTop="10dp"
                 android:text="@string/shapes_list_title"
                 android:textAllCaps="true"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textColor="@android:color/black"
+                android:textSize="24sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvShapesList"

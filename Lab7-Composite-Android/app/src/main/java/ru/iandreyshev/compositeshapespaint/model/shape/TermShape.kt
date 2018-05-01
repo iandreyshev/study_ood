@@ -2,37 +2,28 @@ package ru.iandreyshev.compositeshapespaint.model.shape
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
+import ru.iandreyshev.compositeshapespaint.model.shape.style.IStyle
 
 abstract class TermShape(
-        private var strokeSize: Float,
-        private var fillColor: Color,
-        private var strokeColor: Color
+        override val style: IStyle
 ) : IShape {
+
+    companion object {
+        private val DEFAULT_FILL_COLOR = Color.WHITE
+        private val DEFAULT_STROKE_COLOR = Color.BLACK
+        private const val DEFAULT_STROKE_SIZE = 5f
+    }
+
     override val composite: ICompositeShape? = null
-
-    override fun getFillColor(): Color = fillColor
-    override fun setFillColor(color: Color) {
-        fillColor = color
-    }
-
-    override fun getStrokeColor(): Color = strokeColor
-    override fun setStrokeColor(color: Color) {
-        strokeColor = color
-    }
-
-    override fun getStrokeSize(): Float = strokeSize
-    override fun setStrokeSize(size: Float) {
-        strokeSize = size
-    }
 
     final override fun draw(canvas: ICanvas) {
         onDrawShape(canvas)
-        canvas.color = fillColor
+        canvas.color = style.getFillColor() ?: DEFAULT_FILL_COLOR
         canvas.fill()
 
         onDrawStroke(canvas)
-        canvas.color = strokeColor
-        canvas.strokeSize = strokeSize
+        canvas.color = style.getStrokeColor() ?: DEFAULT_STROKE_COLOR
+        canvas.strokeSize = style.getStrokeSize() ?: DEFAULT_STROKE_SIZE
         canvas.stroke()
     }
 

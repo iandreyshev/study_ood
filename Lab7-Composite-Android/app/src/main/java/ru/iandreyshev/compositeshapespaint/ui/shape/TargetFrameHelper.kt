@@ -1,7 +1,7 @@
 package ru.iandreyshev.compositeshapespaint.ui.shape
 
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
-import ru.iandreyshev.compositeshapespaint.model.frame.*
+import ru.iandreyshev.compositeshapespaint.model.shape.frame.*
 
 class TargetFrameHelper(
         private val minWidth: Float,

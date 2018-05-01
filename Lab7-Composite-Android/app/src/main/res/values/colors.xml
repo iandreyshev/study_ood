@@ -5,4 +5,6 @@
     <color name="colorAccent">#ff4081</color>
 
     <color name="action_background">#252525</color>
+
+    <color name="slide_panel_background">#fafafa</color>
 </resources>

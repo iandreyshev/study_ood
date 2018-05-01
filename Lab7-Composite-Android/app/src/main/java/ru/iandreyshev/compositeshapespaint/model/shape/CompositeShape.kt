@@ -1,57 +1,53 @@
 package ru.iandreyshev.compositeshapespaint.model.shape
 
-import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.model.frame.CompositeFrame
-import ru.iandreyshev.compositeshapespaint.model.frame.IFrame
-import ru.iandreyshev.compositeshapespaint.model.extension.forEach2
-import ru.iandreyshev.compositeshapespaint.model.extension.getAllSameOrNull
+import ru.iandreyshev.compositeshapespaint.model.extension.ISimpleIterator
+import ru.iandreyshev.compositeshapespaint.model.shape.frame.CompositeFrame
+import ru.iandreyshev.compositeshapespaint.model.shape.frame.IFrame
+import ru.iandreyshev.compositeshapespaint.model.shape.style.CompositeStyle
+import ru.iandreyshev.compositeshapespaint.model.shape.style.IStyle
 
 class CompositeShape(
         override val name: String,
         shapes: List<IShape>
-) : ICompositeShape, CompositeFrame.InnerFramesIterator {
+) : ICompositeShape {
 
     constructor(name: String, vararg shape: IShape) : this(name, listOf(*shape))
 
-    private val mShapes: MutableList<IShape> = mutableListOf()
-
-    init {
-        shapes.forEach { mShapes.add(it) }
-    }
+    private val mShapes: MutableList<IShape> = ArrayList(shapes)
 
     override val composite: ICompositeShape? = this
 
-    override val frame: IFrame =
-            CompositeFrame(frames = this)
+    override var frame: IFrame = CompositeFrame(FramesIterator())
+        private set
 
-    override fun getFillColor(): Color? =
-            mShapes.getAllSameOrNull { getFillColor() }
-
-    override fun setFillColor(color: Color) =
-            mShapes.forEach2 { setFillColor(color) }
-
-    override fun getStrokeColor(): Color? =
-            mShapes.getAllSameOrNull { getStrokeColor() }
-
-    override fun setStrokeColor(color: Color) =
-            mShapes.forEach2 { setStrokeColor(color) }
-
-    override fun getStrokeSize(): Float? =
-            mShapes.getAllSameOrNull { getStrokeSize() }
-
-    override fun setStrokeSize(size: Float) =
-            mShapes.forEach2 { setStrokeSize(size) }
+    override var style: IStyle = CompositeStyle(StylesIterator())
+        private set
 
     override fun add(shape: IShape) {
         mShapes.add(shape)
+
+        frame = CompositeFrame(FramesIterator())
+        style = CompositeStyle(StylesIterator())
     }
 
     override fun remove(shape: IShape) {
         mShapes.remove(shape)
+
+        frame = CompositeFrame(FramesIterator())
+        style = CompositeStyle(StylesIterator())
     }
 
-    override fun draw(canvas: ICanvas) = mShapes.forEach2 { draw(canvas) }
+    override fun draw(canvas: ICanvas) =
+            mShapes.forEach { it.draw(canvas) }
 
-    override fun forEach(action: IFrame.() -> Unit) = mShapes.forEach2 { action(frame) }
+    private inner class FramesIterator : ISimpleIterator<IFrame> {
+        override fun forEach(action: (IFrame) -> Unit) =
+                mShapes.forEach { it.frame.apply(action) }
+    }
+
+    private inner class StylesIterator : ISimpleIterator<IStyle> {
+        override fun forEach(action: (IStyle) -> Unit) =
+                mShapes.forEach { it.style.apply(action) }
+    }
 }

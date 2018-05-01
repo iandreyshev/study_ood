@@ -1,4 +1,4 @@
-package ru.iandreyshev.compositeshapespaint.model.frame
+package ru.iandreyshev.compositeshapespaint.model.shape.frame
 
 import junit.framework.TestCase.assertEquals
 import org.junit.Test

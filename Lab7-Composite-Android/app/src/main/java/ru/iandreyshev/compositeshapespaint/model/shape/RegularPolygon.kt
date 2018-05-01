@@ -1,20 +1,19 @@
 package ru.iandreyshev.compositeshapespaint.model.shape
 
-import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.model.frame.IFrame
-import ru.iandreyshev.compositeshapespaint.model.frame.Frame
+import ru.iandreyshev.compositeshapespaint.model.shape.frame.IFrame
+import ru.iandreyshev.compositeshapespaint.model.shape.frame.Frame
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
+import ru.iandreyshev.compositeshapespaint.model.shape.style.IStyle
 
 class RegularPolygon(
         center: Vec2f,
         private val vertexCount: Int,
         radius: Float,
-        strokeSize: Float = 5f,
-        fillColor: Color = Color.BLACK,
-        strokeColor: Color = Color.WHITE,
+        style: IStyle,
         override val name: String = "Regular polygon"
-) : TermShape(strokeSize, fillColor, strokeColor) {
+) : TermShape(style) {
+
     companion object {
         const val MIN_VERTEX = 3
     }
@@ -29,9 +28,11 @@ class RegularPolygon(
         return@lazy Frame(position, radius * 2, radius * 2)
     }
 
-    override fun onDrawShape(canvas: ICanvas) = onDraw(canvas)
+    override fun onDrawShape(canvas: ICanvas) =
+            onDraw(canvas)
 
-    override fun onDrawStroke(canvas: ICanvas) = onDraw(canvas)
+    override fun onDrawStroke(canvas: ICanvas) =
+            onDraw(canvas)
 
     private fun onDraw(canvas: ICanvas) {
         var angle = .0

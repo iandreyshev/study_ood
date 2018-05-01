@@ -1,19 +1,18 @@
 package ru.iandreyshev.compositeshapespaint.model.shape
 
-import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
-import ru.iandreyshev.compositeshapespaint.model.frame.IFrame
-import ru.iandreyshev.compositeshapespaint.model.frame.Frame
+import ru.iandreyshev.compositeshapespaint.model.shape.frame.IFrame
+import ru.iandreyshev.compositeshapespaint.model.shape.frame.Frame
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
+import ru.iandreyshev.compositeshapespaint.model.shape.style.IStyle
 
 class Rectangle(
         leftTop: Vec2f,
         rightBottom: Vec2f,
-        strokeSize: Float = 5f,
-        fillColor: Color = Color.BLACK,
-        strokeColor: Color = Color.WHITE,
+        style: IStyle,
         override val name: String = Rectangle::class.java.simpleName
-) : TermShape(strokeSize, fillColor, strokeColor) {
+) : TermShape(style) {
+
     override val frame: IFrame by lazy {
         val minX = Math.min(leftTop.x, rightBottom.x)
         val maxY = Math.max(leftTop.y, rightBottom.y)
@@ -24,9 +23,11 @@ class Rectangle(
         return@lazy Frame(Vec2f(minX, minY), maxX - minX, maxY - minY)
     }
 
-    override fun onDrawShape(canvas: ICanvas) = onDraw(canvas)
+    override fun onDrawShape(canvas: ICanvas) =
+            onDraw(canvas)
 
-    override fun onDrawStroke(canvas: ICanvas) = onDraw(canvas)
+    override fun onDrawStroke(canvas: ICanvas) =
+            onDraw(canvas)
 
     private fun onDraw(canvas: ICanvas) {
         val position = frame.position
