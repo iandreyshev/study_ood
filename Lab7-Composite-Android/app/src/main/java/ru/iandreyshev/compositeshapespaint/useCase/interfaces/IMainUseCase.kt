@@ -4,6 +4,8 @@ import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 
 interface IMainUseCase : IUseCase {
+    fun addShape(shapeName: String)
+
     fun setState(stateName: String)
 
     fun updateShape(shape: IShape)
@@ -14,7 +16,7 @@ interface IMainUseCase : IUseCase {
 
     fun changeStrokeColor(shape: IShape, color: Color)
 
-    fun setTargetShape(shape: IShape)
+    fun setTargetShape(shape: IShape?)
 
     fun deleteShape(shape: IShape)
 

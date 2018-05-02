@@ -35,8 +35,8 @@ class ShapeInfoView @JvmOverloads constructor(
     }
 
     fun setOnFillColorClick(action: () -> Unit) =
-            cvFillColor.setOnClickListener { action() }
+            cvFillColorButton.setOnClickListener { action() }
 
     fun setOnStrokeColorClick(action: () -> Unit) =
-            cvStrokeColor.setOnClickListener { action() }
+            cvStrokeColorButton.setOnClickListener { action() }
 }

@@ -6,8 +6,7 @@
     android:id="@+id/shapeInfoView"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_gravity="right"
-    tools:layout_height="100dp">
+    android:layout_gravity="right">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -53,6 +52,13 @@
                         android:background="@drawable/undefined_color">
 
                     </ru.iandreyshev.compositeshapespaint.ui.view.CanvasView>
+
+                    <FrameLayout
+                        android:id="@+id/cvFillColorButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </FrameLayout>
 
                 </FrameLayout>
 
@@ -103,6 +109,7 @@
                         android:padding="1dp">
 
                         <FrameLayout
+                            android:id="@+id/cvStrokeColorButton"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@color/cardview_light_background">

@@ -12,8 +12,8 @@ class MainInteractor(
     override fun refresh() =
             mainUseCase.refresh()
 
-    override fun addShape(id: String) {
-    }
+    override fun addShape(id: String) =
+            mainUseCase.addShape(id)
 
     override fun updateShape(shape: IShape) =
             mainUseCase.updateShape(shape)
@@ -24,12 +24,10 @@ class MainInteractor(
     override fun beginGrouping() =
             mainUseCase.setState("grouping")
 
-    override fun showShapeInfo(shape: IShape) {}
-
     override fun deleteShape(shape: IShape) =
             mainUseCase.deleteShape(shape)
 
-    override fun setTargetShape(shape: IShape) =
+    override fun setTargetShape(shape: IShape?) =
             mainUseCase.setTargetShape(shape)
 
     override fun resizeStroke(shape: IShape, size: Int) =

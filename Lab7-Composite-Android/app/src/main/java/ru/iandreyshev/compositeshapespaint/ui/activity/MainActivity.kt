@@ -22,6 +22,7 @@ import ru.iandreyshev.compositeshapespaint.ui.dialog.DialogFactory
 import ru.iandreyshev.compositeshapespaint.ui.extension.getWindowSize
 import ru.iandreyshev.compositeshapespaint.ui.extension.visibleIfOrGone
 import ru.iandreyshev.compositeshapespaint.ui.viewModel.main.IMainActivityStateContext
+import ru.iandreyshev.compositeshapespaint.ui.viewModel.main.MainActivityState
 import kotlin.math.pow
 
 class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
@@ -34,11 +35,12 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         private const val CHANGE_PANEL_ALPHA_SPEED = 2f // offset pow
     }
 
+    private var mCurrentState: MainActivityState? = null
     private val mPanelContentOffset by lazy { getWindowSize().heightPixels / 2 }
     private var mCanvasAdapter = AndroidCanvasAdapter()
     private var mTargetShape: IShape? = null
     private val mShapesListAdapter: ShapesListRVAdapter by lazy {
-        ShapesListRVAdapter({ interactor.setTargetShape(it) })
+        ShapesListRVAdapter({ mCurrentState?.onShapeSelected(it) })
     }
 
     override fun onLayoutCreated(savedInstanceState: Bundle?) {
@@ -55,8 +57,11 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         }
 
         shapeInfoView.setOnStrokeColorClick {
-            DialogFactory.editStrokeDialog(this) { color ->
-                actionWithTargetShape { interactor.changeStrokeColor(it, color) }
+            DialogFactory.editStrokeDialog(this) { color, size ->
+                actionWithTargetShape { shape ->
+                    size?.let { interactor.resizeStroke(shape, size) }
+                    color?.let { interactor.changeStrokeColor(shape, color) }
+                }
             }
         }
 
@@ -75,7 +80,9 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
 
     override val onProvideViewModel: MainViewModel.() -> Unit = {
         shapes.observe { shapes ->
-            tvEmptyMessage.visibleIfOrGone(shapes?.isEmpty() ?: false)
+            val isShapesExists = shapes?.isEmpty() ?: false
+            tvEmptyMessage.visibleIfOrGone(isShapesExists)
+            tvEmptyListMessage.visibleIfOrGone(isShapesExists)
             mShapesListAdapter.shapes = shapes ?: listOf()
             reDraw()
         }
@@ -88,11 +95,16 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         }
 
         state.observeNotNull { state ->
-            state.context = StateContext()
-            tcvCanvas.onMove = state::handleCanvasTouchMove
-            state.actionCallback?.let {
+            mCurrentState = state
+            mCurrentState?.context = StateContext()
+            mCurrentState?.actionCallback?.let {
                 startSupportActionMode(it)
             }
+        }
+
+        if (isAttachedFirstTime) {
+            isAttachedFirstTime = false
+            llPanelContent?.background?.alpha = 0
         }
 
         error.observe { error ->
@@ -109,7 +121,6 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         when (item?.itemId) {
             R.id.act_add -> DialogFactory.addShapeDialog(this, interactor::addShape)
             R.id.act_grouping -> interactor.beginGrouping()
-            R.id.act_show_info -> actionWithTargetShape { interactor.showShapeInfo(it) }
             R.id.act_refresh -> interactor.refresh()
             R.id.act_delete -> actionWithTargetShape { interactor.deleteShape(it) }
         }
@@ -141,15 +152,18 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
     }
 
     private fun handleCanvasTouch(x: Float, y: Float) {
+        if (tcvCanvas.hitTest(x, y)) {
+            return
+        }
+
         mShapesListAdapter.shapes.forEachReversedWithIndex { _, shape ->
-            if (tcvCanvas.hitTest(x, y)) {
-                return
-            }
             if (shape.frame.hitTest(x, y)) {
-                interactor.setTargetShape(shape)
+                mCurrentState?.onShapeSelected(shape)
                 return
             }
         }
+
+        mCurrentState?.onClickOutsideShape()
     }
 
     private inner class StateContext : IMainActivityStateContext {
@@ -165,6 +179,7 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
             val translation = slideOffset.pow(OPEN_PANEL_SPEED) * mPanelContentOffset
             tvPanelTitle.translationY = mPanelContentOffset - translation
             rvShapesList.translationY = mPanelContentOffset - translation
+            tvEmptyListMessage.translationY = mPanelContentOffset - translation
 
             val alpha = slideOffset.pow(CHANGE_PANEL_ALPHA_SPEED)
             tvPanelTitle.alpha = alpha

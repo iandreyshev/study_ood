@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:background="@android:color/holo_red_light"
+            android:foregroundGravity="right"
+            android:gravity="right|end"
             android:padding="0dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +29,26 @@
             app:layout_constraintTop_toTopOf="parent"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <include layout="@layout/view_shape_info" />
+            <LinearLayout
+                android:layout_gravity="right|end"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:foregroundGravity="right"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/frameLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/bmbLayout"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <include layout="@layout/view_shape_info" />
+
+                </FrameLayout>
+
+            </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
 
@@ -58,7 +79,6 @@
                 android:layout_height="0dp"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/shape_not_found"
-                android:textSize="14sp"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -71,9 +91,10 @@
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0">
 
             </ru.iandreyshev.compositeshapespaint.ui.view.TargetedCanvasView>
 
@@ -116,12 +137,26 @@
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvShapesList"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_shape" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvEmptyListMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="@string/shape_not_found"
+                    android:textAlignment="center"
+                    android:textStyle="italic" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvShapesList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_shape" />
+            </FrameLayout>
 
         </LinearLayout>
 

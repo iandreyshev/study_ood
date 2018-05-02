@@ -20,9 +20,7 @@ interface IMainInteractor : IInteractor {
 
     fun changeStrokeColor(shape: IShape, color: Color)
 
-    fun setTargetShape(shape: IShape)
-
-    fun showShapeInfo(shape: IShape)
+    fun setTargetShape(shape: IShape?)
 
     fun deleteShape(shape: IShape)
 }

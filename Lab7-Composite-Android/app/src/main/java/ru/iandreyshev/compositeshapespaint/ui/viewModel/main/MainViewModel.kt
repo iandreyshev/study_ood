@@ -12,6 +12,7 @@ import ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces.ProgressViewM
 
 class MainViewModel : ProgressViewModel<IMainInteractor>(), IMainViewModel {
 
+    var isAttachedFirstTime = true
     private val mNormalState = NormalMainActivityState()
     private val mGroupingState = GroupingMainActivityState()
 
@@ -22,8 +23,10 @@ class MainViewModel : ProgressViewModel<IMainInteractor>(), IMainViewModel {
     var error = LiveEvent<ActionError?>(null)
     // OBSERVABLES
 
-    override fun updateShapes(shapes: List<IShape>) =
-            this.shapes.postValue(shapes)
+    override fun updateShapes(shapes: List<IShape>) {
+        this.shapes.postValue(shapes)
+        targetShape.postValue(targetShape.value)
+    }
 
     override fun setTarget(shape: IShape?) =
             targetShape.postValue(shape)

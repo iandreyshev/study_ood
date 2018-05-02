@@ -8,6 +8,7 @@ import ru.iandreyshev.compositeshapespaint.ui.viewModel.interfaces.IMainViewMode
 class MainPresenter(
         val viewModel: IMainViewModel
 ) : IMainPresenter, IProgressPresenter by ProgressController(viewModel) {
+
     override fun updateShapes(shapes: List<IShape>) =
             viewModel.updateShapes(shapes)
 

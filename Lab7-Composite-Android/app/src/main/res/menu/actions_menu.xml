@@ -13,10 +13,6 @@
         android:title="@string/act_grouping" />
 
     <item
-        android:id="@+id/act_show_info"
-        android:title="@string/act_show_info" />
-
-    <item
         android:id="@+id/act_refresh"
         android:title="@string/act_refresh" />
 

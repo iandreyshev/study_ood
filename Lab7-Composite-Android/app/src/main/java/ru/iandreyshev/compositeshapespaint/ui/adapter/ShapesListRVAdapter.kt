@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import ru.iandreyshev.compositeshapespaint.R
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.ui.extension.inflate
+import android.util.SparseBooleanArray
 
 class ShapesListRVAdapter(
         private val onClickShape: (IShape) -> Unit
@@ -22,7 +23,9 @@ class ShapesListRVAdapter(
     override fun onBindViewHolder(holder: ShapeViewRVHolder, position: Int) {
         val item = shapes[position]
         holder.title.text = item.name
-        holder.itemView.setOnClickListener { onClickShape(item) }
+        holder.itemView.setOnClickListener {
+            onClickShape(item)
+        }
     }
 
     override fun getItemCount(): Int = shapes.size

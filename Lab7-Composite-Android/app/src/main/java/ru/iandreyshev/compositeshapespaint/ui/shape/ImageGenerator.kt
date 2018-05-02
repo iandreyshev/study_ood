@@ -7,49 +7,47 @@ import ru.iandreyshev.compositeshapespaint.model.shape.style.Style
 object ImageGenerator {
     fun create(): MutableList<IShape> = with(mutableListOf<IShape>()) {
 
-        val style = Style()
-
         val rect = Rectangle(
                 leftTop = Vec2f(200, 100),
                 rightBottom = Vec2f(450, 700),
-                style = style)
+                style = Style())
 
         val ellipse1 = Ellipse(
                 center = Vec2f(200, 600),
                 horizontalRadius = 100f,
                 verticalRadius = 100f,
-                style = style)
+                style = Style())
 
         val ellipse2 = Ellipse(
                 center = Vec2f(200, 850),
                 horizontalRadius = 100f,
                 verticalRadius = 100f,
-                style = style)
+                style = Style())
 
         val ellipse3 = Ellipse(
                 center = Vec2f(450, 600),
                 horizontalRadius = 100f,
                 verticalRadius = 100f,
-                style = style)
+                style = Style())
 
         val ellipse4 = Ellipse(
                 center = Vec2f(450, 850),
                 horizontalRadius = 100f,
                 verticalRadius = 100f,
-                style = style)
+                style = Style())
 
         val polygon = RegularPolygon(
                 center = Vec2f(400, 200),
                 vertexCount = 7,
                 radius = 100f,
-                style = style
+                style = Style()
         )
 
         val triangle = Triangle(
                 vertex1 = Vec2f(),
                 vertex2 = Vec2f(120, 30),
                 vertex3 = Vec2f(24, 333),
-                style = style
+                style = Style()
         )
 
         add(rect)

@@ -2,6 +2,7 @@ package ru.iandreyshev.compositeshapespaint.ui.viewModel.main
 
 import android.support.v7.view.ActionMode
 import android.view.Menu
+import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.ui.activity.mainActivityState.EmptyActionCallback
 
 abstract class MainActivityState : ActionMode.Callback by EmptyActionCallback() {
@@ -14,9 +15,9 @@ abstract class MainActivityState : ActionMode.Callback by EmptyActionCallback() 
     open var actionCallback: ActionMode.Callback? = null
         protected set
 
-    open fun handleCanvasTouchMove(lastX: Float?, lastY: Float?, newX: Float, newY: Float) {
-        // skip
-    }
+    abstract fun onClickOutsideShape()
+
+    abstract fun onShapeSelected(shape: IShape)
 
     protected abstract val title: String
 

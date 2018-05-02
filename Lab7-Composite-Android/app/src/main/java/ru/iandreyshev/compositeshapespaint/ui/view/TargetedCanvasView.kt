@@ -15,7 +15,7 @@ class TargetedCanvasView @JvmOverloads constructor(
 ) : CanvasView(context, attrs, defStyleAttr) {
 
     companion object {
-        private const val RECT_STROKE_WIDTH = 6f
+        private const val RECT_STROKE_WIDTH = 3f
         private const val CIRCLE_RADIUS = 20f
         private const val CIRCLE_TOUCH_RADIUS = 40f
         private const val MIN_WIDTH = 42f
