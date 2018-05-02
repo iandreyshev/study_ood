@@ -17,7 +17,7 @@ class TargetedCanvasView @JvmOverloads constructor(
     companion object {
         private const val RECT_STROKE_WIDTH = 3f
         private const val CIRCLE_RADIUS = 20f
-        private const val CIRCLE_TOUCH_RADIUS = 40f
+        private const val CIRCLE_TOUCH_RADIUS = 50f
         private const val MIN_WIDTH = 42f
         private const val MIN_HEIGHT = 42f
     }
@@ -62,12 +62,18 @@ class TargetedCanvasView @JvmOverloads constructor(
         }
     }
 
-    fun setTarget(position: Vec2f, width: Float, height: Float) {
-        isEnabled = true
-        mTargetFrameHelper.target = Frame(position, width, height).apply {
-            prepareDrawingProperties(this)
-            invalidate()
+    fun setTarget(frame: IFrame?) {
+        if (frame == null) {
+            mTargetFrameHelper.target = null
+            isEnabled = false
+            return
         }
+
+        isEnabled = true
+        mTargetFrameHelper.target = Frame(frame.position, frame.width, frame.height).apply {
+            prepareDrawingProperties(this)
+        }
+        invalidate()
     }
 
     fun hitTest(x: Float, y: Float): Boolean =

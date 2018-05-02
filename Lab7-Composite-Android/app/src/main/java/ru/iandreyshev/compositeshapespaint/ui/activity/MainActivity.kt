@@ -90,8 +90,7 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         targetShape.observe { shape ->
             mTargetShape = shape
             shapeInfoView.setShape(mTargetShape)
-            tcvCanvas.isEnabled = shape?.frame != null
-            shape?.frame?.apply { tcvCanvas.setTarget(position, width, height) }
+            tcvCanvas.setTarget(shape?.frame)
         }
 
         state.observeNotNull { state ->
