@@ -2,9 +2,12 @@ package ru.iandreyshev.compositeshapespaint.useCase.interfaces
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
+import java.io.File
 
 interface IMainUseCase : IUseCase {
     fun addShape(shapeName: String)
+
+    fun addShape(photo: File)
 
     fun setState(stateName: String)
 

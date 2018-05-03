@@ -1,5 +1,6 @@
 package ru.iandreyshev.compositeshapespaint.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import ru.iandreyshev.compositeshapespaint.R
 import ru.iandreyshev.compositeshapespaint.ui.adapter.ShapesListRVAdapter
@@ -12,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_shape_info.*
 import org.jetbrains.anko.collections.forEachReversedWithIndex
 import org.jetbrains.anko.toast
+import pl.aprilapps.easyphotopicker.EasyImage
 import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IMainInteractor
 import ru.iandreyshev.compositeshapespaint.ui.ActionError
 import ru.iandreyshev.compositeshapespaint.factory.CleanArchitectureFactory
@@ -24,6 +26,8 @@ import ru.iandreyshev.compositeshapespaint.ui.extension.visibleIfOrGone
 import ru.iandreyshev.compositeshapespaint.ui.viewModel.main.IMainActivityStateContext
 import ru.iandreyshev.compositeshapespaint.ui.viewModel.main.MainActivityState
 import kotlin.math.pow
+import pl.aprilapps.easyphotopicker.DefaultCallback
+import java.io.File
 
 class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         layout = R.layout.activity_main,
@@ -118,12 +122,26 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.act_add -> DialogFactory.addShapeDialog(this, interactor::addShape)
+            R.id.act_add -> DialogFactory.addShapeDialog(this, ::addShape)
             R.id.act_grouping -> interactor.beginGrouping()
             R.id.act_refresh -> interactor.refresh()
             R.id.act_delete -> actionWithTargetShape { interactor.deleteShape(it) }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, TakePhotoListener())
+    }
+
+    private fun addShape(shapeName: String) {
+        if (shapeName == "image") {
+            EasyImage.openCamera(this, 0)
+            return
+        }
+
+        interactor.addShape(shapeName)
     }
 
     private fun reDraw() {
@@ -187,6 +205,20 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
         }
 
         override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
+        }
+    }
+
+    private inner class TakePhotoListener : DefaultCallback() {
+        override fun onImagePicked(imageFile: File?, source: EasyImage.ImageSource?, type: Int) {
+            if (imageFile != null) {
+                interactor.addShape(imageFile)
+            }
+        }
+
+        override fun onImagePickerError(e: Exception?, source: EasyImage.ImageSource?, type: Int) {
+        }
+
+        override fun onCanceled(source: EasyImage.ImageSource?, type: Int) {
         }
     }
 }

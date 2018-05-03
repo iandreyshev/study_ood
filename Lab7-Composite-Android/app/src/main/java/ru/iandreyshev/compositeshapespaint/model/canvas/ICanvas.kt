@@ -1,5 +1,6 @@
 package ru.iandreyshev.compositeshapespaint.model.canvas
 
+import android.graphics.Bitmap
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 
 interface ICanvas {
@@ -20,4 +21,6 @@ interface ICanvas {
     fun lineTo(x: Float, y: Float)
 
     fun drawEllipse(centerX: Float, centerY: Float, horizontalRadius: Float, verticalRadius: Float)
+
+    fun drawImage(image: Bitmap, position: Vec2f, width: Float, height: Float)
 }

@@ -2,11 +2,14 @@ package ru.iandreyshev.compositeshapespaint.interactor.interfaces
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
+import java.io.File
 
 interface IMainInteractor : IInteractor {
     fun refresh()
 
     fun addShape(id: String)
+
+    fun addShape(photo: File)
 
     fun beginNormal()
 

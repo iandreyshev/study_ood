@@ -34,8 +34,8 @@ class TargetFrameHelper(
 
     private fun handleCircleMove(frame: IFrame, lastX: Float, lastY: Float, newX: Float, newY: Float): IFrame? {
         fun hitTest(circleX: Float, circleY: Float): Boolean {
-            val xRange = (circleX - circleTouchRadius..circleX + circleTouchRadius)
-            val yRange = (circleY - circleTouchRadius..circleY + circleTouchRadius)
+            val xRange = ((circleX - circleTouchRadius)..(circleX + circleTouchRadius))
+            val yRange = ((circleY - circleTouchRadius)..(circleY + circleTouchRadius))
 
             return xRange.contains(lastX) && yRange.contains(lastY) ||
                     xRange.contains(newX) && yRange.contains(newY)

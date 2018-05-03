@@ -51,7 +51,7 @@ class TargetedCanvasView @JvmOverloads constructor(
     }
 
     init {
-        onMove = { _, _, _, _ -> } // To create callback
+        onMove = { _, _, _, _ -> } // To create start callback
     }
 
     fun onTargetChanged(callback: (IFrame) -> Unit) {

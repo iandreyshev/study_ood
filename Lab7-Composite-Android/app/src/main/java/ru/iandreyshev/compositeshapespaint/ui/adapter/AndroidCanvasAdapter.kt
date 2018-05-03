@@ -1,9 +1,6 @@
 package ru.iandreyshev.compositeshapespaint.ui.adapter
 
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Path
-import android.graphics.RectF
+import android.graphics.*
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
@@ -13,6 +10,9 @@ class AndroidCanvasAdapter : ICanvas {
     var canvas: Canvas? = null
 
     private var mPath = Path()
+
+    private val mImageSrcRect = Rect()
+    private val mImageDstRect = Rect()
 
     override var color: Color = Color.NONE
 
@@ -52,6 +52,24 @@ class AndroidCanvasAdapter : ICanvas {
         val right = centerX + horizontalRadius
         val bottom = centerY + verticalRadius
         mPath.addArc(RectF(left, top, right, bottom), 0f, 360f)
+    }
+
+    override fun drawImage(image: Bitmap, position: Vec2f, width: Float, height: Float) {
+        mImageSrcRect.apply {
+            top = 0
+            left = 0
+            right = image.width
+            bottom = image.height
+        }
+
+        mImageDstRect.apply {
+            left = position.x.toInt()
+            top = position.y.toInt()
+            right = position.x.toInt() + width.toInt()
+            bottom = position.y.toInt() + height.toInt()
+        }
+
+        canvas?.drawBitmap(image, mImageSrcRect, mImageDstRect, Paint())
     }
 
     private fun draw(paintBuilder: Paint.() -> Unit) = canvas?.apply {

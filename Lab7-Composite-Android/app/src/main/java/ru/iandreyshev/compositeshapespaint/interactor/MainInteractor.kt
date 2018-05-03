@@ -4,6 +4,7 @@ import ru.iandreyshev.compositeshapespaint.interactor.interfaces.IMainInteractor
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.shape.IShape
 import ru.iandreyshev.compositeshapespaint.useCase.interfaces.IMainUseCase
+import java.io.File
 
 class MainInteractor(
         private val mainUseCase: IMainUseCase
@@ -14,6 +15,9 @@ class MainInteractor(
 
     override fun addShape(id: String) =
             mainUseCase.addShape(id)
+
+    override fun addShape(photo: File) =
+            mainUseCase.addShape(photo)
 
     override fun updateShape(shape: IShape) =
             mainUseCase.updateShape(shape)
