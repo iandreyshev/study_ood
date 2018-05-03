@@ -2,6 +2,7 @@ package ru.iandreyshev.compositeshapespaint.model.shape
 
 import ru.iandreyshev.compositeshapespaint.model.canvas.Color
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
+import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
 import ru.iandreyshev.compositeshapespaint.model.shape.style.IStyle
 
 abstract class TermShape(
@@ -13,6 +14,13 @@ abstract class TermShape(
         private val DEFAULT_STROKE_COLOR = Color.BLACK
         private const val DEFAULT_STROKE_SIZE = 5f
     }
+
+    protected val position: Vec2f
+        get() = frame.position
+    protected val width: Float
+        get() = frame.width
+    protected val height: Float
+        get() = frame.height
 
     override val composite: ICompositeShape? = null
 

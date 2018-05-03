@@ -13,6 +13,7 @@ class Ellipse(
         style: IStyle,
         override val name: String = Ellipse::class.java.simpleName
 ) : TermShape(style) {
+
     init {
         if (horizontalRadius < 0 || verticalRadius < 0) throw IllegalArgumentException("Radius can not be negative")
     }
@@ -30,10 +31,10 @@ class Ellipse(
             onDraw(canvas)
 
     private fun onDraw(canvas: ICanvas) {
-        val radiusX = frame.width / 2
-        val radiusY = frame.height / 2
-        val centerX = frame.position.x + radiusX
-        val centerY = frame.position.y + radiusY
+        val radiusX = width / 2
+        val radiusY = height / 2
+        val centerX = position.x + radiusX
+        val centerY = position.y + radiusY
         canvas.drawEllipse(centerX, centerY, radiusX, radiusY)
     }
 }

@@ -18,6 +18,13 @@ class RegularPolygon(
         const val MIN_VERTEX = 3
     }
 
+    // onDraw
+    private val mAngleIncrease = 2 * Math.PI / vertexCount
+    private val mXPoints = FloatArray(vertexCount)
+    private val mYPoints = FloatArray(vertexCount)
+    private val mPenPosition = Vec2f()
+    // onDraw
+
     init {
         if (vertexCount < MIN_VERTEX) throw IllegalArgumentException("Min vertex count is $MIN_VERTEX")
         if (radius < 0) throw IllegalArgumentException("Radius can not be negative")
@@ -36,29 +43,31 @@ class RegularPolygon(
 
     private fun onDraw(canvas: ICanvas) {
         var angle = .0
-        val addAngle = 2 * Math.PI / vertexCount
-        val xPoints = FloatArray(vertexCount)
-        val yPoints = FloatArray(vertexCount)
 
         repeat(vertexCount) {
-            xPoints[it] = Math.round(frame.radius * Math.cos(angle)) + frame.center.x
-            yPoints[it] = Math.round(frame.radius * Math.sin(angle)) + frame.center.y
-            angle += addAngle
+            val centerX = position.x + width / 2
+            val centerY = position.y + height / 2
+
+            mXPoints[it] = Math.round(frame.radius * Math.cos(angle)) + centerX
+            mYPoints[it] = Math.round(frame.radius * Math.sin(angle)) + centerY
+            angle += mAngleIncrease
         }
 
-        if (!xPoints.isEmpty() && !yPoints.isEmpty()) {
-            canvas.moveTo(Vec2f(xPoints.first(), yPoints.first()))
+        mPenPosition.x = mXPoints.first()
+        mPenPosition.y = mYPoints.first()
+
+        if (!mXPoints.isEmpty() && !mYPoints.isEmpty()) {
+            canvas.moveTo(mPenPosition)
         }
 
         repeat(vertexCount) { pointIndex ->
             val pointNum = if (pointIndex + 1 == vertexCount) 0 else pointIndex + 1
-            canvas.lineTo(Vec2f(xPoints[pointNum], yPoints[pointNum]))
+            mPenPosition.x = mXPoints[pointNum]
+            mPenPosition.y = mYPoints[pointNum]
+            canvas.lineTo(mPenPosition)
         }
     }
 
     private val IFrame.radius: Float
         get() = Math.min(width, height) / 2
-
-    private val IFrame.center: Vec2f
-        get() = Vec2f(position.x + width / 2, position.y + height / 2)
 }

@@ -9,14 +9,17 @@ import ru.iandreyshev.compositeshapespaint.model.converter.ColorConverter
 class AndroidCanvasAdapter : ICanvas {
     var canvas: Canvas? = null
 
-    private var mPath = Path()
-
-    private val mImageSrcRect = Rect()
-    private val mImageDstRect = Rect()
-
     override var color: Color = Color.NONE
 
     override var strokeSize: Float = 0f
+
+    // onDraw
+    private val mPath = Path()
+    private val mPaintProperties = Paint()
+    private val mImageSrcRect = Rect()
+    private val mImageDstRect = Rect()
+    private val mEllipseRect = RectF()
+    // onDraw
 
     override fun fill() {
         draw {
@@ -47,11 +50,13 @@ class AndroidCanvasAdapter : ICanvas {
     }
 
     override fun drawEllipse(centerX: Float, centerY: Float, horizontalRadius: Float, verticalRadius: Float) {
-        val left = centerX - horizontalRadius
-        val top = centerY - verticalRadius
-        val right = centerX + horizontalRadius
-        val bottom = centerY + verticalRadius
-        mPath.addArc(RectF(left, top, right, bottom), 0f, 360f)
+        mEllipseRect.apply {
+            left = centerX - horizontalRadius
+            top = centerY - verticalRadius
+            right = centerX + horizontalRadius
+            bottom = centerY + verticalRadius
+        }
+        mPath.addArc(mEllipseRect, 0f, 360f)
     }
 
     override fun drawImage(image: Bitmap, position: Vec2f, width: Float, height: Float) {
@@ -73,15 +78,16 @@ class AndroidCanvasAdapter : ICanvas {
     }
 
     private fun draw(paintBuilder: Paint.() -> Unit) = canvas?.apply {
-        val properties = Paint()
-        properties.strokeWidth = strokeSize
-        properties.color = ColorConverter.convert(this@AndroidCanvasAdapter.color)
-        properties.isAntiAlias = true
+        mPaintProperties.strokeWidth = strokeSize
+        mPaintProperties.color = ColorConverter.convert(this@AndroidCanvasAdapter.color)
+        mPaintProperties.isAntiAlias = true
 
-        paintBuilder(properties)
+        paintBuilder(mPaintProperties)
 
         mPath.close()
-        drawPath(mPath, properties)
-        mPath = Path()
+        drawPath(mPath, mPaintProperties)
+
+        mPaintProperties.reset()
+        mPath.reset()
     }
 }

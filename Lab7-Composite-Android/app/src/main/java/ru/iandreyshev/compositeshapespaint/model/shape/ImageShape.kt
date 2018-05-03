@@ -3,7 +3,6 @@ package ru.iandreyshev.compositeshapespaint.model.shape
 import android.graphics.Bitmap
 import ru.iandreyshev.compositeshapespaint.model.canvas.ICanvas
 import ru.iandreyshev.compositeshapespaint.model.container.Vec2f
-import ru.iandreyshev.compositeshapespaint.model.shape.frame.FixedSizeFrame
 import ru.iandreyshev.compositeshapespaint.model.shape.frame.Frame
 import ru.iandreyshev.compositeshapespaint.model.shape.frame.IFrame
 import ru.iandreyshev.compositeshapespaint.model.shape.style.FixedStyle

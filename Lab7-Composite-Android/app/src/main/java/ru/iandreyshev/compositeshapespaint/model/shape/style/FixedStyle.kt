@@ -7,6 +7,7 @@ class FixedStyle(
         private val strokeColor: Color? = null,
         private val strokeSize: Float? = null
 ) : IStyle {
+
     override fun setFillColor(color: Color) {
         // skip
     }

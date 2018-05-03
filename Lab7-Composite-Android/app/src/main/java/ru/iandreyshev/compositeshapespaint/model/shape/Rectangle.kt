@@ -30,10 +30,6 @@ class Rectangle(
             onDraw(canvas)
 
     private fun onDraw(canvas: ICanvas) {
-        val position = frame.position
-        val width = frame.width
-        val height = frame.height
-
         with(canvas) {
             moveTo(position)
             lineTo(position.x + width, position.y)

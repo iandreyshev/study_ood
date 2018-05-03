@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import ru.iandreyshev.compositeshapespaint.model.shape.ImageShape
 
-
 class MainUseCase(
         private var presenter: IMainPresenter,
         private val shapesFactory: IShapeFactory,

@@ -18,6 +18,10 @@ class Triangle(
     private lateinit var mVertex2Proportion: Vec2f
     private lateinit var mVertex3Proportion: Vec2f
 
+    // onDraw
+    private val mPenPosition = Vec2f()
+    // onDraw
+
     override val frame: IFrame by lazy {
         val minX = vertex1.x min vertex2.x min vertex3.x
         val maxX = vertex1.x max vertex2.x max vertex3.x
@@ -44,21 +48,24 @@ class Triangle(
             onDraw(canvas)
 
     private fun onDraw(canvas: ICanvas) {
-        fun calcPosition(vertexProperty: Vec2f): Vec2f =
-                Vec2f(
-                        frame.position.x + frame.width * vertexProperty.x,
-                        frame.position.y + frame.height * vertexProperty.y
-                )
+        fun calcPosition(vertexProperty: Vec2f) {
+            mPenPosition.x = frame.position.x + frame.width * vertexProperty.x
+            mPenPosition.y =frame.position.y + frame.height * vertexProperty.y
+        }
 
         frame.position
-        val v1Position = calcPosition(mVertex1Proportion)
-        val v2Position = calcPosition(mVertex2Proportion)
-        val v3Position = calcPosition(mVertex3Proportion)
 
-        canvas.moveTo(v1Position)
-        canvas.lineTo(v2Position)
-        canvas.lineTo(v3Position)
-        canvas.lineTo(v1Position)
+        calcPosition(mVertex1Proportion)
+        canvas.moveTo(mPenPosition)
+
+        calcPosition(mVertex2Proportion)
+        canvas.lineTo(mPenPosition)
+
+        calcPosition(mVertex3Proportion)
+        canvas.lineTo(mPenPosition)
+
+        calcPosition(mVertex1Proportion)
+        canvas.lineTo(mPenPosition)
     }
 
     private infix fun Float.min(other: Float): Float = Math.min(this, other)
