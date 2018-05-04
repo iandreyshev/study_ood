@@ -45,8 +45,8 @@ class RegularPolygon(
         var angle = .0
 
         repeat(vertexCount) {
-            val centerX = position.x + width / 2
-            val centerY = position.y + height / 2
+            val centerX = frame.position.x + frame.width / 2
+            val centerY = frame.position.y + frame.height / 2
 
             mXPoints[it] = Math.round(frame.radius * Math.cos(angle)) + centerX
             mYPoints[it] = Math.round(frame.radius * Math.sin(angle)) + centerY

@@ -11,6 +11,7 @@ class TargetFrameHelper(
     var target: IFrame? = null
 
     private var mOnFrameChanged: ((IFrame) -> Unit)? = null
+    private val mMoveToPosition = Vec2f()
 
     fun handleMoveEvent(lastX: Float?, lastY: Float?, newX: Float, newY: Float) {
         lastX ?: return
@@ -91,9 +92,9 @@ class TargetFrameHelper(
             return null
         }
 
-        val x = newX - frame.width / 2
-        val y = newY - frame.height / 2
+        mMoveToPosition.x = frame.position.x + newX - lastX
+        mMoveToPosition.y = frame.position.y + newY - lastY
 
-        return Frame(Vec2f(x, y), frame.width, frame.height)
+        return Frame(mMoveToPosition, frame.width, frame.height)
     }
 }

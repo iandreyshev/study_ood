@@ -71,11 +71,10 @@ class MainActivity : InteractorActivity<IMainInteractor, MainViewModel>(
 
         tcvCanvas.onTouch = ::handleCanvasTouch
         tcvCanvas.onTargetChanged { newFrame ->
-            mTargetShape?.frame?.apply {
-                position = newFrame.position
-                resize(newFrame.width, newFrame.height)
+            mTargetShape?.frame?.let { oldFrame ->
+                oldFrame.position = newFrame.position
+                oldFrame.resize(newFrame.width, newFrame.height)
             }
-
             mTargetShape?.let { interactor.updateShape(it) }
         }
 
