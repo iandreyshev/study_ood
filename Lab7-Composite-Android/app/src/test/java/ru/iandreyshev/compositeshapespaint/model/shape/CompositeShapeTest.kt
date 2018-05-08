@@ -25,31 +25,30 @@ class CompositeShapeTest {
     fun setup() {
         mInnerMocks = mutableListOf()
 
-        mCompositeShape = newCompositeShape {
-            repeat(INNER_SHAPES_COUNT) {
-                val shapeMock: IShape = mock()
-                shapeMock.apply {
-                    whenever(composite).thenReturn(null)
+        mCompositeShape = CompositeShape("")
 
-                    val frameMock: IFrame = mock()
-                    frameMock.apply {
-                        whenever(position).thenReturn(Vec2f())
-                        whenever(width).thenReturn(5f)
-                        whenever(height).thenReturn(5f)
-                        whenever(frame).thenReturn(this)
-                    }
+        repeat(INNER_SHAPES_COUNT) {
+            val innerShapeMock: IShape = mock()
+            whenever(innerShapeMock.composite).thenReturn(null)
 
-                    val styleMock: IStyle = mock()
-                    styleMock.apply {
-                        whenever(getFillColor()).thenReturn(Color.NONE)
-                        whenever(getStrokeColor()).thenReturn(Color.NONE)
-                        whenever(getStrokeSize()).thenReturn(0f)
-                        whenever(style).thenReturn(this)
-                    }
-                }
-                mInnerMocks.add(shapeMock)
-                subShape { shapeMock }
+            val frameMock: IFrame = mock()
+            frameMock.apply {
+                whenever(position).thenReturn(Vec2f())
+                whenever(width).thenReturn(5f)
+                whenever(height).thenReturn(5f)
+                whenever(innerShapeMock.frame).thenReturn(this)
             }
+
+            val styleMock: IStyle = mock()
+            styleMock.apply {
+                whenever(getFillColor()).thenReturn(Color.NONE)
+                whenever(getStrokeColor()).thenReturn(Color.NONE)
+                whenever(getStrokeSize()).thenReturn(0f)
+                whenever(innerShapeMock.style).thenReturn(this)
+            }
+
+            mInnerMocks.add(innerShapeMock)
+            mCompositeShape.composite?.add(innerShapeMock)
         }
     }
 
@@ -121,7 +120,7 @@ class CompositeShapeTest {
             mGetShapes.add(getShape)
         }
 
-        fun build(): IShape =
+        fun build(): ICompositeShape =
                 CompositeShape(
                         mGetName(),
                         mGetShapes.map { getShape -> getShape() }
