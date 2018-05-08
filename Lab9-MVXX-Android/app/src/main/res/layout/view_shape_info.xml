@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ru.iandreyshev.adobekiller.ui.view.ShapeInfoView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shapeInfoView"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="right">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="220dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="2dp">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/flFillColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/black"
+                android:padding="1dp"
+                app:cardBackgroundColor="@android:color/black"
+                app:contentPadding="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white">
+
+                    <ru.iandreyshev.adobekiller.ui.view.CanvasView
+                        android:id="@+id/cvFillColor"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/undefined_color">
+
+                    </ru.iandreyshev.adobekiller.ui.view.CanvasView>
+
+                    <FrameLayout
+                        android:id="@+id/cvFillColorButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </FrameLayout>
+
+                </FrameLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:padding="2dp">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/flStrokeColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/black"
+                android:padding="1dp"
+                app:cardBackgroundColor="@android:color/black"
+                app:contentPadding="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white">
+
+                    <ru.iandreyshev.adobekiller.ui.view.CanvasView
+                        android:id="@+id/cvStrokeColor"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/undefined_color">
+
+                    </ru.iandreyshev.adobekiller.ui.view.CanvasView>
+
+                    <FrameLayout
+                        android:id="@+id/cvStrokeColorTint"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="4dp"
+                        android:background="@android:color/black"
+                        android:padding="1dp">
+
+                        <FrameLayout
+                            android:id="@+id/cvStrokeColorButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/cardview_light_background">
+
+                        </FrameLayout>
+
+                    </FrameLayout>
+
+                </FrameLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+</ru.iandreyshev.adobekiller.ui.view.ShapeInfoView>

@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Lab7-Composite-Android.iml" filepath="$PROJECT_DIR$/Lab7-Composite-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/Lab7-Composite-Android-app.iml" filepath="$PROJECT_DIR$/app/Lab7-Composite-Android-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/volgatech_ood_2018-Lab7-Composite-Android.iml" filepath="$PROJECT_DIR$/volgatech_ood_2018-Lab7-Composite-Android.iml" />
     </modules>
   </component>
 </project>
