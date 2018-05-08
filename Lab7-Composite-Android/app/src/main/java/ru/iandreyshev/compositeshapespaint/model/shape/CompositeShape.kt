@@ -26,16 +26,10 @@ class CompositeShape(
 
     override fun add(shape: IShape) {
         mShapes.add(shape)
-
-        frame = CompositeFrame(FramesIterator())
-        style = CompositeStyle(StylesIterator())
     }
 
     override fun remove(shape: IShape) {
         mShapes.remove(shape)
-
-        frame = CompositeFrame(FramesIterator())
-        style = CompositeStyle(StylesIterator())
     }
 
     override fun draw(canvas: ICanvas) =
@@ -43,7 +37,7 @@ class CompositeShape(
 
     private inner class FramesIterator : ISimpleIterator<IFrame> {
         override fun forEach(action: (IFrame) -> Unit) =
-                mShapes.forEach { it.frame.apply(action) }
+                    mShapes.forEach { it.frame.apply(action) }
     }
 
     private inner class StylesIterator : ISimpleIterator<IStyle> {
