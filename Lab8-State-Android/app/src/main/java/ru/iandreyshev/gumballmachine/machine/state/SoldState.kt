@@ -1,6 +1,7 @@
 package ru.iandreyshev.gumballmachine.machine.state
 
 import ru.iandreyshev.gumballmachine.machine.GumballMachineError
+import ru.iandreyshev.gumballmachine.machine.StateName
 
 internal class SoldState(
         override val context: IGumballMachineContext,
@@ -28,5 +29,6 @@ internal class SoldState(
     override fun fill(newBallsCount: Int) =
             error { message = "Can`t to insert balls during release balls" }
 
-    override fun toString() = "Sold"
+    override fun toString() =
+            StateName.SOLD
 }

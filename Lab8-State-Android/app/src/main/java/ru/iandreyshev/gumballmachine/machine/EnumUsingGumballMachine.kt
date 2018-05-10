@@ -151,10 +151,10 @@ class EnumUsingGumballMachine(
 
     private fun getStateName(): String {
         return when(mCurrentState) {
-            EnumUsingGumballMachine.State.SOLD -> "Sold"
-            EnumUsingGumballMachine.State.SOLD_OUT -> "Sold out"
-            EnumUsingGumballMachine.State.NO_COIN -> "No coin"
-            EnumUsingGumballMachine.State.HAS_COIN -> "Has coin"
+            EnumUsingGumballMachine.State.SOLD -> StateName.SOLD
+            EnumUsingGumballMachine.State.SOLD_OUT -> StateName.SOLD_OUT
+            EnumUsingGumballMachine.State.NO_COIN -> StateName.NO_COIN
+            EnumUsingGumballMachine.State.HAS_COIN -> StateName.HAS_COIN
         }
     }
 

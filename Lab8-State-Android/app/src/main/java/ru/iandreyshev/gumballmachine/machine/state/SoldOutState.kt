@@ -1,6 +1,7 @@
 package ru.iandreyshev.gumballmachine.machine.state
 
 import ru.iandreyshev.gumballmachine.machine.GumballMachineError
+import ru.iandreyshev.gumballmachine.machine.StateName
 
 internal class SoldOutState(
         override val context: IGumballMachineContext,
@@ -27,5 +28,6 @@ internal class SoldOutState(
     override fun fill(newBallsCount: Int) =
             context.fill(newBallsCount)
 
-    override fun toString() = "Sold out"
+    override fun toString() =
+            StateName.SOLD_OUT
 }

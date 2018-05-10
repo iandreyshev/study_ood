@@ -1,6 +1,7 @@
 package ru.iandreyshev.gumballmachine.machine.state
 
 import ru.iandreyshev.gumballmachine.machine.GumballMachineError
+import ru.iandreyshev.gumballmachine.machine.StateName
 
 internal class NoCoinState(
         override val context: IGumballMachineContext,
@@ -28,5 +29,6 @@ internal class NoCoinState(
     override fun fill(newBallsCount: Int) =
             context.fill(newBallsCount)
 
-    override fun toString() = "No coin"
+    override fun toString() =
+            StateName.NO_COIN
 }
