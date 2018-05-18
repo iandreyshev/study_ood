@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ru.iandreyshev.adobekiller.ui.view.ShapeInfoView xmlns:android="http://schemas.android.com/apk/res/android"
+<ru.iandreyshev.adobeKiller.presentation.ui.view.ShapeInfoView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/shapeInfoView"
@@ -45,13 +45,13 @@
                     android:layout_height="match_parent"
                     android:background="@android:color/white">
 
-                    <ru.iandreyshev.adobekiller.ui.view.CanvasView
+                    <ru.iandreyshev.adobeKiller.presentation.ui.view.CanvasView
                         android:id="@+id/cvFillColor"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/undefined_color">
 
-                    </ru.iandreyshev.adobekiller.ui.view.CanvasView>
+                    </ru.iandreyshev.adobeKiller.presentation.ui.view.CanvasView>
 
                     <FrameLayout
                         android:id="@+id/cvFillColorButton"
@@ -92,13 +92,13 @@
                     android:layout_height="match_parent"
                     android:background="@android:color/white">
 
-                    <ru.iandreyshev.adobekiller.ui.view.CanvasView
+                    <ru.iandreyshev.adobeKiller.presentation.ui.view.CanvasView
                         android:id="@+id/cvStrokeColor"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/undefined_color">
 
-                    </ru.iandreyshev.adobekiller.ui.view.CanvasView>
+                    </ru.iandreyshev.adobeKiller.presentation.ui.view.CanvasView>
 
                     <FrameLayout
                         android:id="@+id/cvStrokeColorTint"
@@ -126,4 +126,4 @@
 
     </LinearLayout>
 
-</ru.iandreyshev.adobekiller.ui.view.ShapeInfoView>
+</ru.iandreyshev.adobeKiller.presentation.ui.view.ShapeInfoView>

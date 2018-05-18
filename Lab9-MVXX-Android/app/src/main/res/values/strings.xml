@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Adobe killer</string>
 
     <string name="shape_info_view_not_selected">Shape not selected</string>
@@ -8,7 +9,7 @@
     <string name="act_moving">Moving</string>
     <string name="act_grouping">Combine shapes</string>
     <string name="act_show_info">Shape info</string>
-    <string name="act_refresh">Refresh</string>
+    <string name="act_clear">Clear canvas</string>
     <string name="act_delete">Delete shape</string>
 
     <string name="grouping_act_submit">Submit</string>
@@ -24,4 +25,7 @@
     <string name="shape_not_selected">Shape not selected</string>
 
     <string name="shapes_list_title">Canvas shapes</string>
+
+    <string name="menu_not_found">Canvases not found. Create your first!</string>
+
 </resources>

@@ -9,12 +9,8 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/act_grouping"
-        android:title="@string/act_grouping" />
-
-    <item
-        android:id="@+id/act_refresh"
-        android:title="@string/act_refresh" />
+        android:id="@+id/act_clear"
+        android:title="@string/act_clear" />
 
     <item
         android:id="@+id/act_delete"

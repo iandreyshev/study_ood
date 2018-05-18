@@ -1,4 +1,4 @@
-package ru.iandreyshev.adobekiller
+package ru.iandreyshev.adobeKiller
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

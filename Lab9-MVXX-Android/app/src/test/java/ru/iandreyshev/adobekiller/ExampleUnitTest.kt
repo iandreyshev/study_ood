@@ -1,4 +1,4 @@
-package ru.iandreyshev.adobekiller
+package ru.iandreyshev.adobeKiller
 
 import org.junit.Test
 
