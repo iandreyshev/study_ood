@@ -6,6 +6,10 @@ interface IRepository {
 
     fun getCanvases(): List<DbCanvas>
 
-    fun getShapesForCanvas(canvasId: Long): List<DbShape>
+    fun getCanvasShapes(canvasId: Long): List<DbShape>
+
+    fun saveCanvas(canvasId: Long, shapes: List<DbShape>)
+
+    fun deleteCanvas(canvasId: Long)
 
 }

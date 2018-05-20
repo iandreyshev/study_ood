@@ -104,7 +104,7 @@ class CanvasUseCase(
         presenter.setTarget(null)
     }
 
-    fun Bitmap.scaleToSize(maxSize: Int): Bitmap {
+    private fun Bitmap.scaleToSize(maxSize: Int): Bitmap {
         if (maxSize <= 0) {
             return this
         } else if (width <= maxSize && height <= maxSize) {

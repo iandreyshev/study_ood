@@ -17,12 +17,7 @@
           "name": "name"
         }
       ],
-      "relations": [
-        {
-          "id": "1:2098903201145934288",
-          "name": "shapes"
-        }
-      ]
+      "relations": []
     },
     {
       "id": "2:7807017834156707759",
@@ -35,7 +30,6 @@
         },
         {
           "id": "2:6096129402847498580",
-          "indexId": "1:1602643203591464574",
           "name": "canvasId"
         }
       ],
@@ -43,8 +37,8 @@
     }
   ],
   "lastEntityId": "2:7807017834156707759",
-  "lastIndexId": "1:1602643203591464574",
-  "lastRelationId": "1:2098903201145934288",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,

@@ -7,20 +7,36 @@ class Repository(localStorage: BoxStore) : IRepository {
     private val mCanvasesBox = localStorage.boxFor(DbCanvas::class.java)
     private val mShapesBox = localStorage.boxFor(DbShape::class.java)
 
-    override fun createCanvas(name: String): DbCanvas {
-        val entity = DbCanvas(
-                name = name
-        )
-
-        mCanvasesBox.put(entity)
-
-        return entity
-    }
+    override fun createCanvas(name: String): DbCanvas =
+            DbCanvas(name = name).apply {
+                mCanvasesBox.put(this)
+            }
 
     override fun getCanvases(): List<DbCanvas> =
             mCanvasesBox.all
 
-    override fun getShapesForCanvas(canvasId: Long): List<DbShape> =
+    override fun getCanvasShapes(canvasId: Long): List<DbShape> =
             mShapesBox.find(DbShape_.canvasId, canvasId)
+
+    override fun saveCanvas(canvasId: Long, shapes: List<DbShape>) {
+        mShapesBox.query()
+                .equal(DbShape_.canvasId, canvasId)
+                .build()
+                .remove()
+        canvasId.bindShapes(shapes)
+        mShapesBox.put(shapes)
+    }
+
+    override fun deleteCanvas(canvasId: Long) {
+        mCanvasesBox.remove(canvasId)
+        mShapesBox.query()
+                .equal(DbShape_.canvasId, canvasId)
+                .build()
+                .remove()
+    }
+
+    private fun Long.bindShapes(shapes: List<DbShape>) {
+        shapes.forEach { it.canvasId = this }
+    }
 
 }

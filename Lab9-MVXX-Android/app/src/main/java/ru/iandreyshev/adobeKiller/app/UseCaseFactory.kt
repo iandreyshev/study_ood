@@ -15,7 +15,11 @@ internal class UseCaseFactory(
         private val repository: IRepository
 ) : IUseCaseFactory {
 
-    override fun create(useCaseType: UseCaseType, presenter: IPresenter, data: Any?): IUseCase = when (useCaseType) {
+    override fun create(
+            useCaseType: UseCaseType,
+            presenter: IPresenter,
+            data: Any?
+    ): IUseCase = when (useCaseType) {
 
         UseCaseType.CANVAS -> CanvasUseCase(
                 presenter = presenter as ICanvasPresenter,

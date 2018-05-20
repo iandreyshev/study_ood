@@ -2,9 +2,10 @@ package ru.iandreyshev.adobeKiller.data
 
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
+import io.objectbox.annotation.Index
 
 @Entity
-data class DbShape(
+class DbShape(
         @Id var id: Long,
-        var canvasId: Long
+        @Index var canvasId: Long
 )
