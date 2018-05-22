@@ -2,10 +2,12 @@ package ru.iandreyshev.adobeKiller.app
 
 import android.annotation.SuppressLint
 import android.app.Application
+import io.objectbox.BoxStore
 import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.IInteractor
 import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
 import ru.iandreyshev.localstorage.ILocalStorage
 import ru.iandreyshev.localstorage.LocalStorage
+import ru.iandreyshev.localstorage.entity.MyObjectBox
 
 class AdobeKillerApp : Application() {
 
@@ -23,7 +25,11 @@ class AdobeKillerApp : Application() {
         super.onCreate()
         instance = this
 
-        initLocalStorage()
+        val boxStore = MyObjectBox.builder()
+                .androidContext(applicationContext)
+                .build()
+
+        initLocalStorage(boxStore)
         initFactories()
     }
 
@@ -37,8 +43,8 @@ class AdobeKillerApp : Application() {
         return viewModel
     }
 
-    private fun initLocalStorage() {
-        localStorage = LocalStorage(applicationContext)
+    private fun initLocalStorage(boxStore: BoxStore) {
+        localStorage = LocalStorage(boxStore)
     }
 
     private fun initFactories() {

@@ -1,7 +1,7 @@
 package ru.iandreyshev.localstorage
 
-import android.content.Context
 import io.objectbox.Box
+import io.objectbox.BoxStore
 import io.objectbox.Property
 import io.objectbox.query.Query
 import io.objectbox.query.QueryBuilder
@@ -10,22 +10,12 @@ import ru.iandreyshev.localstorage.extension.entity
 import ru.iandreyshev.localstorage.extension.publicEntity
 
 class LocalStorage(
-        context: Context
+        boxStore: BoxStore
 ) : ILocalStorage {
 
-    private val mCanvases: Box<CanvasEntity>
-    private val mShapes: Box<ShapeEntity>
-    private val mImages: Box<ImageEntity>
-
-    init {
-        val memory = MyObjectBox.builder()
-                .androidContext(context)
-                .build()
-
-        mCanvases = memory.boxFor(CanvasEntity::class.java)
-        mShapes = memory.boxFor(ShapeEntity::class.java)
-        mImages = memory.boxFor(ImageEntity::class.java)
-    }
+    private val mCanvases = boxStore.boxFor(CanvasEntity::class.java)
+    private val mShapes = boxStore.boxFor(ShapeEntity::class.java)
+    private val mImages = boxStore.boxFor(ImageEntity::class.java)
 
     override fun createCanvas(name: String): ICanvasEntity =
             CanvasEntity(name = name).apply {
