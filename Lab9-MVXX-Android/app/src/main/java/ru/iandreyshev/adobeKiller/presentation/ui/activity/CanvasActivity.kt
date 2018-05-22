@@ -3,7 +3,7 @@ package ru.iandreyshev.adobeKiller.presentation.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.ShapesListRVAdapter
-import ru.iandreyshev.adobeKiller.presentation.ui.viewModel.CanvasViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.CanvasViewModel
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -110,6 +110,7 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.act_add -> DialogFactory.createShapeDialog(this, ::addShape)
+            R.id.act_save -> interactor.save()
             R.id.act_clear -> interactor.refresh()
             R.id.act_delete -> actionWithTargetShape { interactor.deleteShape(it) }
         }

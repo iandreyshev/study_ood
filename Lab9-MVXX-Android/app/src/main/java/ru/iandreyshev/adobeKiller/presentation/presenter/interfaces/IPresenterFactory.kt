@@ -1,8 +1,7 @@
 package ru.iandreyshev.adobeKiller.presentation.presenter.interfaces
 
 import ru.iandreyshev.adobeKiller.app.UseCaseType
-import ru.iandreyshev.adobeKiller.presentation.ui.viewModel.interfaces.InteractorViewModel
-import kotlin.reflect.KClass
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
 
 interface IPresenterFactory {
 

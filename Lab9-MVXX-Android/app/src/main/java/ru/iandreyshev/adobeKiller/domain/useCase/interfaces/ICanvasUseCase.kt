@@ -24,4 +24,6 @@ interface ICanvasUseCase : IUseCase {
 
     fun refresh()
 
+    fun save()
+
 }

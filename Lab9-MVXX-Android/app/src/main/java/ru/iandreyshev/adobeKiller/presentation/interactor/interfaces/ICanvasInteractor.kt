@@ -6,6 +6,8 @@ import java.io.File
 
 interface ICanvasInteractor : IInteractor {
 
+    fun save()
+
     fun refresh()
 
     fun addShape(id: String)

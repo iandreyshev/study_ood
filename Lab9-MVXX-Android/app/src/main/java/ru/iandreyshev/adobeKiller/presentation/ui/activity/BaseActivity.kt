@@ -8,7 +8,7 @@ import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 import ru.iandreyshev.adobeKiller.app.AdobeKillerApp
 import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.IInteractor
-import ru.iandreyshev.adobeKiller.presentation.ui.viewModel.interfaces.InteractorViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
 import kotlin.reflect.KClass
 
 abstract class BaseActivity<TInteractor : IInteractor, in TViewModel : InteractorViewModel<TInteractor>>(

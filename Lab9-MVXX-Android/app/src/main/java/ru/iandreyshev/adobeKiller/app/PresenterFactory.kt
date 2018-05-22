@@ -2,13 +2,13 @@ package ru.iandreyshev.adobeKiller.app
 
 import ru.iandreyshev.adobeKiller.presentation.presenter.CanvasPresenter
 import ru.iandreyshev.adobeKiller.presentation.presenter.MenuPresenter
-import ru.iandreyshev.adobeKiller.presentation.ui.viewModel.interfaces.InteractorViewModel
-import ru.iandreyshev.adobeKiller.presentation.ui.viewModel.interfaces.ICanvasViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ICanvasViewModel
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.IPresenterFactory
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.IPresenter
-import ru.iandreyshev.adobeKiller.presentation.ui.viewModel.interfaces.IMenuViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.IMenuViewModel
 
-internal class PresenterFactory : IPresenterFactory {
+class PresenterFactory : IPresenterFactory {
 
     override fun create(
             useCaseType: UseCaseType,

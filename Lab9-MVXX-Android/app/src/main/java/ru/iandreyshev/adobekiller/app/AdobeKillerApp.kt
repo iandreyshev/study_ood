@@ -2,14 +2,10 @@ package ru.iandreyshev.adobeKiller.app
 
 import android.annotation.SuppressLint
 import android.app.Application
-import io.objectbox.BoxStore
-import io.objectbox.android.AndroidObjectBrowser
-import io.objectbox.android.BuildConfig
-import ru.iandreyshev.adobeKiller.data.IRepository
-import ru.iandreyshev.adobeKiller.data.MyObjectBox
-import ru.iandreyshev.adobeKiller.data.Repository
 import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.IInteractor
-import ru.iandreyshev.adobeKiller.presentation.ui.viewModel.interfaces.InteractorViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
+import ru.iandreyshev.localstorage.ILocalStorage
+import ru.iandreyshev.localstorage.LocalStorage
 
 class AdobeKillerApp : Application() {
 
@@ -18,19 +14,16 @@ class AdobeKillerApp : Application() {
         lateinit var instance: AdobeKillerApp
     }
 
-    private lateinit var localStorage: BoxStore
-    private lateinit var repository: IRepository
-
-    private lateinit var presenterFactory: PresenterFactory
-    private lateinit var interactorFactory: InteractorFactory
-    private lateinit var useCaseFactory: UseCaseFactory
+    lateinit var localStorage: ILocalStorage
+    lateinit var presenterFactory: PresenterFactory
+    lateinit var interactorFactory: InteractorFactory
+    lateinit var useCaseFactory: UseCaseFactory
 
     override fun onCreate() {
         super.onCreate()
         instance = this
 
         initLocalStorage()
-        initRepository()
         initFactories()
     }
 
@@ -45,20 +38,14 @@ class AdobeKillerApp : Application() {
     }
 
     private fun initLocalStorage() {
-        localStorage = MyObjectBox.builder().androidContext(this).build()
-    }
-
-    private fun initRepository() {
-        repository = Repository(
-                localStorage = localStorage
-        )
+        localStorage = LocalStorage(applicationContext)
     }
 
     private fun initFactories() {
         presenterFactory = PresenterFactory()
         interactorFactory = InteractorFactory()
         useCaseFactory = UseCaseFactory(
-                repository = repository
+                localStorage = localStorage
         )
     }
 

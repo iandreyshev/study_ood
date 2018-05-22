@@ -2,9 +2,11 @@ package ru.iandreyshev.adobeKiller.presentation.presenter
 
 import ru.iandreyshev.adobeKiller.domain.model.CanvasData
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.IMenuPresenter
-import ru.iandreyshev.adobeKiller.presentation.ui.viewModel.interfaces.IMenuViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.IMenuViewModel
 
-class MenuPresenter(private val viewModel: IMenuViewModel) : IMenuPresenter {
+class MenuPresenter(
+        private val viewModel: IMenuViewModel
+) : IMenuPresenter {
 
     override fun openCanvas(canvasData: CanvasData) =
             viewModel.open(canvasData)

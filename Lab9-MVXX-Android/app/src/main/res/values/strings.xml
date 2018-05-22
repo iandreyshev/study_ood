@@ -7,7 +7,7 @@
     <string name="act_add">Add shape</string>
     <string name="act_resizing">Resizing</string>
     <string name="act_moving">Moving</string>
-    <string name="act_grouping">Combine shapes</string>
+    <string name="act_save">Save</string>
     <string name="act_show_info">Shape info</string>
     <string name="act_clear">Clear canvas</string>
     <string name="act_delete">Delete shape</string>

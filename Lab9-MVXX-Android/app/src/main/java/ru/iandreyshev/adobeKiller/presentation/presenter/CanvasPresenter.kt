@@ -3,7 +3,7 @@ package ru.iandreyshev.adobeKiller.presentation.presenter
 import ru.iandreyshev.adobeKiller.domain.model.CanvasData
 import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.ICanvasPresenter
-import ru.iandreyshev.adobeKiller.presentation.ui.viewModel.interfaces.ICanvasViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ICanvasViewModel
 
 class CanvasPresenter(
         val viewModel: ICanvasViewModel

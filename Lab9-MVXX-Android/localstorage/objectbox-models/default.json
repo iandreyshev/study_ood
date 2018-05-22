@@ -1,0 +1,128 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:7480468193760630380",
+      "lastPropertyId": "2:6167089312697266239",
+      "name": "CanvasEntity",
+      "properties": [
+        {
+          "id": "1:809004157381554790",
+          "name": "id"
+        },
+        {
+          "id": "2:6167089312697266239",
+          "name": "name"
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:4968265161720414994",
+          "name": "shapes"
+        }
+      ]
+    },
+    {
+      "id": "2:7135025400134480468",
+      "lastPropertyId": "9:5931537165436480953",
+      "name": "ShapeEntity",
+      "properties": [
+        {
+          "id": "1:6281228877084944091",
+          "name": "id"
+        },
+        {
+          "id": "2:5259242025152037180",
+          "indexId": "1:3230634030047437452",
+          "name": "canvasId"
+        },
+        {
+          "id": "3:3736635506020145244",
+          "name": "x"
+        },
+        {
+          "id": "4:1491676102521545141",
+          "name": "y"
+        },
+        {
+          "id": "5:2991430191925465758",
+          "name": "width"
+        },
+        {
+          "id": "6:7702193049905347011",
+          "name": "height"
+        },
+        {
+          "id": "7:6922654558920031950",
+          "name": "stroke"
+        },
+        {
+          "id": "8:6941098127986769849",
+          "name": "strokeColor"
+        },
+        {
+          "id": "9:5931537165436480953",
+          "name": "fillColor"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:4052805921783475891",
+      "lastPropertyId": "11:7732028028943257374",
+      "name": "ImageEntity",
+      "properties": [
+        {
+          "id": "1:2010553836341914425",
+          "name": "id"
+        },
+        {
+          "id": "2:6270020911722691621",
+          "name": "x"
+        },
+        {
+          "id": "3:1200504234380274021",
+          "name": "y"
+        },
+        {
+          "id": "4:1288652467326727061",
+          "name": "width"
+        },
+        {
+          "id": "5:9036023389645631752",
+          "name": "height"
+        },
+        {
+          "id": "9:1245248960523546382",
+          "name": "image"
+        },
+        {
+          "id": "11:7732028028943257374",
+          "indexId": "3:4251240439058523387",
+          "name": "canvasId"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:4052805921783475891",
+  "lastIndexId": "3:4251240439058523387",
+  "lastRelationId": "1:4968265161720414994",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [
+    2778161877950853630
+  ],
+  "retiredPropertyUids": [
+    4431780403474802328,
+    149721928022685350,
+    8390378024031662207,
+    4031071666860949609
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}

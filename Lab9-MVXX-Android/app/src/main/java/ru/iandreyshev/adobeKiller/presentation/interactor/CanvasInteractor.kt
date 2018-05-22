@@ -10,6 +10,9 @@ class CanvasInteractor(
         private val useCase: ICanvasUseCase
 ) : ICanvasInteractor {
 
+    override fun save() =
+            useCase.save()
+
     override fun refresh() =
             useCase.refresh()
 

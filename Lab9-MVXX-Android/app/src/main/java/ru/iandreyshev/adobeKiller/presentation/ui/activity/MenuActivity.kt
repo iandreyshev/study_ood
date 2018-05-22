@@ -9,7 +9,7 @@ import ru.iandreyshev.adobeKiller.presentation.ui.adapter.CanvasesListRVAdapter
 import ru.iandreyshev.adobeKiller.presentation.ui.dialog.DialogFactory
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.invisible
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.visible
-import ru.iandreyshev.adobeKiller.presentation.ui.viewModel.MenuViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.MenuViewModel
 
 class MenuActivity : BaseActivity<IMenuInteractor, MenuViewModel>(
         viewModelClass = MenuViewModel::class,
