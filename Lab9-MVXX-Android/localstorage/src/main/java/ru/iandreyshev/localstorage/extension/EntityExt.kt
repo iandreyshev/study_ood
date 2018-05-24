@@ -17,9 +17,9 @@ internal val CanvasEntity.publicEntity: ICanvasEntity
 
 internal val IShapeEntity.entity: ShapeEntity
     get() = ShapeEntity(
-            id = id,
             x = x,
             y = y,
+            type = type,
             width = width,
             height = height,
             stroke = stroke,
@@ -29,7 +29,7 @@ internal val IShapeEntity.entity: ShapeEntity
 
 internal val ShapeEntity.publicEntity: IShapeEntity
     get() = object : IShapeEntity {
-        override val id: Long = this@publicEntity.id
+        override val type: Int = this@publicEntity.type
         override val x: Float = this@publicEntity.x
         override val y: Float = this@publicEntity.y
         override val width: Float = this@publicEntity.width
@@ -41,7 +41,6 @@ internal val ShapeEntity.publicEntity: IShapeEntity
 
 internal val IImageEntity.entity: ImageEntity
     get() = ImageEntity(
-            id = id,
             x = x,
             y = y,
             width = width,
@@ -51,10 +50,9 @@ internal val IImageEntity.entity: ImageEntity
 
 internal val ImageEntity.publicEntity: IImageEntity
     get() = object : IImageEntity {
-        override val id: Long = this@publicEntity.id
         override val x: Float = this@publicEntity.x
         override val y: Float = this@publicEntity.y
         override val width: Float = this@publicEntity.width
         override val height: Float = this@publicEntity.height
-        override val image: Bitmap? = this@publicEntity.image
+        override val image: Bitmap = this@publicEntity.image
     }

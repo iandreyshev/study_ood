@@ -12,5 +12,6 @@ internal class CanvasEntity(
 ) {
 
     lateinit var shapes: ToMany<ShapeEntity>
+    lateinit var images: ToMany<ImageEntity>
 
 }

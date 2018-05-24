@@ -2,124 +2,95 @@ package ru.iandreyshev.adobeKiller.domain.useCase
 
 import android.graphics.Bitmap
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
-import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.ICanvasPresenter
 import ru.iandreyshev.adobeKiller.domain.useCase.interfaces.ICanvasUseCase
-import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawableFactory
 import java.io.File
 import android.graphics.BitmapFactory
 import android.util.Log
+import ru.iandreyshev.adobeKiller.domain.extension.scaleToSize
 import ru.iandreyshev.adobeKiller.domain.model.CanvasData
-import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.DrawableImage
+import ru.iandreyshev.adobeKiller.domain.model.ShapeType
+import ru.iandreyshev.adobeKiller.domain.presentationModel.IPresentationModel
+import ru.iandreyshev.adobeKiller.domain.serialize.LocalStorageSerializer
+import ru.iandreyshev.localstorage.ILocalStorage
+
+// TODO: Ask about dependency injections count
 
 class CanvasUseCase(
         private var presenter: ICanvasPresenter,
-        private val shapesFactory: IDrawableFactory,
+        private val presentationModel: IPresentationModel,
+        private val localStorage: ILocalStorage,
         private val canvas: CanvasData
 ) : ICanvasUseCase {
 
-    private lateinit var mShapes: MutableList<IDrawable>
-
     init {
-        presenter.setCanvasData(canvas)
-        refresh()
+        presenter.setCanvasName(canvas.name)
+
+        localStorage.getImages(canvas.id)
+        localStorage.getShapes(canvas.id)
     }
 
-    override fun addShape(shapeName: String) {
-        shapesFactory.create(shapeName).let { shape ->
-            if (shape == null) {
-                return // TODO: Notify UI about invalid shape name
-            }
-
-            mShapes.add(shape)
-            presenter.setTarget(shape)
-            presenter.updateShapes(mShapes)
-        }
+    override fun insert(shape: ShapeType) {
+        presentationModel.insert(shape)
     }
 
-    override fun addShape(photo: File) {
+    override fun insert(image: File) {
         try {
-            val options = BitmapFactory.Options().apply {
-                inPreferredConfig = Bitmap.Config.ARGB_8888
-            }
-
-            val bitmap = BitmapFactory.decodeFile(photo.path, options)
+            val options = BitmapFactory.Options()
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888
+            val bitmap = BitmapFactory.decodeFile(image.path, options)
                     .scaleToSize(250)
-
-            val shape = DrawableImage(
-                    image = bitmap,
-                    width = bitmap.width.toFloat(),
-                    height = bitmap.height.toFloat())
-
-            mShapes.add(shape)
-            presenter.updateShapes(mShapes)
-
+            presentationModel.insert(bitmap)
         } catch (ex: Exception) {
             // TODO: Notify UI about error
             Log.e("CanvasInteractor", Log.getStackTraceString(ex))
         }
     }
 
-    override fun setTargetShape(shape: IDrawable?) {
-        if (shape == null) {
+    override fun resize(id: Long, width: Float, height: Float) =
+            presentationModel.resize(id, width, height)
+
+    override fun move(id: Long, x: Float, y: Float) =
+            presentationModel.move(id, x, y)
+
+    override fun resizeStroke(id: Long, size: Int) =
+            presentationModel.resizeStroke(id, size)
+
+    override fun changeFillColor(id: Long, color: Color) =
+            presentationModel.changeFillColor(id, color)
+
+    override fun changeStrokeColor(id: Long, color: Color) =
+            presentationModel.changeStrokeColor(id, color)
+
+    override fun deleteShape(id: Long) =
+            presentationModel.delete(id)
+
+    override fun undo() =
+            presentationModel.undo()
+
+    override fun redo() =
+            presentationModel.redo()
+
+    override fun refresh() =
+            presentationModel.refresh()
+
+    override fun setTargetShape(id: Long?) {
+        if (id == null) {
             presenter.setTarget(null)
             return
         }
 
-        if (!mShapes.contains(shape)) {
-            return // TODO: Create notification about invalid target shape
-        }
-
-        presenter.setTarget(shape)
-    }
-
-    override fun updateShape(shape: IDrawable) {
-        presenter.updateShapes(mShapes)
-    }
-
-    override fun resizeStroke(shape: IDrawable, size: Int) {
-        shape.style.setStrokeSize(size.toFloat())
-        updateShape(shape)
-    }
-
-    override fun changeFillColor(shape: IDrawable, color: Color) {
-        shape.style.setFillColor(color)
-        updateShape(shape)
-    }
-
-    override fun changeStrokeColor(shape: IDrawable, color: Color) {
-        shape.style.setStrokeColor(color)
-        updateShape(shape)
-    }
-
-    override fun deleteShape(shape: IDrawable) {
-        mShapes.remove(shape)
-        presenter.updateShapes(mShapes)
-        presenter.setTarget(null)
-    }
-
-    override fun refresh() {
-        mShapes = ArrayList(listOf())
-        presenter.updateShapes(mShapes)
-        presenter.setTarget(null)
+        presenter.setTarget(id)
     }
 
     override fun save() {
-    }
+        val serializer = LocalStorageSerializer()
+        presentationModel.data.forEach {
+            it.serialize(serializer)
 
-    private fun Bitmap.scaleToSize(maxSize: Int): Bitmap {
-        if (maxSize <= 0) {
-            return this
-        } else if (width <= maxSize && height <= maxSize) {
-            return this
+            localStorage.saveShapes(canvas.id, serializer.shapes)
+            localStorage.saveImages(canvas.id, serializer.images)
         }
-
-        val currMaxSize = Math.max(width, height)
-        val sizeFactor = maxSize.toFloat() / currMaxSize.toFloat()
-
-        val newWidth = Math.max((width * sizeFactor).toInt(), 1)
-        val newHeight = Math.max((height * sizeFactor).toInt(), 1)
-
-        return Bitmap.createScaledBitmap(this, newWidth, newHeight, true)
     }
+
 }

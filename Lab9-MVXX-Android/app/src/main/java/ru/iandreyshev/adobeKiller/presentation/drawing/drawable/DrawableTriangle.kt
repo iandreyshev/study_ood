@@ -6,7 +6,7 @@ import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
 
-class DrawableTriangle(frame: IFrame, style: IStyle) : BaseDrawable(style) {
+class DrawableTriangle(frame: IFrame, style: IStyle) : BaseDrawable(style = style) {
 
     // onDraw
     private val mPenPosition = Vec2f()

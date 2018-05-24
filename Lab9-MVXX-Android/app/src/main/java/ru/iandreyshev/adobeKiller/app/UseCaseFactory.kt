@@ -1,7 +1,8 @@
 package ru.iandreyshev.adobeKiller.app
 
-import ru.iandreyshev.adobeKiller.presentation.drawing.factory.ConcreteShapeFactory
+import ru.iandreyshev.adobeKiller.domain.command.CommandQueue
 import ru.iandreyshev.adobeKiller.domain.model.CanvasData
+import ru.iandreyshev.adobeKiller.domain.presentationModel.PresentationModel
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.ICanvasPresenter
 import ru.iandreyshev.adobeKiller.domain.useCase.CanvasUseCase
 import ru.iandreyshev.adobeKiller.domain.useCase.MenuUseCase
@@ -21,11 +22,17 @@ class UseCaseFactory(
             data: Any?
     ): IUseCase = when (useCaseType) {
 
-        UseCaseType.CANVAS -> CanvasUseCase(
-                presenter = presenter as ICanvasPresenter,
-                shapesFactory = ConcreteShapeFactory,
-                canvas = CanvasData(id = 1, name = "Canvas 1")
-        )
+        UseCaseType.CANVAS -> {
+            val commandQueue = CommandQueue(12)
+            val presentationModel = PresentationModel(commandQueue)
+
+            CanvasUseCase(
+                    presenter = presenter as ICanvasPresenter,
+                    presentationModel = presentationModel,
+                    localStorage = localStorage,
+                    canvas = CanvasData(id = 1, name = "Canvas 1")
+            )
+        }
 
         UseCaseType.MENU -> MenuUseCase(
                 presenter = presenter as IMenuPresenter,

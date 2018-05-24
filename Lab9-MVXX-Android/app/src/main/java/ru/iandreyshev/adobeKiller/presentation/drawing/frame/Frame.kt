@@ -9,8 +9,8 @@ class Frame @JvmOverloads constructor(
 ) : IFrame {
 
     companion object {
-        private const val MIN_WIDTH = 10f
-        private const val MIN_HEIGHT = 10f
+        private const val MIN_WIDTH = 100f
+        private const val MIN_HEIGHT = 100f
     }
 
     constructor(frame: IFrame) : this(Vec2f(frame.position), frame.width, frame.height)

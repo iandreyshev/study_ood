@@ -5,7 +5,7 @@ import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IFrame
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
 
-class DrawableRect(frame: IFrame, style: IStyle) : BaseDrawable(style) {
+class DrawableRect(frame: IFrame, style: IStyle) : BaseDrawable(style = style) {
 
     override val frame = Frame(frame)
 

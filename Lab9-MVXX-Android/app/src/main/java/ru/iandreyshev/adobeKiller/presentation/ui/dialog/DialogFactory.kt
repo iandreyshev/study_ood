@@ -11,6 +11,7 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.cancelButton
 import org.jetbrains.anko.okButton
 import ru.iandreyshev.adobeKiller.R
+import ru.iandreyshev.adobeKiller.domain.model.ShapeType
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.ColorsListRVAdapter
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.inflate
@@ -18,7 +19,11 @@ import ru.iandreyshev.adobeKiller.presentation.ui.interfaces.ISeekBarEmptyListen
 
 object DialogFactory {
 
-    fun createShapeDialog(context: Context, onSelect: (String) -> Unit) {
+    fun createShapeDialog(
+            context: Context,
+            onShape: (ShapeType) -> Unit,
+            onImage: () -> Unit
+    ) {
         val view = context.inflate(R.layout.dialog_create_shape)
         val dialog = context.alert {
             title = context.getString(R.string.dialog_title_add_shape)
@@ -26,18 +31,17 @@ object DialogFactory {
             cancelButton { }
         }.show()
 
-        fun setOnClickListener(view: View, shape: String) {
-            view.setOnClickListener {
-                onSelect(shape)
-                dialog.dismiss()
-            }
-        }
+        fun View.doAndDismiss(action: () -> Unit) =
+                setOnClickListener {
+                    action()
+                    dialog.dismiss()
+                }
 
         view.apply {
-            setOnClickListener(clRect, "rect")
-            setOnClickListener(clCircle, "circle")
-            setOnClickListener(clTriangle, "triangle")
-            setOnClickListener(clImage, "image")
+            clRect.doAndDismiss { onShape(ShapeType.Rect) }
+            clCircle.doAndDismiss { onShape(ShapeType.Circle) }
+            clTriangle.doAndDismiss { onShape(ShapeType.Triangle) }
+            clImage.doAndDismiss { onImage() }
         }
     }
 

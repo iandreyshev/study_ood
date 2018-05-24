@@ -8,6 +8,7 @@ import io.objectbox.relation.ToOne
 internal open class ShapeEntity(
         @Id
         var id: Long = 0,
+        var type: Int = 0,
         var x: Float = 0f,
         var y: Float = 0f,
         var width: Float = 0f,

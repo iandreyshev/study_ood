@@ -1,7 +1,8 @@
 package ru.iandreyshev.localstorage.entity
 
 interface IShapeEntity {
-    val id: Long
+
+    val type: Int
     val x: Float
     val y: Float
     val width: Float
@@ -9,4 +10,5 @@ interface IShapeEntity {
     val stroke: Float
     val strokeColor: Int
     val fillColor: Int
+
 }

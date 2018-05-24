@@ -5,13 +5,13 @@ import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.ICanvas
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IFrame
-import ru.iandreyshev.adobeKiller.presentation.drawing.style.FixedStyle
+import ru.iandreyshev.adobeKiller.presentation.drawing.style.ImageStyle
 
 class DrawableImage(
         private val image: Bitmap,
         width: Float,
         height: Float
-) : BaseDrawable(FixedStyle()) {
+) : BaseDrawable(style = ImageStyle()) {
 
     override val frame: IFrame = Frame(Vec2f(), width, height)
 

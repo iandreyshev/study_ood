@@ -1,6 +1,7 @@
 package ru.iandreyshev.localstorage.entity
 
 import android.graphics.Bitmap
+import io.objectbox.annotation.Backlink
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
@@ -16,7 +17,7 @@ internal class ImageEntity(
         var width: Float = 0f,
         var height: Float = 0f,
         @Convert(converter = BitmapConverter::class, dbType = ByteArray::class)
-        var image: Bitmap? = null
+        var image: Bitmap
 ) {
 
     lateinit var canvas: ToOne<CanvasEntity>

@@ -21,6 +21,10 @@
         {
           "id": "1:4968265161720414994",
           "name": "shapes"
+        },
+        {
+          "id": "2:4977319198170828589",
+          "name": "images"
         }
       ]
     },
@@ -71,7 +75,7 @@
     },
     {
       "id": "3:4052805921783475891",
-      "lastPropertyId": "10:4031071666860949609",
+      "lastPropertyId": "11:7732028028943257374",
       "name": "ImageEntity",
       "properties": [
         {
@@ -97,14 +101,19 @@
         {
           "id": "9:1245248960523546382",
           "name": "image"
+        },
+        {
+          "id": "11:7732028028943257374",
+          "indexId": "3:4251240439058523387",
+          "name": "canvasId"
         }
       ],
       "relations": []
     }
   ],
   "lastEntityId": "3:4052805921783475891",
-  "lastIndexId": "2:2778161877950853630",
-  "lastRelationId": "1:4968265161720414994",
+  "lastIndexId": "3:4251240439058523387",
+  "lastRelationId": "2:4977319198170828589",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,

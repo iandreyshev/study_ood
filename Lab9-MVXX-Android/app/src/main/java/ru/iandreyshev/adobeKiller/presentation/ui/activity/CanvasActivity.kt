@@ -23,6 +23,7 @@ import ru.iandreyshev.adobeKiller.presentation.ui.extension.visibleIfOrGone
 import kotlin.math.pow
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import ru.iandreyshev.adobeKiller.R
+import ru.iandreyshev.adobeKiller.domain.model.ShapeType
 import java.io.File
 
 class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
@@ -39,7 +40,7 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
     private var mTargetShape: IDrawable? = null
     private val mShapesListAdapter: ShapesListRVAdapter by lazy {
         ShapesListRVAdapter().apply {
-            onItemClick { interactor.setTargetShape(it) }
+            onItemClick { interactor.setTargetShape(it.id) }
         }
     }
 
@@ -52,15 +53,15 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
 
         shapeInfoView.setOnFillColorClick {
             DialogFactory.fillColorDialog(this) { color ->
-                actionWithTargetShape { interactor.changeFillColor(it, color) }
+                actionWithTargetShape { interactor.changeFillColor(it.id, color) }
             }
         }
 
         shapeInfoView.setOnStrokeColorClick {
             DialogFactory.editStrokeDialog(this) { color, size ->
                 actionWithTargetShape { shape ->
-                    size?.let { interactor.resizeStroke(shape, size) }
-                    color?.let { interactor.changeStrokeColor(shape, color) }
+                    size?.let { interactor.resizeStroke(shape.id, size) }
+                    color?.let { interactor.changeStrokeColor(shape.id, color) }
                 }
             }
         }
@@ -71,14 +72,14 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
                 oldFrame.position = newFrame.position
                 oldFrame.resize(newFrame.width, newFrame.height)
             }
-            mTargetShape?.let { interactor.updateShape(it) }
+            //mTargetShape?.let { interactor.updateShape(it) }
         }
 
         supSlidingPanel.addPanelSlideListener(PanelListener())
     }
 
     override val onProvideViewModel: CanvasViewModel.() -> Unit = {
-        shapes.observe { shapes ->
+        drawables.observe { shapes ->
             val isShapesExists = shapes?.isEmpty() ?: false
             tvEmptyMessage.visibleIfOrGone(isShapesExists)
             tvEmptyListMessage.visibleIfOrGone(isShapesExists)
@@ -86,14 +87,14 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
             reDraw()
         }
 
-        targetShape.observe { shape ->
+        targetDrawable.observe { shape ->
             mTargetShape = shape
             shapeInfoView.setShape(mTargetShape)
             tcvCanvas.setTarget(shape?.frame)
         }
 
-        canvas.observeNotNull {
-            supportActionBar?.title = it.name
+        title.observeNotNull {
+            supportActionBar?.title = it
         }
 
         if (isAttachedFirstTime) {
@@ -109,10 +110,10 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.act_add -> DialogFactory.createShapeDialog(this, ::addShape)
+            R.id.act_add -> DialogFactory.createShapeDialog(this, ::insertShape, ::insertImage)
             R.id.act_save -> interactor.save()
             R.id.act_clear -> interactor.refresh()
-            R.id.act_delete -> actionWithTargetShape { interactor.deleteShape(it) }
+            R.id.act_delete -> actionWithTargetShape { interactor.deleteShape(it.id) }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -122,14 +123,11 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
         EasyImage.handleActivityResult(requestCode, resultCode, data, this, TakePhotoListener())
     }
 
-    private fun addShape(shapeName: String) {
-        if (shapeName == "image") {
-            EasyImage.openCamera(this, 0)
-            return
-        }
+    private fun insertShape(shapeType: ShapeType) =
+            interactor.insert(shapeType)
 
-        interactor.addShape(shapeName)
-    }
+    private fun insertImage() =
+            EasyImage.openCamera(this, 0)
 
     private fun reDraw() {
         tcvCanvas.onDrawAction { canvas ->
@@ -153,9 +151,9 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
             return
         }
 
-        mShapesListAdapter.shapes.forEachReversedWithIndex { _, shape ->
-            if (shape.frame.hitTest(x, y)) {
-                interactor.setTargetShape(shape)
+        mShapesListAdapter.shapes.forEachReversedWithIndex { _, drawable ->
+            if (drawable.frame.hitTest(x, y)) {
+                interactor.setTargetShape(drawable.id)
                 return
             }
         }
@@ -184,7 +182,7 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
     private inner class TakePhotoListener : DefaultCallback() {
         override fun onImagePicked(imageFile: File?, source: EasyImage.ImageSource?, type: Int) {
             if (imageFile != null) {
-                interactor.addShape(imageFile)
+                interactor.insert(imageFile)
             }
         }
 

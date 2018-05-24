@@ -19,12 +19,12 @@ class ShapeInfoView @JvmOverloads constructor(
 
     fun setShape(shape: IDrawable?) {
         flFillColor.visibleIfOrGone(shape != null)
-        cvFillColor.fill(shape?.style?.getFillColor())
+        cvFillColor.fill(shape?.style?.fillColor)
 
         flStrokeColor.visibleIfOrGone(shape != null)
-        cvStrokeColor.fill(shape?.style?.getStrokeColor())
+        cvStrokeColor.fill(shape?.style?.strokeColor)
 
-        shape?.style?.getStrokeColor().apply {
+        shape?.style?.strokeColor.apply {
             cvStrokeColorTint.visible()
             when (this) {
                 null -> cvStrokeColorTint.invisible()
