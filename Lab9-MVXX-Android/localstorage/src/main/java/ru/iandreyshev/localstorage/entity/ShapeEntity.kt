@@ -1,5 +1,6 @@
 package ru.iandreyshev.localstorage.entity
 
+import io.objectbox.annotation.Backlink
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 import io.objectbox.relation.ToOne
@@ -18,6 +19,7 @@ internal open class ShapeEntity(
         var fillColor: Int = 0
 ) {
 
+    @Backlink(to = "shapes")
     lateinit var canvas: ToOne<CanvasEntity>
 
 }

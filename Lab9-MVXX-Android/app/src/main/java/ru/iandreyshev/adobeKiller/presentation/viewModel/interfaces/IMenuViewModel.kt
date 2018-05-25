@@ -4,7 +4,7 @@ import ru.iandreyshev.adobeKiller.domain.model.CanvasData
 
 interface IMenuViewModel : IViewModel {
 
-    fun open(canvasData: CanvasData)
+    fun openCanvas()
 
     fun setCanvases(canvases: List<CanvasData>)
 

@@ -9,8 +9,7 @@ interface IPresentationModel {
 
     val data: List<CanvasObjectData>
 
-    fun fill(shape: CanvasObjectData)
-
+    fun fill(objectData: CanvasObjectData)
     fun insert(shape: ShapeType): CanvasObjectData
     fun insert(image: Bitmap): CanvasObjectData
     fun delete(id: Long)
@@ -22,9 +21,11 @@ interface IPresentationModel {
     fun changeStrokeColor(id: Long, color: Color)
     fun resizeStroke(id: Long, size: Int)
 
+    fun observe(observer: (() -> Unit)?)
+
     fun undo()
     fun redo()
 
-    fun refresh()
+    fun reset()
 
 }

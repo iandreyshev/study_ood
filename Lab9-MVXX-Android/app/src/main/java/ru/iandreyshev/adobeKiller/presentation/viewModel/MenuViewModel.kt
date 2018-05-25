@@ -11,11 +11,11 @@ class MenuViewModel : InteractorViewModel<IMenuInteractor>(UseCaseType.MENU), IM
 
     // OBSERVABLES
     val canvases = MutableLiveData<List<CanvasData>>()
-    var onOpen: (CanvasData) -> Unit = {}
+    var onOpen: () -> Unit = {}
     // OBSERVABLES
 
-    override fun open(canvasData: CanvasData) =
-            onOpen(canvasData)
+    override fun openCanvas() =
+            onOpen()
 
     override fun setCanvases(canvases: List<CanvasData>) =
             this.canvases.postValue(canvases)

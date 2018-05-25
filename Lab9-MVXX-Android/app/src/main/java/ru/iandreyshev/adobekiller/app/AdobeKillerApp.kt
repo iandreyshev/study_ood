@@ -3,8 +3,10 @@ package ru.iandreyshev.adobeKiller.app
 import android.annotation.SuppressLint
 import android.app.Application
 import io.objectbox.BoxStore
+import io.objectbox.android.AndroidObjectBrowser
 import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.IInteractor
 import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
+import ru.iandreyshev.localstorage.BuildConfig
 import ru.iandreyshev.localstorage.ILocalStorage
 import ru.iandreyshev.localstorage.LocalStorage
 import ru.iandreyshev.localstorage.entity.MyObjectBox

@@ -1,8 +1,8 @@
 package ru.iandreyshev.adobeKiller.presentation.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import kotlinx.android.synthetic.main.activity_menu.*
+import org.jetbrains.anko.startActivity
 import ru.iandreyshev.adobeKiller.R
 import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.IMenuInteractor
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.CanvasesListRVAdapter
@@ -35,7 +35,7 @@ class MenuActivity : BaseActivity<IMenuInteractor, MenuViewModel>(
         }
 
         onOpen = {
-            Log.e("Menu", "Open canvas!")
+            startActivity<CanvasActivity>()
         }
     }
 

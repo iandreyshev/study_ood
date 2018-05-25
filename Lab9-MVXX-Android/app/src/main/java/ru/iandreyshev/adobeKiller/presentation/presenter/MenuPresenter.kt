@@ -8,8 +8,8 @@ class MenuPresenter(
         private val viewModel: IMenuViewModel
 ) : IMenuPresenter {
 
-    override fun openCanvas(canvasData: CanvasData) =
-            viewModel.open(canvasData)
+    override fun openCanvas() =
+            viewModel.openCanvas()
 
     override fun setCanvases(canvases: List<CanvasData>) =
             viewModel.setCanvases(canvases)

@@ -1,7 +1,6 @@
 package ru.iandreyshev.adobeKiller.app
 
 import ru.iandreyshev.adobeKiller.domain.command.CommandQueue
-import ru.iandreyshev.adobeKiller.domain.model.CanvasData
 import ru.iandreyshev.adobeKiller.domain.presentationModel.PresentationModel
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.ICanvasPresenter
 import ru.iandreyshev.adobeKiller.domain.useCase.CanvasUseCase
@@ -30,7 +29,7 @@ class UseCaseFactory(
                     presenter = presenter as ICanvasPresenter,
                     presentationModel = presentationModel,
                     localStorage = localStorage,
-                    canvas = CanvasData(id = 1, name = "Canvas 1")
+                    canvas = IUseCase.canvas
             )
         }
 

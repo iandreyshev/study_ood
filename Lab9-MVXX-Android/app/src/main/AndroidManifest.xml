@@ -13,13 +13,13 @@
         android:theme="@style/AppTheme">
 
         <activity android:name="ru.iandreyshev.adobeKiller.presentation.ui.activity.MenuActivity" >
-        </activity>
-        <activity android:name="ru.iandreyshev.adobeKiller.presentation.ui.activity.CanvasActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="ru.iandreyshev.adobeKiller.presentation.ui.activity.CanvasActivity" >
         </activity>
 
     </application>

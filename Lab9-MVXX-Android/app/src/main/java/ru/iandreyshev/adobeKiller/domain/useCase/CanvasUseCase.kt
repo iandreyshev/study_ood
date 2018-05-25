@@ -8,6 +8,7 @@ import java.io.File
 import android.graphics.BitmapFactory
 import android.util.Log
 import ru.iandreyshev.adobeKiller.domain.extension.scaleToSize
+import ru.iandreyshev.adobeKiller.domain.extension.toModel
 import ru.iandreyshev.adobeKiller.domain.model.CanvasData
 import ru.iandreyshev.adobeKiller.domain.model.ShapeType
 import ru.iandreyshev.adobeKiller.domain.presentationModel.IPresentationModel
@@ -24,10 +25,21 @@ class CanvasUseCase(
 ) : ICanvasUseCase {
 
     init {
+        Log.e("Canvas use case", "Open canvas: $canvas")
+
         presenter.setCanvasName(canvas.name)
 
-        localStorage.getImages(canvas.id)
-        localStorage.getShapes(canvas.id)
+        presentationModel.observe(::redraw)
+
+        localStorage.getImages(canvas.id).forEach {
+            Log.e("Canvas use case", "Load image: $it")
+            presentationModel.fill(it.toModel())
+        }
+
+        localStorage.getShapes(canvas.id).forEach {
+            Log.e("Canvas use case", "Load shape: $it")
+            presentationModel.fill(it.toModel())
+        }
     }
 
     override fun insert(shape: ShapeType) {
@@ -72,7 +84,7 @@ class CanvasUseCase(
             presentationModel.redo()
 
     override fun refresh() =
-            presentationModel.refresh()
+            presentationModel.reset()
 
     override fun setTargetShape(id: Long?) {
         if (id == null) {
@@ -90,6 +102,13 @@ class CanvasUseCase(
 
             localStorage.saveShapes(canvas.id, serializer.shapes)
             localStorage.saveImages(canvas.id, serializer.images)
+        }
+    }
+
+    private fun redraw() {
+        presenter.clear()
+        presentationModel.data.forEach {
+            presenter.insert(it.toDrawable())
         }
     }
 

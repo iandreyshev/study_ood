@@ -1,13 +1,13 @@
 package ru.iandreyshev.localstorage
 
+import android.util.Log
 import io.objectbox.Box
 import io.objectbox.BoxStore
-import io.objectbox.Property
 import io.objectbox.query.Query
 import io.objectbox.query.QueryBuilder
 import ru.iandreyshev.localstorage.entity.*
 import ru.iandreyshev.localstorage.extension.entity
-import ru.iandreyshev.localstorage.extension.publicEntity
+import ru.iandreyshev.localstorage.extension.asDTO
 
 class LocalStorage(
         boxStore: BoxStore
@@ -17,38 +17,48 @@ class LocalStorage(
     private val mShapes = boxStore.boxFor(ShapeEntity::class.java)
     private val mImages = boxStore.boxFor(ImageEntity::class.java)
 
-    override fun createCanvas(name: String): ICanvasEntity =
+    override fun createCanvas(name: String): ICanvasDTO =
             CanvasEntity(name = name).apply {
                 mCanvases.put(this)
             }.publicEntity
 
-    override fun getCanvases(): List<ICanvasEntity> =
+    override fun getCanvases(): List<ICanvasDTO> =
             mCanvases.all.map { it.publicEntity }
 
-    override fun getShapes(canvasId: Long): List<IShapeEntity> =
-            mShapes.find(ShapeEntity_.canvasId, canvasId)
-                    .map { it.publicEntity }
+    override fun getShapes(canvasId: Long): List<IShapeDTO> =
+            mCanvases[canvasId]?.shapes?.map { it.asDTO }
+                    ?: listOf()
 
-    override fun getImages(canvasId: Long): List<IImageEntity> =
-            mImages.find(ImageEntity_.canvasId, canvasId)
-                    .map { it.publicEntity }
+    override fun getImages(canvasId: Long): List<IImageDTO> =
+            mCanvases[canvasId]?.images?.map { it.publicEntity }
+                    ?: listOf()
 
-    override fun saveShapes(canvasId: Long, shapes: List<IShapeEntity>) {
-        mShapes.remove(ShapeEntity_.canvasId, canvasId)
+    override fun saveShapes(canvasId: Long, shapes: List<IShapeDTO>) {
+        mShapes.query()
+                .equal(ShapeEntity_.canvasId, canvasId)
+                .build()
+                .remove()
 
         val canvas = mCanvases[canvasId]
-        mShapes.put(shapes.map {
-            it.entity.apply { this.canvas.target = canvas }
-        })
+        val entities = shapes.map {
+            it.entity.apply { this.canvas.targetId = canvas.id }
+        }
+        entities.forEach { Log.e("Local storage", "Save shape: $it") }
+        mShapes.put(entities)
     }
 
-    override fun saveImages(canvasId: Long, images: List<IImageEntity>) {
-        mImages.remove(ImageEntity_.canvasId, canvasId)
+    override fun saveImages(canvasId: Long, images: List<IImageDTO>) {
+        mImages.query()
+                .equal(ImageEntity_.canvasId, canvasId)
+                .build()
+                .remove()
 
         val canvas = mCanvases[canvasId]
-        mImages.put(images.map {
-            it.entity.apply { this.canvas.target = canvas }
-        })
+        val entities = images.map {
+            it.entity.apply { this.canvas.targetId = canvas.id }
+        }
+        entities.forEach { Log.e("Local storage", "Save image: $it") }
+        mImages.put(entities)
     }
 
     override fun deleteCanvas(canvasId: Long) =
@@ -56,8 +66,5 @@ class LocalStorage(
 
     private fun <T> Box<T>.query(queryAction: QueryBuilder<T>.() -> Unit): Query<T> =
             query().apply(queryAction).build()
-
-    private fun <T> Box<T>.remove(property: Property, value: Long) =
-            query { find(property, value) }.remove()
 
 }

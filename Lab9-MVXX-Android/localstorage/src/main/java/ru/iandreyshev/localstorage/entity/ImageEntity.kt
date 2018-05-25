@@ -20,6 +20,7 @@ internal class ImageEntity(
         var image: Bitmap
 ) {
 
+    @Backlink(to = "images")
     lateinit var canvas: ToOne<CanvasEntity>
 
 }

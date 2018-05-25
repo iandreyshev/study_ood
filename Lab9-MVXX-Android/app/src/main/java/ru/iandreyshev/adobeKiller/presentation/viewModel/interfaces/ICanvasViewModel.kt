@@ -6,7 +6,7 @@ interface ICanvasViewModel : IViewModel {
 
     fun setCanvasName(canvasName: String)
     fun setTarget(id: Long?)
-    fun insert(id: Long, drawable: IDrawable)
+    fun insert(drawable: IDrawable)
     fun clear()
 
 }

@@ -72,7 +72,10 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
                 oldFrame.position = newFrame.position
                 oldFrame.resize(newFrame.width, newFrame.height)
             }
-            //mTargetShape?.let { interactor.updateShape(it) }
+            mTargetShape?.let {
+                interactor.move(it.id, it.frame.position.x, it.frame.position.y)
+                interactor.resize(it.id, it.frame.width, it.frame.height)
+            }
         }
 
         supSlidingPanel.addPanelSlideListener(PanelListener())
@@ -111,6 +114,8 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.act_add -> DialogFactory.createShapeDialog(this, ::insertShape, ::insertImage)
+            R.id.act_undo -> interactor.undo()
+            R.id.act_redo -> interactor.redo()
             R.id.act_save -> interactor.save()
             R.id.act_clear -> interactor.refresh()
             R.id.act_delete -> actionWithTargetShape { interactor.deleteShape(it.id) }

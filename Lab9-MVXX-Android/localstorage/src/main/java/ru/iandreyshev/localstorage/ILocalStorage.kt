@@ -1,19 +1,19 @@
 package ru.iandreyshev.localstorage
 
-import ru.iandreyshev.localstorage.entity.ICanvasEntity
-import ru.iandreyshev.localstorage.entity.IImageEntity
-import ru.iandreyshev.localstorage.entity.IShapeEntity
+import ru.iandreyshev.localstorage.entity.ICanvasDTO
+import ru.iandreyshev.localstorage.entity.IImageDTO
+import ru.iandreyshev.localstorage.entity.IShapeDTO
 
 interface ILocalStorage {
 
-    fun createCanvas(name: String): ICanvasEntity
+    fun createCanvas(name: String): ICanvasDTO
 
-    fun getCanvases(): List<ICanvasEntity>
-    fun getShapes(canvasId: Long): List<IShapeEntity>
-    fun getImages(canvasId: Long): List<IImageEntity>
+    fun getCanvases(): List<ICanvasDTO>
+    fun getShapes(canvasId: Long): List<IShapeDTO>
+    fun getImages(canvasId: Long): List<IImageDTO>
 
-    fun saveShapes(canvasId: Long, shapes: List<IShapeEntity>)
-    fun saveImages(canvasId: Long, images: List<IImageEntity>)
+    fun saveShapes(canvasId: Long, shapes: List<IShapeDTO>)
+    fun saveImages(canvasId: Long, images: List<IImageDTO>)
 
     fun deleteCanvas(canvasId: Long)
 

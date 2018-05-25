@@ -9,15 +9,23 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/act_undo"
+        android:title="@string/act_undo" />
+
+    <item
+        android:id="@+id/act_redo"
+        android:title="@string/act_redo" />
+
+    <item
         android:id="@+id/act_save"
         android:title="@string/act_save" />
 
     <item
-        android:id="@+id/act_clear"
-        android:title="@string/act_clear" />
-
-    <item
         android:id="@+id/act_delete"
         android:title="@string/act_delete" />
+
+    <item
+        android:id="@+id/act_clear"
+        android:title="@string/act_clear" />
 
 </menu>

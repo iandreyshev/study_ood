@@ -8,20 +8,16 @@ class CanvasPresenter(
         val viewModel: ICanvasViewModel
 ) : ICanvasPresenter {
 
-    override fun setCanvasName(canvasName: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun setCanvasName(canvasName: String) =
+            viewModel.setCanvasName(canvasName)
 
-    override fun setTarget(id: Long?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun setTarget(id: Long?) =
+            viewModel.setTarget(id)
 
-    override fun insert(id: Long, drawable: IDrawable) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun insert(drawable: IDrawable) =
+            viewModel.insert(drawable)
 
-    override fun clear() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun clear() =
+            viewModel.clear()
 
 }

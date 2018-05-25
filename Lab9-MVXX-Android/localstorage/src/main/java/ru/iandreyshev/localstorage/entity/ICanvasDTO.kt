@@ -1,6 +1,6 @@
 package ru.iandreyshev.localstorage.entity
 
-interface ICanvasEntity {
+interface ICanvasDTO {
     val id: Long
     val name: String
 }

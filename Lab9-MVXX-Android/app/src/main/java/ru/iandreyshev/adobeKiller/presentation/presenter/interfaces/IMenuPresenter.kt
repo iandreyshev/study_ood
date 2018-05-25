@@ -6,6 +6,6 @@ interface IMenuPresenter : IPresenter {
 
     fun setCanvases(canvases: List<CanvasData>)
 
-    fun openCanvas(canvasData: CanvasData)
+    fun openCanvas()
 
 }

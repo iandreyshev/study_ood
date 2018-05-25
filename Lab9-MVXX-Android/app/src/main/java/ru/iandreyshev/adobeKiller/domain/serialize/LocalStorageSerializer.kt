@@ -3,17 +3,17 @@ package ru.iandreyshev.adobeKiller.domain.serialize
 import ru.iandreyshev.adobeKiller.domain.extension.toEntity
 import ru.iandreyshev.adobeKiller.domain.model.ImageData
 import ru.iandreyshev.adobeKiller.domain.model.ShapeData
-import ru.iandreyshev.localstorage.entity.IImageEntity
-import ru.iandreyshev.localstorage.entity.IShapeEntity
+import ru.iandreyshev.localstorage.entity.IImageDTO
+import ru.iandreyshev.localstorage.entity.IShapeDTO
 
 class LocalStorageSerializer : ISerializer {
 
-    private val mShapes = mutableListOf<IShapeEntity>()
-    private val mImages = mutableListOf<IImageEntity>()
+    private val mShapes = mutableListOf<IShapeDTO>()
+    private val mImages = mutableListOf<IImageDTO>()
 
-    val shapes: List<IShapeEntity>
+    val shapes: List<IShapeDTO>
         get() = mShapes
-    val images: List<IImageEntity>
+    val images: List<IImageDTO>
         get() = mImages
 
     override fun serialize(shape: ShapeData) {

@@ -9,7 +9,7 @@ import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ICanvasViewM
 
 class CanvasViewModel : InteractorViewModel<ICanvasInteractor>(UseCaseType.CANVAS), ICanvasViewModel {
 
-    private val mDrawablesMap = mutableMapOf<Long, IDrawable>()
+    private val mDrawables = mutableListOf<IDrawable>()
 
     var isAttachedFirstTime = true
 
@@ -28,16 +28,16 @@ class CanvasViewModel : InteractorViewModel<ICanvasInteractor>(UseCaseType.CANVA
             return
         }
 
-        targetDrawable.postValue(mDrawablesMap[id])
+        targetDrawable.postValue(mDrawables.find { it.id == id })
     }
 
-    override fun insert(id: Long, drawable: IDrawable) {
-        mDrawablesMap[id] = drawable
-        drawables.postValue(mDrawablesMap.values.toList())
+    override fun insert(drawable: IDrawable) {
+        mDrawables.add(drawable)
+        drawables.postValue(mDrawables)
     }
 
     override fun clear() {
-        mDrawablesMap.clear()
+        mDrawables.clear()
         drawables.postValue(listOf())
     }
 

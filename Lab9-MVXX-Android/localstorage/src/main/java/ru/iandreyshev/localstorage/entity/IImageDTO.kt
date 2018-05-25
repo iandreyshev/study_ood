@@ -1,14 +1,13 @@
 package ru.iandreyshev.localstorage.entity
 
-interface IShapeEntity {
+import android.graphics.Bitmap
 
-    val type: Int
+interface IImageDTO {
+
     val x: Float
     val y: Float
     val width: Float
     val height: Float
-    val stroke: Float
-    val strokeColor: Int
-    val fillColor: Int
+    val image: Bitmap
 
 }

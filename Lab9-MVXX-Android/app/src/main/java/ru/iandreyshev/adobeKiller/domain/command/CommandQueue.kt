@@ -40,6 +40,11 @@ class CommandQueue(memorySize: Int) : ICommandQueue {
         mUndoCommands.push(command)
     }
 
+    override fun clear() {
+        mUndoCommands.clear()
+        mRedoCommands.clear()
+    }
+
     class StackWithLimit(private val memorySize: Int) : Stack<Command>() {
         override fun push(command: Command): Command {
             super.push(command)
