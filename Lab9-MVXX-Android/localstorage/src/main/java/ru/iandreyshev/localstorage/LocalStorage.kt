@@ -1,6 +1,5 @@
 package ru.iandreyshev.localstorage
 
-import android.util.Log
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.query.Query
@@ -20,17 +19,17 @@ class LocalStorage(
     override fun createCanvas(name: String): ICanvasDTO =
             CanvasEntity(name = name).apply {
                 mCanvases.put(this)
-            }.publicEntity
+            }.asDTO
 
     override fun getCanvases(): List<ICanvasDTO> =
-            mCanvases.all.map { it.publicEntity }
+            mCanvases.all.map { it.asDTO }
 
     override fun getShapes(canvasId: Long): List<IShapeDTO> =
             mCanvases[canvasId]?.shapes?.map { it.asDTO }
                     ?: listOf()
 
     override fun getImages(canvasId: Long): List<IImageDTO> =
-            mCanvases[canvasId]?.images?.map { it.publicEntity }
+            mCanvases[canvasId]?.images?.map { it.asDTO }
                     ?: listOf()
 
     override fun saveShapes(canvasId: Long, shapes: List<IShapeDTO>) {
@@ -43,7 +42,6 @@ class LocalStorage(
         val entities = shapes.map {
             it.entity.apply { this.canvas.targetId = canvas.id }
         }
-        entities.forEach { Log.e("Local storage", "Save shape: $it") }
         mShapes.put(entities)
     }
 
@@ -57,7 +55,6 @@ class LocalStorage(
         val entities = images.map {
             it.entity.apply { this.canvas.targetId = canvas.id }
         }
-        entities.forEach { Log.e("Local storage", "Save image: $it") }
         mImages.put(entities)
     }
 

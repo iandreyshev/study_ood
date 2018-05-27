@@ -5,7 +5,6 @@ import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
 
 abstract class BaseDrawable(
-        override var id: Long = 0,
         override val style: IStyle
 ) : IDrawable {
 

@@ -2,91 +2,66 @@ package ru.iandreyshev.adobeKiller.domain.presentationModel
 
 import android.graphics.Bitmap
 import ru.iandreyshev.adobeKiller.domain.command.ICommandQueue
-import ru.iandreyshev.adobeKiller.domain.command.cmd.ChangeFillColorCommand
-import ru.iandreyshev.adobeKiller.domain.command.cmd.ChangeStrokeColorCommand
-import ru.iandreyshev.adobeKiller.domain.command.cmd.ResizeStrokeCommand
-import ru.iandreyshev.adobeKiller.domain.model.CanvasObjectData
+import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
 import ru.iandreyshev.adobeKiller.domain.model.ShapeData
 import ru.iandreyshev.adobeKiller.domain.model.ShapeType
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
+import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IFrame
+import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.Style
 
 class PresentationModel(
         private val commandQueue: ICommandQueue
 ) : IPresentationModel {
 
-    private val mObjects = mutableListOf<CanvasObjectData>()
+    private val mObjects = mutableListOf<CanvasObject>()
     private var mOnObserver: (() -> Unit)? = {}
 
-    override val data: List<CanvasObjectData>
+    override val data: List<CanvasObject>
         get() = mObjects
 
-    override fun fill(objectData: CanvasObjectData) = observableAction<Unit> {
+    fun fill(objectData: CanvasObject) = observableAction<Unit> {
         mObjects.add(objectData)
     }
 
-    override fun insert(shape: ShapeType): CanvasObjectData = observableAction {
+    override fun insert(shape: ShapeType): CanvasObject = observableAction {
         val newObject = ShapeData(
-                type = shape,
                 frame = Frame(Vec2f(0, 0), 100f, 100f),
-                style = Style()
+                style = Style(),
+                model = CanvasObjectModel(),
+                type = shape
         )
 
         mObjects.add(newObject)
         return@observableAction newObject
     }
 
-    override fun insert(image: Bitmap): CanvasObjectData = observableAction {
+    override fun insert(image: Bitmap): CanvasObject = observableAction {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun delete(id: Long) {
+    override fun delete(canvasObject: CanvasObject) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun resize(id: Long, width: Float, height: Float) {
-        mObjects.find { it.id == id }?.apply {
-            frame.resize(width, height)
-        }
+    fun resize(id: Long, width: Float, height: Float) {
     }
 
-    override fun move(id: Long, x: Float, y: Float) {
-        mObjects.find { it.id == id }?.apply {
-            frame.position.x = x
-            frame.position.y = y
-        }
+    fun move(id: Long, x: Float, y: Float) {
     }
 
-    override fun changeFillColor(id: Long, color: Color) {
-        val item = getOrNull(id) ?: return
-        val command = ChangeFillColorCommand(item.style, color)
-
-        observableAction {
-            commandQueue.apply(command)
-        }
+    fun changeFillColor(id: Long, color: Color) {
     }
 
-    override fun changeStrokeColor(id: Long, color: Color) {
-        val item = getOrNull(id) ?: return
-        val command = ChangeStrokeColorCommand(item.style, color)
-
-        observableAction {
-            commandQueue.apply(command)
-        }
+    fun changeStrokeColor(id: Long, color: Color) {
     }
 
-    override fun resizeStroke(id: Long, size: Int) {
-        val item = getOrNull(id) ?: return
-        val command = ResizeStrokeCommand(item.style, size.toFloat())
-
-        observableAction {
-            commandQueue.apply(command)
-        }
+    fun resizeStroke(id: Long, size: Int) {
     }
 
-    override fun observe(observer: (() -> Unit)?) {
+    override fun observeChanges(observer: (() -> Unit)?) {
         mOnObserver = observer
     }
 
@@ -113,7 +88,16 @@ class PresentationModel(
         return result
     }
 
-    private fun getOrNull(id: Long): CanvasObjectData? =
-            mObjects.find { it.id == id }
+    private inner class CanvasObjectModel : ICanvasObjectModel {
+
+        override fun notifyDataChanges(canvasObject: CanvasObject, newFrame: IFrame) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun notifyDataChanges(canvasObject: CanvasObject, newStyle: IStyle) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+    }
 
 }

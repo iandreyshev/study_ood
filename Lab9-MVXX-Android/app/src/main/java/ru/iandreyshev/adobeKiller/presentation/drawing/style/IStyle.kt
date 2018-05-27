@@ -8,4 +8,6 @@ interface IStyle {
     var strokeColor: Color
     var strokeSize: Float
 
+    fun clone(): IStyle
+
 }

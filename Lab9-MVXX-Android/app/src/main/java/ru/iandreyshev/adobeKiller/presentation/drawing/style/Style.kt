@@ -14,4 +14,7 @@ class Style(
             strokeSize = style.strokeSize
     )
 
+    override fun clone(): IStyle =
+            Style(this)
+
 }

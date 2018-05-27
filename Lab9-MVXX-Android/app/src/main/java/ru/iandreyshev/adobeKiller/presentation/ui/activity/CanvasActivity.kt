@@ -15,7 +15,6 @@ import org.jetbrains.anko.toast
 import pl.aprilapps.easyphotopicker.EasyImage
 import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.ICanvasInteractor
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.hitTest
-import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.adobeKiller.presentation.ui.dialog.DialogFactory
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.getWindowSize
@@ -23,7 +22,9 @@ import ru.iandreyshev.adobeKiller.presentation.ui.extension.visibleIfOrGone
 import kotlin.math.pow
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import ru.iandreyshev.adobeKiller.R
+import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
 import ru.iandreyshev.adobeKiller.domain.model.ShapeType
+import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.DrawableHelper
 import java.io.File
 
 class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
@@ -37,10 +38,11 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
 
     private val mPanelContentOffset by lazy { getWindowSize().heightPixels / 2 }
     private var mCanvasAdapter = AndroidCanvasAdapter()
-    private var mTargetShape: IDrawable? = null
+    private val mDrawableHelper = DrawableHelper(mCanvasAdapter)
+    private var mTarget: CanvasObject? = null
     private val mShapesListAdapter: ShapesListRVAdapter by lazy {
         ShapesListRVAdapter().apply {
-            onItemClick { interactor.setTargetShape(it.id) }
+            onItemClick { interactor.setTarget(it) }
         }
     }
 
@@ -53,46 +55,42 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
 
         shapeInfoView.setOnFillColorClick {
             DialogFactory.fillColorDialog(this) { color ->
-                actionWithTargetShape { interactor.changeFillColor(it.id, color) }
+                changeTargetDataAction {
+                    it.style.fillColor = color
+                }
             }
         }
 
         shapeInfoView.setOnStrokeColorClick {
             DialogFactory.editStrokeDialog(this) { color, size ->
-                actionWithTargetShape { shape ->
-                    size?.let { interactor.resizeStroke(shape.id, size) }
-                    color?.let { interactor.changeStrokeColor(shape.id, color) }
+                changeTargetDataAction { canvasObject ->
+                    size?.let { canvasObject.style.strokeSize = size.toFloat() }
+                    color?.let { canvasObject.style.strokeColor = color }
                 }
             }
         }
 
         tcvCanvas.onTouch = ::handleCanvasTouch
-        tcvCanvas.onTargetChanged { newFrame ->
-            mTargetShape?.frame?.let { oldFrame ->
-                oldFrame.position = newFrame.position
-                oldFrame.resize(newFrame.width, newFrame.height)
-            }
-            mTargetShape?.let {
-                interactor.move(it.id, it.frame.position.x, it.frame.position.y)
-                interactor.resize(it.id, it.frame.width, it.frame.height)
-            }
+        // TODO: Create callback on stop touch
+        tcvCanvas.onTargetChanged {
+            // TODO: Update target frame
         }
 
         supSlidingPanel.addPanelSlideListener(PanelListener())
     }
 
     override val onProvideViewModel: CanvasViewModel.() -> Unit = {
-        drawables.observe { shapes ->
+        objects.observe { shapes ->
             val isShapesExists = shapes?.isEmpty() ?: false
             tvEmptyMessage.visibleIfOrGone(isShapesExists)
             tvEmptyListMessage.visibleIfOrGone(isShapesExists)
-            mShapesListAdapter.shapes = shapes ?: listOf()
-            reDraw()
+            mShapesListAdapter.data = shapes ?: listOf()
+            drawObjects()
         }
 
-        targetDrawable.observe { shape ->
-            mTargetShape = shape
-            shapeInfoView.setShape(mTargetShape)
+        targetObject.observe { shape ->
+            mTarget = shape
+            shapeInfoView.setShape(mTarget)
             tcvCanvas.setTarget(shape?.frame)
         }
 
@@ -118,7 +116,7 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
             R.id.act_redo -> interactor.redo()
             R.id.act_save -> interactor.save()
             R.id.act_clear -> interactor.refresh()
-            R.id.act_delete -> actionWithTargetShape { interactor.deleteShape(it.id) }
+            R.id.act_delete -> changeTargetDataAction { interactor.delete(it) }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -134,16 +132,18 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
     private fun insertImage() =
             EasyImage.openCamera(this, 0)
 
-    private fun reDraw() {
+    private fun drawObjects() {
         tcvCanvas.onDrawAction { canvas ->
             mCanvasAdapter.canvas = canvas
-            mShapesListAdapter.shapes.forEach { it.draw(mCanvasAdapter) }
+            mShapesListAdapter.data.forEach {
+                it.accept(mDrawableHelper)
+            }
         }
         tcvCanvas.invalidate()
     }
 
-    private fun actionWithTargetShape(action: (IDrawable) -> Unit) {
-        mTargetShape.apply {
+    private fun changeTargetDataAction(action: (CanvasObject) -> Unit) {
+        mTarget.apply {
             when (this) {
                 null -> toast(R.string.shape_not_selected)
                 else -> action(this)
@@ -156,14 +156,14 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
             return
         }
 
-        mShapesListAdapter.shapes.forEachReversedWithIndex { _, drawable ->
-            if (drawable.frame.hitTest(x, y)) {
-                interactor.setTargetShape(drawable.id)
+        mShapesListAdapter.data.forEachReversedWithIndex { _, canvasObject ->
+            if (canvasObject.frame.hitTest(x, y)) {
+                interactor.setTarget(canvasObject)
                 return
             }
         }
 
-        interactor.setTargetShape(null)
+        interactor.setTarget(null)
     }
 
     private inner class PanelListener : SlidingUpPanelLayout.PanelSlideListener {

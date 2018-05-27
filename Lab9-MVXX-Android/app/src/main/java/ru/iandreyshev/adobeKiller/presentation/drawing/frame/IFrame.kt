@@ -11,5 +11,6 @@ interface IFrame {
     val height: Float
 
     fun resize(newWidth: Float, newHeight: Float)
+    fun clone(): IFrame
 
 }

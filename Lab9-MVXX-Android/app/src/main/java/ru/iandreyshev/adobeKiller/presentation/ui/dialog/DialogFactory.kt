@@ -39,7 +39,7 @@ object DialogFactory {
 
         view.apply {
             clRect.doAndDismiss { onShape(ShapeType.Rect) }
-            clCircle.doAndDismiss { onShape(ShapeType.Circle) }
+            clCircle.doAndDismiss { onShape(ShapeType.Ellipse) }
             clTriangle.doAndDismiss { onShape(ShapeType.Triangle) }
             clImage.doAndDismiss { onImage() }
         }

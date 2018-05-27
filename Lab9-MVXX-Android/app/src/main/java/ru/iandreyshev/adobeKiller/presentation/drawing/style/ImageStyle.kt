@@ -5,13 +5,16 @@ import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
 class ImageStyle : IStyle {
 
     override var fillColor: Color
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = Color.NONE
         set(value) {}
     override var strokeColor: Color
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = Color.NONE
         set(value) {}
     override var strokeSize: Float
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = 0f
         set(value) {}
+
+    override fun clone(): IStyle =
+            ImageStyle()
 
 }

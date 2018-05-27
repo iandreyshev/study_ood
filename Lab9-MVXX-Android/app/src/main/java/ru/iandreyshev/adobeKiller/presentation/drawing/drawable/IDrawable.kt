@@ -6,7 +6,6 @@ import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
 
 interface IDrawable {
 
-    val id: Long
     val frame: IFrame
     val style: IStyle
 

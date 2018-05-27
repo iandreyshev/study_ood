@@ -3,20 +3,20 @@ package ru.iandreyshev.adobeKiller.presentation.ui.adapter
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import ru.iandreyshev.adobeKiller.R
-import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
+import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.inflate
 
 class ShapesListRVAdapter : RecyclerView.Adapter<ShapeViewRVHolder>() {
 
-    private var mOnItemClickListener: (IDrawable) -> Unit = {}
+    private var mOnItemClickListener: (CanvasObject) -> Unit = {}
 
-    var shapes = listOf<IDrawable>()
+    var data = listOf<CanvasObject>()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    fun onItemClick(listener: (IDrawable) -> Unit) {
+    fun onItemClick(listener: (CanvasObject) -> Unit) {
         mOnItemClickListener = listener
     }
 
@@ -24,9 +24,9 @@ class ShapesListRVAdapter : RecyclerView.Adapter<ShapeViewRVHolder>() {
             ShapeViewRVHolder(parent.context.inflate(R.layout.item_shape, parent))
 
     override fun onBindViewHolder(holder: ShapeViewRVHolder, position: Int) =
-            holder.onClick { mOnItemClickListener(shapes[position]) }
+            holder.onClick { mOnItemClickListener(data[position]) }
 
     override fun getItemCount(): Int =
-            shapes.size
+            data.size
 
 }

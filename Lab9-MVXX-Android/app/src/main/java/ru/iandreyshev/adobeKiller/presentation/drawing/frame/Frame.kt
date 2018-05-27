@@ -2,7 +2,7 @@ package ru.iandreyshev.adobeKiller.presentation.drawing.frame
 
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 
-class Frame @JvmOverloads constructor(
+class Frame(
         position: Vec2f = Vec2f(),
         width: Float = MIN_WIDTH,
         height: Float = MIN_HEIGHT
@@ -29,5 +29,12 @@ class Frame @JvmOverloads constructor(
         width = newWidth.coerceIn(MIN_WIDTH, Float.MAX_VALUE)
         height = newHeight.coerceIn(MIN_HEIGHT, Float.MAX_VALUE)
     }
+
+    override fun clone(): IFrame =
+            Frame(
+                    position = Vec2f(position),
+                    width = width,
+                    height = height
+            )
 
 }

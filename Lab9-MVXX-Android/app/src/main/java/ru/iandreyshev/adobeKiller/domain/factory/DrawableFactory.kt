@@ -18,7 +18,7 @@ object DrawableFactory {
                         frame = frame,
                         style = style
                 )
-                ShapeType.Circle -> DrawableEllipse(
+                ShapeType.Ellipse -> DrawableEllipse(
                         frame = frame,
                         style = style
                 )

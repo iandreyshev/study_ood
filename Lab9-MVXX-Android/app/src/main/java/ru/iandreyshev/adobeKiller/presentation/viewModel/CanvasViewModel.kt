@@ -2,43 +2,37 @@ package ru.iandreyshev.adobeKiller.presentation.viewModel
 
 import android.arch.lifecycle.MutableLiveData
 import ru.iandreyshev.adobeKiller.app.UseCaseType
+import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
 import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.ICanvasInteractor
-import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
 import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
 import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ICanvasViewModel
 
 class CanvasViewModel : InteractorViewModel<ICanvasInteractor>(UseCaseType.CANVAS), ICanvasViewModel {
 
-    private val mDrawables = mutableListOf<IDrawable>()
-
     var isAttachedFirstTime = true
 
     // OBSERVABLES
-    val targetDrawable = MutableLiveData<IDrawable?>()
-    val drawables = MutableLiveData<List<IDrawable>>()
     val title = MutableLiveData<String>()
+    val objects = MutableLiveData<List<CanvasObject>>()
+    val targetObject = MutableLiveData<CanvasObject?>()
     // OBSERVABLES
 
     override fun setCanvasName(canvasName: String) =
             title.postValue(canvasName)
 
-    override fun setTarget(id: Long?) {
-        if (id == null) {
-            targetDrawable.postValue(null)
-            return
+    override fun setTarget(canvasObject: CanvasObject?) =
+            targetObject.postValue(canvasObject)
+
+    override fun insert(canvasObject: CanvasObject) {
+        val newList = mutableListOf<CanvasObject>().apply {
+            objects.value?.forEach { add(it) }
+            add(canvasObject)
         }
-
-        targetDrawable.postValue(mDrawables.find { it.id == id })
-    }
-
-    override fun insert(drawable: IDrawable) {
-        mDrawables.add(drawable)
-        drawables.postValue(mDrawables)
+        objects.postValue(newList)
     }
 
     override fun clear() {
-        mDrawables.clear()
-        drawables.postValue(listOf())
+        objects.postValue(listOf())
     }
 
 }
