@@ -20,19 +20,18 @@ class CanvasUseCase(
 ) : ICanvasUseCase {
 
     init {
-        presenter.setCanvasName(canvas.name)
+        presenter.setTitle(canvas.name)
 
-        presentationModel.observeChanges(::redraw)
-
-        localStorage.getImages(canvas.id).forEach {
-        }
-
-        localStorage.getShapes(canvas.id).forEach {
-        }
+        presentationModel.observeChanges(::reDraw)
+        localStorage.getImages(canvas.id).forEach { presentationModel.fill(it) }
+        localStorage.getShapes(canvas.id).forEach { presentationModel.fill(it) }
+        reDraw()
     }
 
+    private var mTarget: CanvasObject? = null
+
     override fun insert(shape: ShapeType) {
-//        presentationModel.insert(shape)
+        presentationModel.insert(shape)
     }
 
     override fun insert(image: File) {
@@ -48,20 +47,29 @@ class CanvasUseCase(
 //        }
     }
 
-    override fun setTarget(canvasObject: CanvasObject?) =
-            presenter.setTarget(canvasObject)
+    override fun setTarget(canvasObject: CanvasObject?) {
+        mTarget = canvasObject
+        presenter.setTarget(mTarget)
+    }
 
-    override fun delete(canvasObject: CanvasObject) =
-            presentationModel.delete(canvasObject)
+    override fun delete(canvasObject: CanvasObject) {
+        presentationModel.delete(canvasObject)
+        mTarget = null
+        presenter.setTarget(mTarget)
+    }
 
-    override fun undo() =
-            presentationModel.undo()
+    override fun undo() {
+        presentationModel.undo()
+        mTarget?.resetProperties()
+    }
 
-    override fun redo() =
-            presentationModel.redo()
+    override fun redo() {
+        presentationModel.redo()
+        mTarget?.resetProperties()
+    }
 
     override fun refresh() =
-            presentationModel.reset()
+            presentationModel.clear()
 
     override fun save() {
         val serializer = LocalStorageSerializer()
@@ -73,11 +81,12 @@ class CanvasUseCase(
         }
     }
 
-    private fun redraw() {
-//        presenter.clear()
-//        presentationModel.data.forEach {
-//            presenter.insert(it.toDrawable())
-//        }
+    private fun reDraw() {
+        presenter.clear()
+        presentationModel.data.forEach {
+            presenter.insert(it)
+        }
+        presenter.setTarget(mTarget)
     }
 
 }

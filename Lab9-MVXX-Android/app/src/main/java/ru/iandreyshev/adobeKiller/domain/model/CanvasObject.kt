@@ -10,11 +10,20 @@ abstract class CanvasObject(
         private val model: ICanvasObjectModel
 ) {
 
+    private var mPrevFrame: IFrame = frame.clone()
+    private var mPrevStyle: IStyle = style.clone()
+
+    abstract fun accept(visitor: ICanvasObjectVisitor)
+
     fun notifyDataChanges() {
-        model.notifyDataChanges(this, frame)
-        model.notifyDataChanges(this, style)
+        model.notifyDataChanges(this, mPrevFrame)
+        model.notifyDataChanges(this, mPrevStyle)
+        resetProperties()
     }
 
-    abstract fun accept(serializer: ICanvasObjectVisitor)
+    fun resetProperties() {
+        mPrevFrame = frame.clone()
+        mPrevStyle = style.clone()
+    }
 
 }

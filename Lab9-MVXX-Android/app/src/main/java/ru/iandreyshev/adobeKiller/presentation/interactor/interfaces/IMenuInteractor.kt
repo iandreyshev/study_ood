@@ -8,4 +8,6 @@ interface IMenuInteractor : IInteractor {
 
     fun openCanvas(canvasData: CanvasData)
 
+    fun deleteCanvas(canvasData: CanvasData)
+
 }

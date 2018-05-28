@@ -11,6 +11,7 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.cancelButton
 import org.jetbrains.anko.okButton
 import ru.iandreyshev.adobeKiller.R
+import ru.iandreyshev.adobeKiller.domain.model.CanvasData
 import ru.iandreyshev.adobeKiller.domain.model.ShapeType
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.ColorsListRVAdapter
@@ -52,6 +53,14 @@ object DialogFactory {
                 customView = this
             }
             okButton { onSubmit(view.etCanvasName.text.toString()) }
+            cancelButton { }
+        }.show()
+    }
+
+    fun createDeleteCanvasDialog(context: Context, canvasData: CanvasData, onSubmit: (CanvasData) -> Unit) {
+        context.alert {
+            title = "Are you really want to delete '${canvasData.name}' ?"
+            okButton { onSubmit(canvasData) }
             cancelButton { }
         }.show()
     }

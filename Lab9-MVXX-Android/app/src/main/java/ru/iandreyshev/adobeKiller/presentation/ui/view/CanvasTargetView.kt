@@ -3,14 +3,16 @@ package ru.iandreyshev.adobeKiller.presentation.ui.view
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.view.MotionEvent
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IFrame
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.hitTest
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
-import ru.iandreyshev.adobeKiller.presentation.ui.OnTouchMoveCallback
+import ru.iandreyshev.adobeKiller.presentation.ui.OnTouchCallback
+import ru.iandreyshev.adobeKiller.presentation.ui.OnTouchFinishCallback
 import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.TargetFrameHelper
 
-class TargetedCanvasView @JvmOverloads constructor(
+class CanvasTargetView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
@@ -19,25 +21,22 @@ class TargetedCanvasView @JvmOverloads constructor(
     companion object {
         private const val RECT_STROKE_WIDTH = 3f
         private const val CIRCLE_RADIUS = 20f
-        private const val CIRCLE_TOUCH_RADIUS = 50f
+        private const val CIRCLE_TOUCH_RADIUS = 72f
         private const val MIN_WIDTH = 42f
         private const val MIN_HEIGHT = 42f
     }
 
-    override var onMove: OnTouchMoveCallback? = null
-        set(value) {
-            field = { lastX, lastY, newX, newY ->
-                mTargetFrameHelper.handleMoveEvent(lastX, lastY, newX, newY)
-                value?.invoke(lastX, lastY, newX, newY)
-            }
-        }
-
+    private var mPointerId: Int? = null
+    private var mOnTouchStartCallback: OnTouchCallback? = null
+    private var mOnTouchFinishCallback: OnTouchFinishCallback? = null
+    private var mIsTargetChanged: Boolean = false
     private val mTargetFrameHelper = TargetFrameHelper(
-            MIN_WIDTH,
-            MIN_HEIGHT,
-            CIRCLE_TOUCH_RADIUS
+            minWidth = MIN_WIDTH,
+            minHeight = MIN_HEIGHT,
+            circleTouchRadius = CIRCLE_TOUCH_RADIUS
     )
 
+    // onDraw
     private val mRectPath = Path()
     private val mRectProperties = Paint().apply {
         strokeWidth = RECT_STROKE_WIDTH
@@ -45,18 +44,59 @@ class TargetedCanvasView @JvmOverloads constructor(
         style = Paint.Style.STROKE
         pathEffect = DashPathEffect(floatArrayOf(30f, 10f), 0f)
     }
-
     private val mCirclesPath = Path()
     private val mCircleProperties = Paint().apply {
         style = Paint.Style.FILL
         color = Color.GRAY
     }
+    // onDraw
 
-    init {
-        onMove = { _, _, _, _ -> } // To create start callback
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        event ?: return super.onTouchEvent(event)
+
+        val pointerId = event.getPointerId(event.actionIndex)
+
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> { // first touch
+                mPointerId = pointerId
+                mOnTouchStartCallback?.invoke(event.x, event.y)
+                return true
+            }
+
+            MotionEvent.ACTION_MOVE -> { // move
+                if (pointerId != mPointerId || event.historySize < 1) {
+                    return false
+                }
+
+                val lastX = event.getHistoricalX(0)
+                val lastY = event.getHistoricalY(0)
+                val isTargetChanged = mTargetFrameHelper.handleMoveEvent(lastX, lastY, event.x, event.y)
+
+                if (!mIsTargetChanged) {
+                    mIsTargetChanged = isTargetChanged
+                }
+
+                return true
+            }
+
+            MotionEvent.ACTION_UP -> { // finish touch
+                mOnTouchFinishCallback?.invoke(mIsTargetChanged)
+                return true
+            }
+        }
+
+        return super.onTouchEvent(event)
     }
 
-    fun onTargetChanged(callback: (IFrame) -> Unit) {
+    fun onTouchStart(callback: OnTouchCallback?) {
+        mOnTouchStartCallback = callback
+    }
+
+    fun onTouchFinish(callback: OnTouchFinishCallback?) {
+        mOnTouchFinishCallback = callback
+    }
+
+    fun onTargetFrameChanged(callback: (IFrame) -> Unit) {
         mTargetFrameHelper.onFrameChanged { newFrame ->
             prepareDrawingProperties(newFrame)
             callback(newFrame)
@@ -78,11 +118,12 @@ class TargetedCanvasView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun hitTest(x: Float, y: Float): Boolean =
-            mTargetFrameHelper.target.let {
-                it ?: return false
-                return@let it.hitTest(x, y)
-            }
+    fun hitTest(x: Float, y: Float): Boolean {
+        return mTargetFrameHelper.target.let {
+            it ?: return false
+            return@let it.hitTest(x, y)
+        }
+    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)

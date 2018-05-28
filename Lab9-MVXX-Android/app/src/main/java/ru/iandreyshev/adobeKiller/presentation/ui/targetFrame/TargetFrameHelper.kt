@@ -14,12 +14,11 @@ class TargetFrameHelper(
     private var mOnFrameChanged: ((IFrame) -> Unit)? = null
     private val mMoveToPosition = Vec2f()
 
-    fun handleMoveEvent(lastX: Float?, lastY: Float?, newX: Float, newY: Float) {
-        lastX ?: return
-        lastY ?: return
+    fun handleMoveEvent(lastX: Float?, lastY: Float?, newX: Float, newY: Float): Boolean {
+        lastX ?: return false
+        lastY ?: return false
 
-        val currentFrame = target ?: return
-
+        val currentFrame = target ?: return false
         val newFrame = handleCircleMove(currentFrame, lastX, lastY, newX, newY) ?: kotlin.run {
             handleRectMove(currentFrame, lastX, lastY, newX, newY)
         }
@@ -28,6 +27,8 @@ class TargetFrameHelper(
             target = it
             mOnFrameChanged?.invoke(it)
         }
+
+        return newFrame != null
     }
 
     fun onFrameChanged(action: (frame: IFrame) -> Unit) {

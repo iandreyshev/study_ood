@@ -8,4 +8,6 @@ interface IMenuUseCase : IUseCase {
 
     fun openCanvas(canvasData: CanvasData)
 
+    fun deleteCanvas(canvasData: CanvasData)
+
 }

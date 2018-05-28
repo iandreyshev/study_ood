@@ -9,7 +9,7 @@ open class CanvasView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
-) : TouchHandlerView(context, attrs, defStyleAttr) {
+) : View(context, attrs, defStyleAttr) {
 
     private var mDrawAction: ((View, Canvas) -> Unit)? = null
 

@@ -6,8 +6,6 @@ import ru.iandreyshev.adobeKiller.presentation.ui.adapter.ShapesListRVAdapter
 import ru.iandreyshev.adobeKiller.presentation.viewModel.CanvasViewModel
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.android.synthetic.main.activity_canvas.*
 import kotlinx.android.synthetic.main.view_shape_info.*
 import org.jetbrains.anko.collections.forEachReversedWithIndex
@@ -17,9 +15,7 @@ import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.ICanvasInte
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.hitTest
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.adobeKiller.presentation.ui.dialog.DialogFactory
-import ru.iandreyshev.adobeKiller.presentation.ui.extension.getWindowSize
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.visibleIfOrGone
-import kotlin.math.pow
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import ru.iandreyshev.adobeKiller.R
 import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
@@ -31,12 +27,6 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
         viewModelClass = CanvasViewModel::class,
         layout = R.layout.activity_canvas) {
 
-    companion object {
-        private const val OPEN_PANEL_SPEED = 1f // offset pow
-        private const val CHANGE_PANEL_ALPHA_SPEED = 2f // offset pow
-    }
-
-    private val mPanelContentOffset by lazy { getWindowSize().heightPixels / 2 }
     private var mCanvasAdapter = AndroidCanvasAdapter()
     private val mDrawableHelper = DrawableHelper(mCanvasAdapter)
     private var mTarget: CanvasObject? = null
@@ -49,13 +39,9 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
     override fun onLayoutCreated(savedInstanceState: Bundle?) {
         setSupportActionBar(tbToolbar)
 
-        with(rvShapesList) {
-            adapter = mShapesListAdapter
-        }
-
         shapeInfoView.setOnFillColorClick {
             DialogFactory.fillColorDialog(this) { color ->
-                changeTargetDataAction {
+                actionWithTarget {
                     it.style.fillColor = color
                 }
             }
@@ -63,27 +49,30 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
 
         shapeInfoView.setOnStrokeColorClick {
             DialogFactory.editStrokeDialog(this) { color, size ->
-                changeTargetDataAction { canvasObject ->
+                actionWithTarget { canvasObject ->
                     size?.let { canvasObject.style.strokeSize = size.toFloat() }
                     color?.let { canvasObject.style.strokeColor = color }
                 }
             }
         }
 
-        tcvCanvas.onTouch = ::handleCanvasTouch
-        // TODO: Create callback on stop touch
-        tcvCanvas.onTargetChanged {
-            // TODO: Update target frame
+        tcvCanvas.onTouchStart(::handleCanvasTouch)
+        tcvCanvas.onTargetFrameChanged { newFrame ->
+            mTarget?.frame?.resize(newFrame.width, newFrame.height)
+            mTarget?.frame?.position?.x = newFrame.position.x
+            mTarget?.frame?.position?.y = newFrame.position.y
         }
-
-        supSlidingPanel.addPanelSlideListener(PanelListener())
+        tcvCanvas.onTouchFinish { isTargetFrameChanged ->
+            if (isTargetFrameChanged) {
+                mTarget?.notifyDataChanges()
+            }
+        }
     }
 
     override val onProvideViewModel: CanvasViewModel.() -> Unit = {
         objects.observe { shapes ->
             val isShapesExists = shapes?.isEmpty() ?: false
             tvEmptyMessage.visibleIfOrGone(isShapesExists)
-            tvEmptyListMessage.visibleIfOrGone(isShapesExists)
             mShapesListAdapter.data = shapes ?: listOf()
             drawObjects()
         }
@@ -96,11 +85,6 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
 
         title.observeNotNull {
             supportActionBar?.title = it
-        }
-
-        if (isAttachedFirstTime) {
-            isAttachedFirstTime = false
-            llPanelContent?.background?.alpha = 0
         }
     }
 
@@ -116,7 +100,7 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
             R.id.act_redo -> interactor.redo()
             R.id.act_save -> interactor.save()
             R.id.act_clear -> interactor.refresh()
-            R.id.act_delete -> changeTargetDataAction { interactor.delete(it) }
+            R.id.act_delete -> actionWithTarget { interactor.delete(it) }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -142,11 +126,14 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
         tcvCanvas.invalidate()
     }
 
-    private fun changeTargetDataAction(action: (CanvasObject) -> Unit) {
+    private fun actionWithTarget(action: (CanvasObject) -> Unit) {
         mTarget.apply {
             when (this) {
                 null -> toast(R.string.shape_not_selected)
-                else -> action(this)
+                else -> {
+                    action(this)
+                    this.notifyDataChanges()
+                }
             }
         }
     }
@@ -166,24 +153,6 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
         interactor.setTarget(null)
     }
 
-    private inner class PanelListener : SlidingUpPanelLayout.PanelSlideListener {
-        override fun onPanelSlide(panel: View?, slideOffset: Float) {
-            ibPanelButton.rotation = 180 * slideOffset
-            val translation = slideOffset.pow(OPEN_PANEL_SPEED) * mPanelContentOffset
-            tvPanelTitle.translationY = mPanelContentOffset - translation
-            rvShapesList.translationY = mPanelContentOffset - translation
-            tvEmptyListMessage.translationY = mPanelContentOffset - translation
-
-            val alpha = slideOffset.pow(CHANGE_PANEL_ALPHA_SPEED)
-            tvPanelTitle.alpha = alpha
-            rvShapesList.alpha = alpha
-            llPanelContent?.background?.alpha = (255 * alpha).toInt()
-        }
-
-        override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
-        }
-    }
-
     private inner class TakePhotoListener : DefaultCallback() {
         override fun onImagePicked(imageFile: File?, source: EasyImage.ImageSource?, type: Int) {
             if (imageFile != null) {
@@ -191,10 +160,7 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
             }
         }
 
-        override fun onImagePickerError(e: Exception?, source: EasyImage.ImageSource?, type: Int) {
-        }
-
-        override fun onCanceled(source: EasyImage.ImageSource?, type: Int) {
-        }
+        override fun onImagePickerError(e: Exception?, source: EasyImage.ImageSource?, type: Int) = Unit
+        override fun onCanceled(source: EasyImage.ImageSource?, type: Int) = Unit
     }
 }

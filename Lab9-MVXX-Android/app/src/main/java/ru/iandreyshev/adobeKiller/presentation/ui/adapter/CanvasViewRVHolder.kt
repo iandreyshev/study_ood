@@ -6,9 +6,19 @@ import kotlinx.android.synthetic.main.item_menu_canvas.view.*
 
 class CanvasViewRVHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    operator fun invoke(name: String, onClick: () -> Unit) {
+    fun setTitle(name: String) {
         itemView.tvTitle.text = name
+    }
+
+    fun setOnClickListener(onClick: () -> Unit) {
         itemView.setOnClickListener { onClick() }
+    }
+
+    fun setOnLongClickListener(onClick: () -> Unit) {
+        itemView.setOnLongClickListener clickListener@{
+            onClick()
+            return@clickListener true
+        }
     }
 
 }

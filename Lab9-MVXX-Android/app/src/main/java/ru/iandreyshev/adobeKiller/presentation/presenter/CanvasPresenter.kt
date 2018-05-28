@@ -9,7 +9,7 @@ class CanvasPresenter(
         val viewModel: ICanvasViewModel
 ) : ICanvasPresenter {
 
-    override fun setCanvasName(canvasName: String) =
+    override fun setTitle(canvasName: String) =
             viewModel.setCanvasName(canvasName)
 
     override fun setTarget(canvasObject: CanvasObject?) =

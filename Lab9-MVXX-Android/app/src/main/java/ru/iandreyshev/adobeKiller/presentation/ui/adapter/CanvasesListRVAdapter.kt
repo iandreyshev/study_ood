@@ -10,6 +10,7 @@ class CanvasesListRVAdapter : RecyclerView.Adapter<CanvasViewRVHolder>() {
 
     private var mCanvases: List<CanvasData> = listOf()
     private var mOnItemClickListener: (CanvasData) -> Unit = {}
+    private var mOnItemLongClickListener: (CanvasData) -> Unit = {}
 
     fun setCanvases(canvases: List<CanvasData>) {
         mCanvases = canvases
@@ -20,13 +21,20 @@ class CanvasesListRVAdapter : RecyclerView.Adapter<CanvasViewRVHolder>() {
         mOnItemClickListener = listener
     }
 
+    fun onItemLongClick(listener: (CanvasData) -> Unit) {
+        mOnItemLongClickListener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CanvasViewRVHolder =
             CanvasViewRVHolder(parent.context.inflate(R.layout.item_menu_canvas, parent))
 
-    override fun onBindViewHolder(holder: CanvasViewRVHolder, position: Int) =
-            holder(mCanvases[position].name) {
-                mOnItemClickListener(mCanvases[position])
-            }
+    override fun onBindViewHolder(holder: CanvasViewRVHolder, position: Int) {
+        with(holder) {
+            setTitle(mCanvases[position].name)
+            setOnClickListener { mOnItemClickListener(mCanvases[position]) }
+            setOnLongClickListener { mOnItemLongClickListener(mCanvases[position]) }
+        }
+    }
 
     override fun getItemCount(): Int =
             mCanvases.size

@@ -6,7 +6,7 @@ import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
 
 interface ICanvasObjectModel {
 
-    fun notifyDataChanges(canvasObject: CanvasObject, newFrame: IFrame)
-    fun notifyDataChanges(canvasObject: CanvasObject, newStyle: IStyle)
+    fun notifyDataChanges(canvasObject: CanvasObject, prevFrame: IFrame)
+    fun notifyDataChanges(canvasObject: CanvasObject, prevStyle: IStyle)
 
 }

@@ -6,17 +6,16 @@ import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
 
 class ChangeStrokeColorCommand(
         private val style: IStyle,
-        private val color: Color
+        private val oldColor: Color,
+        private val newColor: Color
 ) : Command() {
 
-    private val mOldColor: Color = style.strokeColor
-
     override fun onExecute() {
-        style.strokeColor = color
+        style.strokeColor = newColor
     }
 
     override fun onUndo() {
-        style.strokeColor = mOldColor
+        style.strokeColor = oldColor
     }
 
 }

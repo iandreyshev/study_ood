@@ -1,6 +1,8 @@
 package ru.iandreyshev.adobeKiller.presentation.ui.activity
 
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_menu.*
 import org.jetbrains.anko.startActivity
 import ru.iandreyshev.adobeKiller.R
@@ -40,7 +42,18 @@ class MenuActivity : BaseActivity<IMenuInteractor, MenuViewModel>(
     }
 
     override fun onLayoutCreated(savedInstanceState: Bundle?) {
-        rvCanvases.adapter = mCanvasesListAdapter
+        with(rvCanvases) {
+            adapter = mCanvasesListAdapter
+            val dividerItemDecoration = DividerItemDecoration(context,
+                    (layoutManager as LinearLayoutManager).orientation)
+            addItemDecoration(dividerItemDecoration)
+            mCanvasesListAdapter.onItemLongClick {
+                DialogFactory.createDeleteCanvasDialog(this@MenuActivity, it) {
+                    interactor.deleteCanvas(it)
+                }
+            }
+        }
+
         fabAddNew.setOnClickListener {
             DialogFactory.createCanvasDialog(this) { canvasName ->
                 interactor.createCanvas(canvasName)

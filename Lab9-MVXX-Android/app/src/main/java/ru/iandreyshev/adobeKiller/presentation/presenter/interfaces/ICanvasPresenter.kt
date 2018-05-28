@@ -4,7 +4,7 @@ import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
 
 interface ICanvasPresenter : IPresenter {
 
-    fun setCanvasName(canvasName: String)
+    fun setTitle(canvasName: String)
     fun setTarget(canvasObject: CanvasObject?)
     fun insert(canvasObject: CanvasObject)
     fun clear()

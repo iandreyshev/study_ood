@@ -12,7 +12,7 @@ class ImageData(
         val image: Bitmap
 ) : CanvasObject(frame = frame, style = style, model = model) {
 
-    override fun accept(serializer: ICanvasObjectVisitor) =
-            serializer.visit(this)
+    override fun accept(visitor: ICanvasObjectVisitor) =
+            visitor.visit(this)
 
 }

@@ -6,17 +6,16 @@ import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
 
 class ChangeFillColorCommand(
         private val style: IStyle,
-        private val color: Color
+        private val oldColor: Color,
+        private val newColor: Color
 ) : Command() {
 
-    private val mOldColor: Color = style.fillColor
-
     override fun onExecute() {
-        style.fillColor = color
+        style.fillColor = newColor
     }
 
     override fun onUndo() {
-        style.fillColor = mOldColor
+        style.fillColor = oldColor
     }
 
 }

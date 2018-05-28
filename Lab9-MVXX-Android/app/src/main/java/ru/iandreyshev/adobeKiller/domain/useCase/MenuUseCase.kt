@@ -27,4 +27,10 @@ class MenuUseCase(
         presenter.openCanvas()
     }
 
+    override fun deleteCanvas(canvasData: CanvasData) {
+        localStorage.deleteCanvas(canvasData.id)
+        val canvases = localStorage.getCanvases()
+        presenter.setCanvases(canvases.map { it.toModel() })
+    }
+
 }

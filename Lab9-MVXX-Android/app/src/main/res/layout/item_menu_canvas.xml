@@ -7,11 +7,9 @@
 
     <FrameLayout
         android:id="@+id/frameLayout2"
-        android:layout_width="36dp"
+        android:layout_width="72dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="4dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
         android:background="@drawable/ic_image_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="w,1:1"
@@ -25,14 +23,19 @@
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:maxLines="1"
         android:text="TextView"
         android:textAlignment="textStart"
         android:textAllCaps="true"
-        android:textSize="14sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/frameLayout2"
         app:layout_constraintTop_toTopOf="parent" />
 

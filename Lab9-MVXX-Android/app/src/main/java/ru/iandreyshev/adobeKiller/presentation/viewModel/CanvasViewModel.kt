@@ -9,7 +9,7 @@ import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ICanvasViewM
 
 class CanvasViewModel : InteractorViewModel<ICanvasInteractor>(UseCaseType.CANVAS), ICanvasViewModel {
 
-    var isAttachedFirstTime = true
+    private val mCanvasObjects = mutableListOf<CanvasObject>()
 
     // OBSERVABLES
     val title = MutableLiveData<String>()
@@ -24,15 +24,13 @@ class CanvasViewModel : InteractorViewModel<ICanvasInteractor>(UseCaseType.CANVA
             targetObject.postValue(canvasObject)
 
     override fun insert(canvasObject: CanvasObject) {
-        val newList = mutableListOf<CanvasObject>().apply {
-            objects.value?.forEach { add(it) }
-            add(canvasObject)
-        }
-        objects.postValue(newList)
+        mCanvasObjects.add(canvasObject)
+        objects.postValue(mCanvasObjects)
     }
 
     override fun clear() {
-        objects.postValue(listOf())
+        mCanvasObjects.clear()
+        objects.postValue(mCanvasObjects)
     }
 
 }

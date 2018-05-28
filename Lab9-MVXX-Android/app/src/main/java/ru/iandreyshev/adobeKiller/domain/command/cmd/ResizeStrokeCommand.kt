@@ -5,17 +5,16 @@ import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
 
 class ResizeStrokeCommand(
         private val style: IStyle,
-        private val size: Float
+        private val oldSize: Float,
+        private val newSize: Float
 ) : Command() {
 
-    private val mOldSize: Float = style.strokeSize
-
     override fun onExecute() {
-        style.strokeSize = size
+        style.strokeSize = newSize
     }
 
     override fun onUndo() {
-        style.strokeSize = mOldSize
+        style.strokeSize = oldSize
     }
 
 }

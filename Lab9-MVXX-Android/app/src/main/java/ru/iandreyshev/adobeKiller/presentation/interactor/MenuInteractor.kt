@@ -12,4 +12,7 @@ class MenuInteractor(private val useCase: IMenuUseCase) : IMenuInteractor {
     override fun openCanvas(canvasData: CanvasData) =
             useCase.openCanvas(canvasData)
 
+    override fun deleteCanvas(canvasData: CanvasData) =
+            useCase.deleteCanvas(canvasData)
+
 }
