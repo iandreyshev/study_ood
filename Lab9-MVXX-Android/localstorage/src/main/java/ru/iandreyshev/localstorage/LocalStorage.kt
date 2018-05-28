@@ -61,7 +61,4 @@ class LocalStorage(
     override fun deleteCanvas(canvasId: Long) =
             mCanvases.remove(canvasId)
 
-    private fun <T> Box<T>.query(queryAction: QueryBuilder<T>.() -> Unit): Query<T> =
-            query().apply(queryAction).build()
-
 }

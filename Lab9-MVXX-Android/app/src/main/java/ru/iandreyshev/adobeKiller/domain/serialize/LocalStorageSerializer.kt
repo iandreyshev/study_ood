@@ -2,8 +2,8 @@ package ru.iandreyshev.adobeKiller.domain.serialize
 
 import ru.iandreyshev.adobeKiller.domain.extension.toEntity
 import ru.iandreyshev.adobeKiller.domain.model.ICanvasObjectVisitor
-import ru.iandreyshev.adobeKiller.domain.model.ImageData
-import ru.iandreyshev.adobeKiller.domain.model.ShapeData
+import ru.iandreyshev.adobeKiller.domain.model.ImageObject
+import ru.iandreyshev.adobeKiller.domain.model.ShapeObject
 import ru.iandreyshev.localstorage.entity.IImageDTO
 import ru.iandreyshev.localstorage.entity.IShapeDTO
 
@@ -17,11 +17,11 @@ class LocalStorageSerializer : ICanvasObjectVisitor {
     val images: List<IImageDTO>
         get() = mImages
 
-    override fun visit(shape: ShapeData) {
+    override fun visit(shape: ShapeObject) {
         mShapes.add(shape.toEntity())
     }
 
-    override fun visit(image: ImageData) {
+    override fun visit(image: ImageObject) {
         mImages.add(image.toEntity())
     }
 

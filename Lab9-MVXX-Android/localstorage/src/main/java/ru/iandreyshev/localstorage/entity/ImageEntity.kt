@@ -1,12 +1,9 @@
 package ru.iandreyshev.localstorage.entity
 
-import android.graphics.Bitmap
 import io.objectbox.annotation.Backlink
-import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 import io.objectbox.relation.ToOne
-import ru.iandreyshev.localstorage.converter.BitmapConverter
 
 @Entity
 internal class ImageEntity(
@@ -16,8 +13,7 @@ internal class ImageEntity(
         var y: Float = 0f,
         var width: Float = 0f,
         var height: Float = 0f,
-        @Convert(converter = BitmapConverter::class, dbType = ByteArray::class)
-        var image: Bitmap
+        var imagePath: String
 ) {
 
     @Backlink(to = "images")

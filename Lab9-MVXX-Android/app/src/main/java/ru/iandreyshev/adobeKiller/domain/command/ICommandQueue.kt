@@ -6,6 +6,10 @@ interface ICommandQueue {
     val canRedo: Boolean
 
     fun apply(command: Command)
+    fun apply(buildCommandAction: () -> Command) {
+        apply(buildCommandAction())
+    }
+
     fun undo()
     fun redo()
     fun clear()

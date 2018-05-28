@@ -15,6 +15,9 @@ abstract class CanvasObject(
 
     abstract fun accept(visitor: ICanvasObjectVisitor)
 
+    open fun onAddedToScene() = Unit
+    open fun onRemovedFromScene() = Unit
+
     fun notifyDataChanges() {
         model.notifyDataChanges(this, mPrevFrame)
         model.notifyDataChanges(this, mPrevStyle)

@@ -1,19 +1,19 @@
 package ru.iandreyshev.adobeKiller.domain.extension
 
-import android.graphics.Bitmap
+import ru.iandreyshev.adobeKiller.domain.file.FileWrapper
 import ru.iandreyshev.adobeKiller.domain.model.CanvasData
-import ru.iandreyshev.adobeKiller.domain.model.ImageData
-import ru.iandreyshev.adobeKiller.domain.model.ShapeData
+import ru.iandreyshev.adobeKiller.domain.model.ImageObject
+import ru.iandreyshev.adobeKiller.domain.model.ShapeObject
 import ru.iandreyshev.adobeKiller.domain.model.ShapeType
 import ru.iandreyshev.adobeKiller.domain.presentationModel.ICanvasObjectModel
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
-import ru.iandreyshev.adobeKiller.presentation.drawing.style.ImageStyle
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.Style
 import ru.iandreyshev.localstorage.entity.ICanvasDTO
 import ru.iandreyshev.localstorage.entity.IImageDTO
 import ru.iandreyshev.localstorage.entity.IShapeDTO
+import java.io.File
 
 internal fun ICanvasDTO.toModel(): CanvasData = with(this) {
     CanvasData(
@@ -22,7 +22,7 @@ internal fun ICanvasDTO.toModel(): CanvasData = with(this) {
     )
 }
 
-internal fun ShapeData.toEntity(): IShapeDTO = with(this) {
+internal fun ShapeObject.toEntity(): IShapeDTO = with(this) {
     object : IShapeDTO {
         override val type: Int = this@toEntity.type.ordinal
         override val x: Float = frame.position.x
@@ -35,27 +35,26 @@ internal fun ShapeData.toEntity(): IShapeDTO = with(this) {
     }
 }
 
-internal fun ImageData.toEntity(): IImageDTO = with(this) {
+internal fun ImageObject.toEntity(): IImageDTO = with(this) {
     object : IImageDTO {
         override val x: Float = frame.position.x
         override val y: Float = frame.position.y
         override val width: Float = frame.width
         override val height: Float = frame.height
-        override val image: Bitmap = this@with.image
+        override val imagePath: String = imageFile.path
     }
 }
 
-internal fun IImageDTO.toModel(model: ICanvasObjectModel): ImageData = with(this) {
-    ImageData(
+internal fun IImageDTO.toModel(model: ICanvasObjectModel): ImageObject = with(this) {
+    ImageObject(
             frame = Frame(Vec2f(x, y), width, height),
-            style = ImageStyle(),
             model = model,
-            image = this@toModel.image
+            imageFile = FileWrapper(File(imagePath))
     )
 }
 
-internal fun IShapeDTO.toModel(model: ICanvasObjectModel): ShapeData = with(this) {
-    ShapeData(
+internal fun IShapeDTO.toModel(model: ICanvasObjectModel): ShapeObject = with(this) {
+    ShapeObject(
             frame = Frame(Vec2f(x, y), width, height),
             style = Style(
                     fillColor = Color.values()[fillColor],

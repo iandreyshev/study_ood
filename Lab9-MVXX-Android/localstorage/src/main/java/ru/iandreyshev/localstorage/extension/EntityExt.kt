@@ -1,6 +1,5 @@
 package ru.iandreyshev.localstorage.extension
 
-import android.graphics.Bitmap
 import ru.iandreyshev.localstorage.entity.*
 
 internal val ICanvasDTO.entity: CanvasEntity
@@ -45,7 +44,7 @@ internal val IImageDTO.entity: ImageEntity
             y = y,
             width = width,
             height = height,
-            image = image
+            imagePath = imagePath
     )
 
 internal val ImageEntity.asDTO: IImageDTO
@@ -54,5 +53,5 @@ internal val ImageEntity.asDTO: IImageDTO
         override val y: Float = this@asDTO.y
         override val width: Float = this@asDTO.width
         override val height: Float = this@asDTO.height
-        override val image: Bitmap = this@asDTO.image
+        override val imagePath: String = this@asDTO.imagePath
     }

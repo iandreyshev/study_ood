@@ -1,5 +1,9 @@
 package ru.iandreyshev.adobeKiller.domain.useCase
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import ru.iandreyshev.adobeKiller.domain.extension.scaleToSize
+import ru.iandreyshev.adobeKiller.domain.file.FileWrapper
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.ICanvasPresenter
 import ru.iandreyshev.adobeKiller.domain.useCase.interfaces.ICanvasUseCase
 import java.io.File
@@ -35,16 +39,7 @@ class CanvasUseCase(
     }
 
     override fun insert(image: File) {
-//        try {
-//            val options = BitmapFactory.Options()
-//            options.inPreferredConfig = Bitmap.Config.ARGB_8888
-//            val bitmap = BitmapFactory.decodeFile(image.path, options)
-//                    .scaleToSize(250)
-//            presentationModel.insert(bitmap)
-//        } catch (ex: Exception) {
-//            // TODO: Notify UI about error
-//            Log.e("CanvasInteractor", Log.getStackTraceString(ex))
-//        }
+        presentationModel.insert(FileWrapper(image))
     }
 
     override fun setTarget(canvasObject: CanvasObject?) {
@@ -73,7 +68,7 @@ class CanvasUseCase(
 
     override fun save() {
         val serializer = LocalStorageSerializer()
-        presentationModel.data.forEach {
+        presentationModel.sceneData.forEach {
             it.accept(serializer)
 
             localStorage.saveShapes(canvas.id, serializer.shapes)
@@ -83,7 +78,7 @@ class CanvasUseCase(
 
     private fun reDraw() {
         presenter.clear()
-        presentationModel.data.forEach {
+        presentationModel.sceneData.forEach {
             presenter.insert(it)
         }
         presenter.setTarget(mTarget)

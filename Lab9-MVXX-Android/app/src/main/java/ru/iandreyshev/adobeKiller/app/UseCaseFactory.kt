@@ -15,16 +15,19 @@ class UseCaseFactory(
         private val localStorage: ILocalStorage
 ) : IUseCaseFactory {
 
+    companion object {
+        private const val COMMAND_QUEUE_SIZE = 12
+    }
+
     override fun create(
             useCaseType: UseCaseType,
             presenter: IPresenter,
             data: Any?
     ): IUseCase = when (useCaseType) {
-
         UseCaseType.CANVAS -> {
-            val commandQueue = CommandQueue(12)
-            val presentationModel = PresentationModel(commandQueue)
-
+            val commandQueue = CommandQueue(COMMAND_QUEUE_SIZE)
+            val presentationModel = PresentationModel(
+                    commandQueue = commandQueue)
             CanvasUseCase(
                     presenter = presenter as ICanvasPresenter,
                     presentationModel = presentationModel,
