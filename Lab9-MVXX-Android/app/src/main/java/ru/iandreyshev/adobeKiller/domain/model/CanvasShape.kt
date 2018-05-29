@@ -4,7 +4,7 @@ import ru.iandreyshev.adobeKiller.domain.presentationModel.ICanvasObjectModel
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IFrame
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
 
-class ShapeObject(
+class CanvasShape(
         frame: IFrame,
         style: IStyle,
         model: ICanvasObjectModel,

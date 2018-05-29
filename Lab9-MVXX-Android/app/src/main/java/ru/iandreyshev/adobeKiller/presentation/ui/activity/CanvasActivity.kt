@@ -86,6 +86,10 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
         title.observeNotNull {
             supportActionBar?.title = it
         }
+
+        invalidating.observe {
+            tcvCanvas.invalidate()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

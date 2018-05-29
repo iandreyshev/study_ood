@@ -10,7 +10,7 @@ import ru.iandreyshev.adobeKiller.domain.presentationModel.ICanvasObjectModel
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IFrame
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.ImageStyle
 
-class ImageObject(
+class CanvasImage(
         frame: IFrame,
         model: ICanvasObjectModel,
         val imageFile: IFile

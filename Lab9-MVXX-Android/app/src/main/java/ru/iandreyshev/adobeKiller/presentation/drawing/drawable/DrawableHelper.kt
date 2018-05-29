@@ -2,8 +2,8 @@ package ru.iandreyshev.adobeKiller.presentation.drawing.drawable
 
 import android.graphics.Bitmap
 import ru.iandreyshev.adobeKiller.domain.model.ICanvasObjectVisitor
-import ru.iandreyshev.adobeKiller.domain.model.ImageObject
-import ru.iandreyshev.adobeKiller.domain.model.ShapeObject
+import ru.iandreyshev.adobeKiller.domain.model.CanvasImage
+import ru.iandreyshev.adobeKiller.domain.model.CanvasShape
 import ru.iandreyshev.adobeKiller.domain.model.ShapeType
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.ICanvas
 
@@ -11,7 +11,7 @@ class DrawableHelper(
         private val canvas: ICanvas
 ) : ICanvasObjectVisitor {
 
-    override fun visit(shape: ShapeObject) {
+    override fun visit(shape: CanvasShape) {
         val drawable = when (shape.type) {
             ShapeType.Rect -> DrawableRect(shape.frame, shape.style)
             ShapeType.Ellipse -> DrawableEllipse(shape.frame, shape.style)
@@ -21,7 +21,7 @@ class DrawableHelper(
         drawable.draw(canvas)
     }
 
-    override fun visit(image: ImageObject) {
+    override fun visit(image: CanvasImage) {
         val drawable = DrawableImage(
                 width = image.frame.width,
                 height = image.frame.height,

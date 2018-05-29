@@ -15,6 +15,7 @@ class CanvasViewModel : InteractorViewModel<ICanvasInteractor>(UseCaseType.CANVA
     val title = MutableLiveData<String>()
     val objects = MutableLiveData<List<CanvasObject>>()
     val targetObject = MutableLiveData<CanvasObject?>()
+    val invalidating = MutableLiveData<Unit>()
     // OBSERVABLES
 
     override fun setCanvasName(canvasName: String) =
@@ -27,6 +28,9 @@ class CanvasViewModel : InteractorViewModel<ICanvasInteractor>(UseCaseType.CANVA
         mCanvasObjects.add(canvasObject)
         objects.postValue(mCanvasObjects)
     }
+
+    override fun invalidate() =
+            invalidating.postValue(Unit)
 
     override fun clear() {
         mCanvasObjects.clear()

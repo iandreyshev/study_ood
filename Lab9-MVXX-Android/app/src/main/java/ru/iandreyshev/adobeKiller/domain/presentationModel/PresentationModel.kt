@@ -6,8 +6,8 @@ import ru.iandreyshev.adobeKiller.domain.command.cmd.*
 import ru.iandreyshev.adobeKiller.domain.extension.toModel
 import ru.iandreyshev.adobeKiller.domain.file.IFile
 import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
-import ru.iandreyshev.adobeKiller.domain.model.ImageObject
-import ru.iandreyshev.adobeKiller.domain.model.ShapeObject
+import ru.iandreyshev.adobeKiller.domain.model.CanvasImage
+import ru.iandreyshev.adobeKiller.domain.model.CanvasShape
 import ru.iandreyshev.adobeKiller.domain.model.ShapeType
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.Style
@@ -20,7 +20,7 @@ class PresentationModel(
 
     inner class Factory {
         fun createShape(shapeType: ShapeType): CanvasObject =
-                ShapeObject(
+                CanvasShape(
                         frame = Frame(),
                         style = Style(),
                         model = newCanvasObjectModel(),
@@ -28,7 +28,7 @@ class PresentationModel(
                 )
 
         fun createImage(file: IFile): CanvasObject =
-                ImageObject(
+                CanvasImage(
                         frame = Frame(),
                         model = newCanvasObjectModel(),
                         imageFile = file

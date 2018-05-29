@@ -4,7 +4,7 @@ import org.jetbrains.anko.doAsync
 import ru.iandreyshev.adobeKiller.domain.command.Command
 import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
 import ru.iandreyshev.adobeKiller.domain.model.ICanvasObjectVisitor
-import ru.iandreyshev.adobeKiller.domain.model.ImageObject
+import ru.iandreyshev.adobeKiller.domain.model.CanvasImage
 
 class DeleteObjectCommand(
         private val canvasObject: CanvasObject,
@@ -30,7 +30,7 @@ class DeleteObjectCommand(
 
     private class ClearObjectDataVisitor : ICanvasObjectVisitor {
 
-        override fun visit(image: ImageObject) {
+        override fun visit(image: CanvasImage) {
             doAsync { image.imageFile.delete() }
         }
 

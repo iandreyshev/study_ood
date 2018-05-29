@@ -1,5 +1,6 @@
 package ru.iandreyshev.adobeKiller.app
 
+import ru.iandreyshev.adobeKiller.domain.useCase.interfaces.IUseCase
 import ru.iandreyshev.adobeKiller.presentation.presenter.CanvasPresenter
 import ru.iandreyshev.adobeKiller.presentation.presenter.MenuPresenter
 import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
@@ -15,7 +16,10 @@ class PresenterFactory : IPresenterFactory {
             viewModel: InteractorViewModel<*>?): IPresenter = when (useCaseType) {
 
         UseCaseType.MENU -> MenuPresenter(viewModel as IMenuViewModel)
-        UseCaseType.CANVAS -> CanvasPresenter(viewModel as ICanvasViewModel)
+
+        UseCaseType.CANVAS -> CanvasPresenter(
+                canvasName = IUseCase.canvas.name,
+                viewModel = viewModel as ICanvasViewModel)
 
     }
 

@@ -1,5 +1,6 @@
 package ru.iandreyshev.adobeKiller.app
 
+import ru.iandreyshev.adobeKiller.domain.adapter.CanvasStorageAdapter
 import ru.iandreyshev.adobeKiller.domain.command.CommandQueue
 import ru.iandreyshev.adobeKiller.domain.presentationModel.PresentationModel
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.ICanvasPresenter
@@ -31,8 +32,8 @@ class UseCaseFactory(
             CanvasUseCase(
                     presenter = presenter as ICanvasPresenter,
                     presentationModel = presentationModel,
-                    localStorage = localStorage,
-                    canvas = IUseCase.canvas
+                    commandQueue = commandQueue,
+                    localStorage = CanvasStorageAdapter(IUseCase.canvas.id, localStorage)
             )
         }
 

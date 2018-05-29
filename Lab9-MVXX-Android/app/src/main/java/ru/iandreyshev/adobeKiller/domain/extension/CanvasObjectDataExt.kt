@@ -2,8 +2,8 @@ package ru.iandreyshev.adobeKiller.domain.extension
 
 import ru.iandreyshev.adobeKiller.domain.file.FileWrapper
 import ru.iandreyshev.adobeKiller.domain.model.CanvasData
-import ru.iandreyshev.adobeKiller.domain.model.ImageObject
-import ru.iandreyshev.adobeKiller.domain.model.ShapeObject
+import ru.iandreyshev.adobeKiller.domain.model.CanvasImage
+import ru.iandreyshev.adobeKiller.domain.model.CanvasShape
 import ru.iandreyshev.adobeKiller.domain.model.ShapeType
 import ru.iandreyshev.adobeKiller.domain.presentationModel.ICanvasObjectModel
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
@@ -22,7 +22,7 @@ internal fun ICanvasDTO.toModel(): CanvasData = with(this) {
     )
 }
 
-internal fun ShapeObject.toEntity(): IShapeDTO = with(this) {
+internal fun CanvasShape.toEntity(): IShapeDTO = with(this) {
     object : IShapeDTO {
         override val type: Int = this@toEntity.type.ordinal
         override val x: Float = frame.position.x
@@ -35,7 +35,7 @@ internal fun ShapeObject.toEntity(): IShapeDTO = with(this) {
     }
 }
 
-internal fun ImageObject.toEntity(): IImageDTO = with(this) {
+internal fun CanvasImage.toEntity(): IImageDTO = with(this) {
     object : IImageDTO {
         override val x: Float = frame.position.x
         override val y: Float = frame.position.y
@@ -45,16 +45,16 @@ internal fun ImageObject.toEntity(): IImageDTO = with(this) {
     }
 }
 
-internal fun IImageDTO.toModel(model: ICanvasObjectModel): ImageObject = with(this) {
-    ImageObject(
+internal fun IImageDTO.toModel(model: ICanvasObjectModel): CanvasImage = with(this) {
+    CanvasImage(
             frame = Frame(Vec2f(x, y), width, height),
             model = model,
             imageFile = FileWrapper(File(imagePath))
     )
 }
 
-internal fun IShapeDTO.toModel(model: ICanvasObjectModel): ShapeObject = with(this) {
-    ShapeObject(
+internal fun IShapeDTO.toModel(model: ICanvasObjectModel): CanvasShape = with(this) {
+    CanvasShape(
             frame = Frame(Vec2f(x, y), width, height),
             style = Style(
                     fillColor = Color.values()[fillColor],

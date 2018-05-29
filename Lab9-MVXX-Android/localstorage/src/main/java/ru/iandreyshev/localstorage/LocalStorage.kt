@@ -1,16 +1,11 @@
 package ru.iandreyshev.localstorage
 
-import io.objectbox.Box
 import io.objectbox.BoxStore
-import io.objectbox.query.Query
-import io.objectbox.query.QueryBuilder
 import ru.iandreyshev.localstorage.entity.*
 import ru.iandreyshev.localstorage.extension.entity
 import ru.iandreyshev.localstorage.extension.asDTO
 
-class LocalStorage(
-        boxStore: BoxStore
-) : ILocalStorage {
+class LocalStorage(boxStore: BoxStore) : ILocalStorage {
 
     private val mCanvases = boxStore.boxFor(CanvasEntity::class.java)
     private val mShapes = boxStore.boxFor(ShapeEntity::class.java)
