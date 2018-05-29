@@ -15,6 +15,7 @@ interface ILocalStorage {
     fun saveShapes(canvasId: Long, shapes: List<IShapeDTO>)
     fun saveImages(canvasId: Long, images: List<IImageDTO>)
 
+    fun clearCanvas(canvasId: Long)
     fun deleteCanvas(canvasId: Long)
 
 }

@@ -5,9 +5,8 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
-import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IFrame
-import ru.iandreyshev.adobeKiller.presentation.drawing.extension.hitTest
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
+import ru.iandreyshev.adobeKiller.presentation.drawing.extension.hitTest
 import ru.iandreyshev.adobeKiller.presentation.ui.OnTouchCallback
 import ru.iandreyshev.adobeKiller.presentation.ui.OnTouchFinishCallback
 import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.TargetFrameHelper
@@ -96,7 +95,7 @@ class CanvasTargetView @JvmOverloads constructor(
         mOnTouchFinishCallback = callback
     }
 
-    fun onTargetFrameChanged(callback: (IFrame) -> Unit) {
+    fun onTargetFrameChanged(callback: (Frame) -> Unit) {
         mTargetFrameHelper.onFrameChanged { newFrame ->
             prepareDrawingProperties(newFrame)
             callback(newFrame)
@@ -104,7 +103,7 @@ class CanvasTargetView @JvmOverloads constructor(
         }
     }
 
-    fun setTarget(frame: IFrame?) {
+    fun setTarget(frame: Frame?) {
         if (frame == null) {
             mTargetFrameHelper.target = null
             isEnabled = false
@@ -133,7 +132,7 @@ class CanvasTargetView @JvmOverloads constructor(
         }
     }
 
-    private fun prepareDrawingProperties(frame: IFrame) {
+    private fun prepareDrawingProperties(frame: Frame) {
         val leftTop = frame.position
         val rightTop = Vec2f(frame.position.x + frame.width, frame.position.y)
         val rightBottom = Vec2f(frame.position.x + frame.width, frame.position.y + frame.height)

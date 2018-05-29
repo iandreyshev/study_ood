@@ -2,7 +2,6 @@ package ru.iandreyshev.adobeKiller.presentation.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import ru.iandreyshev.adobeKiller.presentation.ui.adapter.ShapesListRVAdapter
 import ru.iandreyshev.adobeKiller.presentation.viewModel.CanvasViewModel
 import android.view.Menu
 import android.view.MenuItem
@@ -12,29 +11,23 @@ import org.jetbrains.anko.collections.forEachReversedWithIndex
 import org.jetbrains.anko.toast
 import pl.aprilapps.easyphotopicker.EasyImage
 import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.ICanvasInteractor
-import ru.iandreyshev.adobeKiller.presentation.drawing.extension.hitTest
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.adobeKiller.presentation.ui.dialog.DialogFactory
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.visibleIfOrGone
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import ru.iandreyshev.adobeKiller.R
-import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
 import ru.iandreyshev.adobeKiller.domain.model.ShapeType
-import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.DrawableHelper
+import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
+import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.ITargetCanvasObject
 import java.io.File
 
 class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
         viewModelClass = CanvasViewModel::class,
         layout = R.layout.activity_canvas) {
 
+    private var mObjects: List<IDrawable>? = null
+    private var mTarget: ITargetCanvasObject? = null
     private var mCanvasAdapter = AndroidCanvasAdapter()
-    private val mDrawableHelper = DrawableHelper(mCanvasAdapter)
-    private var mTarget: CanvasObject? = null
-    private val mShapesListAdapter: ShapesListRVAdapter by lazy {
-        ShapesListRVAdapter().apply {
-            onItemClick { interactor.setTarget(it) }
-        }
-    }
 
     override fun onLayoutCreated(savedInstanceState: Bundle?) {
         setSupportActionBar(tbToolbar)
@@ -64,23 +57,23 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
         }
         tcvCanvas.onTouchFinish { isTargetFrameChanged ->
             if (isTargetFrameChanged) {
-                mTarget?.notifyDataChanges()
+                mTarget?.applyChanges()
             }
         }
     }
 
     override val onProvideViewModel: CanvasViewModel.() -> Unit = {
-        objects.observe { shapes ->
-            val isShapesExists = shapes?.isEmpty() ?: false
+        objects.observe { drawables ->
+            mObjects = drawables
+            val isShapesExists = drawables?.isEmpty() ?: false
             tvEmptyMessage.visibleIfOrGone(isShapesExists)
-            mShapesListAdapter.data = shapes ?: listOf()
             drawObjects()
         }
 
-        targetObject.observe { shape ->
-            mTarget = shape
-            shapeInfoView.setShape(mTarget)
-            tcvCanvas.setTarget(shape?.frame)
+        target.observe { target ->
+            mTarget = target
+            shapeInfoView.style = mTarget?.style
+            tcvCanvas.setTarget(target?.frame)
         }
 
         title.observeNotNull {
@@ -104,7 +97,7 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
             R.id.act_redo -> interactor.redo()
             R.id.act_save -> interactor.save()
             R.id.act_clear -> interactor.refresh()
-            R.id.act_delete -> actionWithTarget { interactor.delete(it) }
+            R.id.act_delete -> interactor.delete()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -123,20 +116,18 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
     private fun drawObjects() {
         tcvCanvas.onDrawAction { canvas ->
             mCanvasAdapter.canvas = canvas
-            mShapesListAdapter.data.forEach {
-                it.accept(mDrawableHelper)
-            }
+            mObjects?.forEach { it.draw(mCanvasAdapter) }
         }
         tcvCanvas.invalidate()
     }
 
-    private fun actionWithTarget(action: (CanvasObject) -> Unit) {
+    private fun actionWithTarget(action: (ITargetCanvasObject) -> Unit) {
         mTarget.apply {
             when (this) {
                 null -> toast(R.string.shape_not_selected)
                 else -> {
                     action(this)
-                    this.notifyDataChanges()
+                    this.applyChanges()
                 }
             }
         }
@@ -147,9 +138,9 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
             return
         }
 
-        mShapesListAdapter.data.forEachReversedWithIndex { _, canvasObject ->
-            if (canvasObject.frame.hitTest(x, y)) {
-                interactor.setTarget(canvasObject)
+        mObjects?.forEachReversedWithIndex { _, canvasObject ->
+            if (canvasObject.hitTest(x, y)) {
+                canvasObject.onClick()
                 return
             }
         }

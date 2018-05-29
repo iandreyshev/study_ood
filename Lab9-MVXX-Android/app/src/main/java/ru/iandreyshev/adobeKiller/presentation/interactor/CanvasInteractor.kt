@@ -19,8 +19,8 @@ class CanvasInteractor(
     override fun setTarget(canvasObject: CanvasObject?) =
             useCase.setTarget(canvasObject)
 
-    override fun delete(canvasObject: CanvasObject) =
-            useCase.delete(canvasObject)
+    override fun delete() =
+            useCase.delete()
 
     override fun undo() =
             useCase.undo()

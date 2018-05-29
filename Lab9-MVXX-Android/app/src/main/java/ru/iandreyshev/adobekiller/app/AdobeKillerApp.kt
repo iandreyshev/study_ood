@@ -1,12 +1,12 @@
 package ru.iandreyshev.adobeKiller.app
 
-import android.annotation.SuppressLint
 import android.app.Application
 import io.objectbox.BoxStore
-import io.objectbox.android.AndroidObjectBrowser
+import ru.iandreyshev.adobeKiller.domain.adapter.CanvasStorageAdapter
+import ru.iandreyshev.adobeKiller.domain.command.CommandQueue
+import ru.iandreyshev.adobeKiller.domain.presentationModel.PresentationModel
 import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.IInteractor
 import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
-import ru.iandreyshev.localstorage.BuildConfig
 import ru.iandreyshev.localstorage.ILocalStorage
 import ru.iandreyshev.localstorage.LocalStorage
 import ru.iandreyshev.localstorage.entity.MyObjectBox
@@ -14,8 +14,8 @@ import ru.iandreyshev.localstorage.entity.MyObjectBox
 class AdobeKillerApp : Application() {
 
     companion object {
-        @SuppressLint("StaticFieldLeak")
         lateinit var instance: AdobeKillerApp
+        private const val COMMAND_QUEUE_SIZE = 12
     }
 
     lateinit var localStorage: ILocalStorage
@@ -50,10 +50,15 @@ class AdobeKillerApp : Application() {
     }
 
     private fun initFactories() {
-        presenterFactory = PresenterFactory()
+        val commandQueue = CommandQueue(COMMAND_QUEUE_SIZE)
+        val presentationModel = PresentationModel(commandQueue)
+
+        presenterFactory = PresenterFactory(presentationModel)
         interactorFactory = InteractorFactory()
         useCaseFactory = UseCaseFactory(
-                localStorage = localStorage
+                commandQueue = commandQueue,
+                presentationModel = presentationModel,
+                storageAdapter = CanvasStorageAdapter(localStorage)
         )
     }
 

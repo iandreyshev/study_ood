@@ -1,15 +1,13 @@
 package ru.iandreyshev.adobeKiller.domain.model
 
-import ru.iandreyshev.adobeKiller.domain.presentationModel.ICanvasObjectModel
-import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IFrame
+import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
 
 class CanvasShape(
-        frame: IFrame,
+        frame: Frame,
         style: IStyle,
-        model: ICanvasObjectModel,
         val type: ShapeType
-) : CanvasObject(frame = frame, style = style, model = model) {
+) : CanvasObject(frame = frame, style = style) {
 
     override fun accept(visitor: ICanvasObjectVisitor) =
             visitor.visit(this)

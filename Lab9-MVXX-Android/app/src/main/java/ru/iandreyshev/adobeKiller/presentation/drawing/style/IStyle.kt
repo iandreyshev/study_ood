@@ -2,12 +2,10 @@ package ru.iandreyshev.adobeKiller.presentation.drawing.style
 
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
 
-interface IStyle {
+interface IStyle : IConstStyle {
 
-    var fillColor: Color
-    var strokeColor: Color
-    var strokeSize: Float
-
-    fun clone(): IStyle
+    override var fillColor: Color
+    override var strokeColor: Color
+    override var strokeSize: Float
 
 }

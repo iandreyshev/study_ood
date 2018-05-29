@@ -9,9 +9,9 @@ class TargetFrameHelper(
         private val minHeight: Float,
         private val circleTouchRadius: Float) {
 
-    var target: IFrame? = null
+    var target: Frame? = null
 
-    private var mOnFrameChanged: ((IFrame) -> Unit)? = null
+    private var mOnFrameChanged: ((Frame) -> Unit)? = null
     private val mMoveToPosition = Vec2f()
 
     fun handleMoveEvent(lastX: Float?, lastY: Float?, newX: Float, newY: Float): Boolean {
@@ -23,19 +23,19 @@ class TargetFrameHelper(
             handleRectMove(currentFrame, lastX, lastY, newX, newY)
         }
 
-        newFrame?.let {
-            target = it
-            mOnFrameChanged?.invoke(it)
+        newFrame?.apply {
+            target = this
+            mOnFrameChanged?.invoke(this)
         }
 
-        return newFrame != null
+        return true
     }
 
-    fun onFrameChanged(action: (frame: IFrame) -> Unit) {
+    fun onFrameChanged(action: (frame: Frame) -> Unit) {
         mOnFrameChanged = action
     }
 
-    private fun handleCircleMove(frame: IFrame, lastX: Float, lastY: Float, newX: Float, newY: Float): IFrame? {
+    private fun handleCircleMove(frame: Frame, lastX: Float, lastY: Float, newX: Float, newY: Float): Frame? {
         fun hitTest(circleX: Float, circleY: Float): Boolean {
             val xRange = ((circleX - circleTouchRadius)..(circleX + circleTouchRadius))
             val yRange = ((circleY - circleTouchRadius)..(circleY + circleTouchRadius))
@@ -89,7 +89,7 @@ class TargetFrameHelper(
         }
     }
 
-    private fun handleRectMove(frame: IFrame, lastX: Float, lastY: Float, newX: Float, newY: Float): IFrame? {
+    private fun handleRectMove(frame: Frame, lastX: Float, lastY: Float, newX: Float, newY: Float): Frame? {
         if (!frame.hitTest(lastX, lastY)) {
             return null
         }

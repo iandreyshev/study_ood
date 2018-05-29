@@ -5,7 +5,6 @@ import ru.iandreyshev.adobeKiller.domain.model.CanvasData
 import ru.iandreyshev.adobeKiller.domain.model.CanvasImage
 import ru.iandreyshev.adobeKiller.domain.model.CanvasShape
 import ru.iandreyshev.adobeKiller.domain.model.ShapeType
-import ru.iandreyshev.adobeKiller.domain.presentationModel.ICanvasObjectModel
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
@@ -45,22 +44,20 @@ internal fun CanvasImage.toEntity(): IImageDTO = with(this) {
     }
 }
 
-internal fun IImageDTO.toModel(model: ICanvasObjectModel): CanvasImage = with(this) {
+internal fun IImageDTO.toModel(): CanvasImage = with(this) {
     CanvasImage(
             frame = Frame(Vec2f(x, y), width, height),
-            model = model,
             imageFile = FileWrapper(File(imagePath))
     )
 }
 
-internal fun IShapeDTO.toModel(model: ICanvasObjectModel): CanvasShape = with(this) {
+internal fun IShapeDTO.toModel(): CanvasShape = with(this) {
     CanvasShape(
             frame = Frame(Vec2f(x, y), width, height),
             style = Style(
                     fillColor = Color.values()[fillColor],
                     strokeColor = Color.values()[strokeColor],
                     strokeSize = stroke),
-            model = model,
             type = ShapeType.values()[this@toModel.type]
 
     )

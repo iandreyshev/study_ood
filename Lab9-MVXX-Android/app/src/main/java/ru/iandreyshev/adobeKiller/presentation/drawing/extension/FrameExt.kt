@@ -1,20 +1,20 @@
 package ru.iandreyshev.adobeKiller.presentation.drawing.extension
 
-import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IFrame
+import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
 
-val IFrame.right: Float
+val Frame.right: Float
     get() = position.x + width
 
-val IFrame.top: Float
+val Frame.top: Float
     get() = position.y
 
-val IFrame.left: Float
+val Frame.left: Float
     get() = position.x
 
-val IFrame.bottom: Float
+val Frame.bottom: Float
     get() = position.y + height
 
-fun IFrame.hitTest(x: Float, y: Float): Boolean {
+fun Frame.hitTest(x: Float, y: Float): Boolean {
     val xInFrame = x >= position.x && x <= position.x + width
     val yInFrame = y >= position.y && y <= position.y + height
     return xInFrame && yInFrame

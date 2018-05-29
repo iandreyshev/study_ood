@@ -53,6 +53,18 @@ class LocalStorage(boxStore: BoxStore) : ILocalStorage {
         mImages.put(entities)
     }
 
+    override fun clearCanvas(canvasId: Long) {
+        mShapes.query()
+                .equal(ShapeEntity_.canvasId, canvasId)
+                .build()
+                .remove()
+
+        mImages.query()
+                .equal(ImageEntity_.canvasId, canvasId)
+                .build()
+                .remove()
+    }
+
     override fun deleteCanvas(canvasId: Long) =
             mCanvases.remove(canvasId)
 

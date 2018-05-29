@@ -2,19 +2,15 @@ package ru.iandreyshev.adobeKiller.domain.model
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import ru.iandreyshev.adobeKiller.domain.extension.scaleToSize
 import ru.iandreyshev.adobeKiller.domain.file.IFile
-import ru.iandreyshev.adobeKiller.domain.presentationModel.ICanvasObjectModel
-import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IFrame
+import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.ImageStyle
 
 class CanvasImage(
-        frame: IFrame,
-        model: ICanvasObjectModel,
+        frame: Frame,
         val imageFile: IFile
-) : CanvasObject(frame = frame, style = ImageStyle(), model = model) {
+) : CanvasObject(frame = frame, style = ImageStyle()) {
 
     companion object {
         private const val IMAGE_SIZE = 400
@@ -41,28 +37,11 @@ class CanvasImage(
     override fun accept(visitor: ICanvasObjectVisitor) =
             visitor.visit(this)
 
-    private fun loadImage() = doAsync {
-        val tmpBitmap = Bitmap.createBitmap(IMAGE_SIZE, IMAGE_SIZE, CONFIG)
-
-        uiThread {
-            setImageBitmap(tmpBitmap)
-        }
-
-        val bytes = imageFile.bytes() ?: return@doAsync
-        val imageBitmap = BitmapFactory
+    private fun loadImage() {
+        val bytes = imageFile.bytes() ?: return
+        image = BitmapFactory
                 .decodeByteArray(bytes, 0, bytes.size, OPTIONS)
                 .scaleToSize(IMAGE_SIZE)
-
-        uiThread {
-            setImageBitmap(imageBitmap)
-        }
-    }
-
-    private fun setImageBitmap(imageBitmap: Bitmap) {
-        if (mIsOnScene) {
-            image = imageBitmap
-            notifyDataChanges()
-        }
     }
 
 }

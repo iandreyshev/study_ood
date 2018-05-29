@@ -7,16 +7,14 @@ import ru.iandreyshev.adobeKiller.domain.useCase.interfaces.ICanvasUseCase
 import java.io.File
 import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
 import ru.iandreyshev.adobeKiller.domain.model.ShapeType
-import ru.iandreyshev.adobeKiller.domain.presentationModel.IModelSerializer
+import ru.iandreyshev.adobeKiller.domain.presentationModel.ICanvasSerializer
 import ru.iandreyshev.adobeKiller.domain.presentationModel.IPresentationModel
-
-// TODO: Ask about dependency injections count
 
 class CanvasUseCase(
         private var presenter: ICanvasPresenter,
         private val commandQueue: ICommandQueue,
-        private val presentationModel: IPresentationModel, // TODO: Разделить доменную модель и Application - модель
-        private val localStorage: IModelSerializer // TODO: Вынести логику создания модели из localStorage
+        private val presentationModel: IPresentationModel,
+        private val canvasSerializer: ICanvasSerializer
 ) : ICanvasUseCase {
 
     init {
@@ -36,14 +34,12 @@ class CanvasUseCase(
     }
 
     override fun setTarget(canvasObject: CanvasObject?) {
-        mTarget = canvasObject
-        presenter.setTarget(mTarget)
+        presenter.setTarget(canvasObject)
     }
 
-    override fun delete(canvasObject: CanvasObject) {
-        presentationModel.delete(canvasObject)
-        mTarget = null
-        presenter.setTarget(mTarget)
+    override fun delete() {
+        mTarget?.let { presentationModel.delete(it) }
+        presenter.setTarget(null)
     }
 
     override fun undo() {
@@ -60,7 +56,7 @@ class CanvasUseCase(
     }
 
     override fun save() {
-        presentationModel.serialize(localStorage)
+        presentationModel.serialize(canvasSerializer)
     }
 
 }

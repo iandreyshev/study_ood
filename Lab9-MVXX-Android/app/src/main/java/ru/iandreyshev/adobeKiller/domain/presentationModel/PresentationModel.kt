@@ -9,7 +9,10 @@ import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
 import ru.iandreyshev.adobeKiller.domain.model.CanvasImage
 import ru.iandreyshev.adobeKiller.domain.model.CanvasShape
 import ru.iandreyshev.adobeKiller.domain.model.ShapeType
+import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
+import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IConstFrame
+import ru.iandreyshev.adobeKiller.presentation.drawing.style.IConstStyle
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.Style
 import ru.iandreyshev.localstorage.entity.IImageDTO
 import ru.iandreyshev.localstorage.entity.IShapeDTO
@@ -23,14 +26,12 @@ class PresentationModel(
                 CanvasShape(
                         frame = Frame(),
                         style = Style(),
-                        model = newCanvasObjectModel(),
                         type = shapeType
                 )
 
         fun createImage(file: IFile): CanvasObject =
                 CanvasImage(
                         frame = Frame(),
-                        model = newCanvasObjectModel(),
                         imageFile = file
                 )
     }
@@ -39,18 +40,13 @@ class PresentationModel(
     private val mSceneObjects = mutableListOf<CanvasObject>()
     private var mChangesObserver: (() -> Unit)? = {}
 
-    override val sceneData: List<CanvasObject>
-        get() = mSceneObjects
-
-    override fun fill(shapeDTO: IShapeDTO) {
-        val objectModel = newCanvasObjectModel()
-        val shape = shapeDTO.toModel(objectModel)
+    fun fill(shapeDTO: IShapeDTO) {
+        val shape = shapeDTO.toModel()
         mSceneObjects.add(shape)
     }
 
-    override fun fill(imageDTO: IImageDTO) {
-        val objectModel = newCanvasObjectModel()
-        val shape = imageDTO.toModel(objectModel)
+    fun fill(imageDTO: IImageDTO) {
+        val shape = imageDTO.toModel()
         mSceneObjects.add(shape)
     }
 
@@ -74,6 +70,56 @@ class PresentationModel(
         }
     }
 
+    override fun update(canvasObject: CanvasObject, newFrame: IConstFrame) {
+        val prevFrame = canvasObject.frame
+        val oldPos = canvasObject.frame.position
+
+        val isSizeChanged = (prevFrame.width != newFrame.width || prevFrame.height != newFrame.height)
+        val isPositionChanged = (oldPos.x != newFrame.x || oldPos.y != newFrame.y)
+
+        if (isSizeChanged) applyCommand {
+            ResizeFrameCommand(
+                    frame = canvasObject.frame,
+                    oldSize = Vec2f(prevFrame.width, prevFrame.height),
+                    newSize = Vec2f(newFrame.width, newFrame.height)
+            )
+        }
+
+        if (isPositionChanged) applyCommand {
+            MoveFrameCommand(
+                    frame = canvasObject.frame,
+                    oldPosition = oldPos,
+                    newPosition = canvasObject.frame.position
+            )
+        }
+    }
+
+    override fun update(canvasObject: CanvasObject, newStyle: IConstStyle) {
+        val prevStyle = canvasObject.style
+
+        if (newStyle.fillColor != prevStyle.fillColor) applyCommand {
+            ChangeFillColorCommand(
+                    style = canvasObject.style,
+                    oldColor = prevStyle.fillColor,
+                    newColor = newStyle.fillColor)
+        }
+        if (newStyle.strokeColor != prevStyle.strokeColor) applyCommand {
+            ChangeStrokeColorCommand(
+                    style = canvasObject.style,
+                    oldColor = prevStyle.strokeColor,
+                    newColor = newStyle.strokeColor
+            )
+        }
+
+        if (newStyle.strokeSize != prevStyle.strokeSize) applyCommand {
+            ResizeStrokeCommand(
+                    style = canvasObject.style,
+                    oldSize = prevStyle.strokeSize,
+                    newSize = newStyle.strokeSize
+            )
+        }
+    }
+
     override fun delete(canvasObject: CanvasObject) = observableAction {
         applyCommand {
             DeleteObjectCommand(
@@ -87,21 +133,13 @@ class PresentationModel(
         mChangesObserver = observer
     }
 
-    override fun undo() {
-        if (commandQueue.canUndo) {
-            observableAction { commandQueue.undo() }
-        }
-    }
-
-    override fun redo() {
-        if (commandQueue.canRedo) {
-            observableAction { commandQueue.redo() }
-        }
-    }
-
     override fun clear() = observableAction {
         mSceneObjects.clear()
         commandQueue.clear()
+    }
+
+    override fun serialize(serializer: ICanvasSerializer) {
+        serializer.serialize(mSceneObjects)
     }
 
     private fun <T> observableAction(action: () -> T): T {
@@ -112,9 +150,5 @@ class PresentationModel(
 
     private fun applyCommand(buildCmdAction: () -> Command) =
             observableAction { commandQueue.apply(buildCmdAction) }
-
-    private fun newCanvasObjectModel(): ICanvasObjectModel {
-        return CanvasObjectModel(commandQueue, mChangesObserver ?: {})
-    }
 
 }

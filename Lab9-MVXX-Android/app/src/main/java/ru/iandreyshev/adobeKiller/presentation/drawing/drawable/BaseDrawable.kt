@@ -9,7 +9,7 @@ abstract class BaseDrawable(
 ) : IDrawable {
 
     protected val position: Vec2f
-        get() = frame.position
+        get() = Vec2f(frame.x, frame.y)
     protected val width: Float
         get() = frame.width
     protected val height: Float
@@ -29,5 +29,8 @@ abstract class BaseDrawable(
     protected abstract fun onDrawShape(canvas: ICanvas)
 
     protected abstract fun onDrawStroke(canvas: ICanvas)
+
+    override fun onClick() = Unit
+    override fun hitTest(x: Float, y: Float) = false
 
 }

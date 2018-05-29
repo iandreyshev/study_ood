@@ -12,7 +12,7 @@ interface ICanvasInteractor : IInteractor {
     fun insert(image: File)
 
     fun setTarget(canvasObject: CanvasObject?)
-    fun delete(canvasObject: CanvasObject)
+    fun delete()
 
     fun undo()
     fun redo()

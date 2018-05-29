@@ -1,12 +1,12 @@
 package ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces
 
-import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
+import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
+import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.ITargetCanvasObject
 
 interface ICanvasViewModel : IViewModel {
 
-    fun setCanvasName(canvasName: String)
-    fun setTarget(canvasObject: CanvasObject?)
-    fun insert(canvasObject: CanvasObject)
+    fun setTarget(target: ITargetCanvasObject?)
+    fun insert(canvasObject: IDrawable)
     fun invalidate()
     fun clear()
 

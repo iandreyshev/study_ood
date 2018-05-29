@@ -8,9 +8,9 @@ interface ICanvasUseCase : IUseCase {
 
     fun insert(shape: ShapeType)
     fun insert(image: File)
+    fun delete()
 
     fun setTarget(canvasObject: CanvasObject?)
-    fun delete(canvasObject: CanvasObject)
 
     fun undo()
     fun redo()
