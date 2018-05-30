@@ -1,4 +1,4 @@
-package ru.iandreyshev.adobeKiller.domain.model
+package ru.iandreyshev.adobeKiller.domain.canvasEngine
 
 interface ICanvasObjectVisitor {
 

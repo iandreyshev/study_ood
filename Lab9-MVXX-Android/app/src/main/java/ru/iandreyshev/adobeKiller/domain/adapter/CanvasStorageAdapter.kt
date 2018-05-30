@@ -1,11 +1,11 @@
 package ru.iandreyshev.adobeKiller.domain.adapter
 
 import ru.iandreyshev.adobeKiller.domain.extension.toEntity
-import ru.iandreyshev.adobeKiller.domain.model.CanvasImage
-import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
-import ru.iandreyshev.adobeKiller.domain.model.CanvasShape
-import ru.iandreyshev.adobeKiller.domain.model.ICanvasObjectVisitor
-import ru.iandreyshev.adobeKiller.domain.presentationModel.ICanvasSerializer
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasImage
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasObject
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasShape
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.ICanvasObjectVisitor
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.ICanvasSerializer
 import ru.iandreyshev.localstorage.ILocalStorage
 
 class CanvasStorageAdapter(
@@ -23,6 +23,10 @@ class CanvasStorageAdapter(
             objects.forEach { it.accept(storage) }
 
         }
+    }
+
+    override fun deserialize(): List<CanvasObject> {
+        return listOf()
     }
 
     private class SaveToLocalVisitor(

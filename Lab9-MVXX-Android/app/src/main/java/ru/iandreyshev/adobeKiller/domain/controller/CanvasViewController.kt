@@ -1,24 +1,26 @@
-package ru.iandreyshev.adobeKiller.domain.useCase
+package ru.iandreyshev.adobeKiller.domain.controller
 
 import ru.iandreyshev.adobeKiller.domain.command.ICommandQueue
 import ru.iandreyshev.adobeKiller.domain.file.FileWrapper
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasObject
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.ShapeType
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.ICanvasSerializer
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.ICanvasEngine
+import ru.iandreyshev.adobeKiller.domain.controller.interfaces.ICanvasViewController
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.ICanvasPresenter
-import ru.iandreyshev.adobeKiller.domain.useCase.interfaces.ICanvasUseCase
 import java.io.File
-import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
-import ru.iandreyshev.adobeKiller.domain.model.ShapeType
-import ru.iandreyshev.adobeKiller.domain.presentationModel.ICanvasSerializer
-import ru.iandreyshev.adobeKiller.domain.presentationModel.IPresentationModel
 
-class CanvasUseCase(
+class CanvasViewController(
         private var presenter: ICanvasPresenter,
         private val commandQueue: ICommandQueue,
-        private val presentationModel: IPresentationModel,
+        private val canvasEngine: ICanvasEngine,
         private val canvasSerializer: ICanvasSerializer
-) : ICanvasUseCase {
+) : ICanvasViewController {
 
     init {
-        presentationModel.observeChanges {
+        canvasEngine.observeChanges { objects ->
+            presenter.clear()
+            objects.forEach { presenter.insert(it) }
             presenter.invalidate()
         }
     }
@@ -26,11 +28,11 @@ class CanvasUseCase(
     private var mTarget: CanvasObject? = null
 
     override fun insert(shape: ShapeType) {
-        presentationModel.insert(shape)
+        canvasEngine.insert(shape)
     }
 
     override fun insert(image: File) {
-        presentationModel.insert(FileWrapper(image))
+        canvasEngine.insert(FileWrapper(image))
     }
 
     override fun setTarget(canvasObject: CanvasObject?) {
@@ -38,7 +40,7 @@ class CanvasUseCase(
     }
 
     override fun delete() {
-        mTarget?.let { presentationModel.delete(it) }
+        mTarget?.let { canvasEngine.delete(it) }
         presenter.setTarget(null)
     }
 
@@ -52,11 +54,11 @@ class CanvasUseCase(
 
     override fun refresh() {
         commandQueue.clear()
-        presentationModel.clear()
+        canvasEngine.clear()
     }
 
     override fun save() {
-        presentationModel.serialize(canvasSerializer)
+        canvasEngine.serialize(canvasSerializer)
     }
 
 }

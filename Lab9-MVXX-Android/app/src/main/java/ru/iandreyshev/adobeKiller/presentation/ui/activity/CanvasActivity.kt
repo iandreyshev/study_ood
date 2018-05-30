@@ -2,30 +2,30 @@ package ru.iandreyshev.adobeKiller.presentation.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import ru.iandreyshev.adobeKiller.presentation.viewModel.CanvasViewModel
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_canvas.*
 import kotlinx.android.synthetic.main.view_shape_info.*
 import org.jetbrains.anko.collections.forEachReversedWithIndex
 import org.jetbrains.anko.toast
+import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
-import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.ICanvasInteractor
+import ru.iandreyshev.adobeKiller.R
+import ru.iandreyshev.adobeKiller.domain.controller.interfaces.ICanvasViewController
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.ShapeType
+import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.adobeKiller.presentation.ui.dialog.DialogFactory
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.visibleIfOrGone
-import pl.aprilapps.easyphotopicker.DefaultCallback
-import ru.iandreyshev.adobeKiller.R
-import ru.iandreyshev.adobeKiller.domain.model.ShapeType
-import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
 import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.ITargetCanvasObject
+import ru.iandreyshev.adobeKiller.presentation.viewModel.CanvasViewModel
 import java.io.File
 
-class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
+class CanvasActivity : BaseActivity<ICanvasViewController, CanvasViewModel>(
         viewModelClass = CanvasViewModel::class,
         layout = R.layout.activity_canvas) {
 
-    private var mObjects: List<IDrawable>? = null
+    private var mObjects: List<IDrawable> = listOf()
     private var mTarget: ITargetCanvasObject? = null
     private var mCanvasAdapter = AndroidCanvasAdapter()
 
@@ -64,7 +64,7 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
 
     override val onProvideViewModel: CanvasViewModel.() -> Unit = {
         objects.observe { drawables ->
-            mObjects = drawables
+            mObjects = drawables ?: listOf()
             val isShapesExists = drawables?.isEmpty() ?: false
             tvEmptyMessage.visibleIfOrGone(isShapesExists)
             drawObjects()
@@ -81,7 +81,7 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
         }
 
         invalidating.observe {
-            tcvCanvas.invalidate()
+            drawObjects()
         }
     }
 
@@ -93,11 +93,11 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.act_add -> DialogFactory.createShapeDialog(this, ::insertShape, ::insertImage)
-            R.id.act_undo -> interactor.undo()
-            R.id.act_redo -> interactor.redo()
-            R.id.act_save -> interactor.save()
-            R.id.act_clear -> interactor.refresh()
-            R.id.act_delete -> interactor.delete()
+            R.id.act_undo -> controller.undo()
+            R.id.act_redo -> controller.redo()
+            R.id.act_save -> controller.save()
+            R.id.act_clear -> controller.refresh()
+            R.id.act_delete -> controller.delete()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -108,7 +108,7 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
     }
 
     private fun insertShape(shapeType: ShapeType) =
-            interactor.insert(shapeType)
+            controller.insert(shapeType)
 
     private fun insertImage() =
             EasyImage.openCamera(this, 0)
@@ -116,7 +116,7 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
     private fun drawObjects() {
         tcvCanvas.onDrawAction { canvas ->
             mCanvasAdapter.canvas = canvas
-            mObjects?.forEach { it.draw(mCanvasAdapter) }
+            mObjects.forEach { it.draw(mCanvasAdapter) }
         }
         tcvCanvas.invalidate()
     }
@@ -138,20 +138,20 @@ class CanvasActivity : BaseActivity<ICanvasInteractor, CanvasViewModel>(
             return
         }
 
-        mObjects?.forEachReversedWithIndex { _, canvasObject ->
+        mObjects.forEachReversedWithIndex { _, canvasObject ->
             if (canvasObject.hitTest(x, y)) {
                 canvasObject.onClick()
                 return
             }
         }
 
-        interactor.setTarget(null)
+        controller.setTarget(null)
     }
 
     private inner class TakePhotoListener : DefaultCallback() {
         override fun onImagePicked(imageFile: File?, source: EasyImage.ImageSource?, type: Int) {
             if (imageFile != null) {
-                interactor.insert(imageFile)
+                controller.insert(imageFile)
             }
         }
 

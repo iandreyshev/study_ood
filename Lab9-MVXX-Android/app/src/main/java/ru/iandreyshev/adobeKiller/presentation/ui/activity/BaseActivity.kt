@@ -7,16 +7,16 @@ import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 import ru.iandreyshev.adobeKiller.app.AdobeKillerApp
-import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.IInteractor
-import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
+import ru.iandreyshev.adobeKiller.domain.controller.interfaces.IViewController
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ControllerViewModel
 import kotlin.reflect.KClass
 
-abstract class BaseActivity<TInteractor : IInteractor, in TViewModel : InteractorViewModel<TInteractor>>(
+abstract class BaseActivity<TInteractor : IViewController, in TViewModel : ControllerViewModel<TInteractor>>(
         private val viewModelClass: KClass<TViewModel>,
         @LayoutRes private val layout: Int
 ) : AppCompatActivity() {
 
-    protected lateinit var interactor: TInteractor
+    protected lateinit var controller: TInteractor
 
     protected abstract val onProvideViewModel: (TViewModel.() -> Unit)
 
@@ -31,8 +31,8 @@ abstract class BaseActivity<TInteractor : IInteractor, in TViewModel : Interacto
                 .get(viewModelClass.java)
                 .let { viewModel ->
                     AdobeKillerApp.instance.injectDependencies(viewModel)
-                    interactor = viewModel.interactor
-                            ?: throw IllegalStateException("Invalid interactor factory that can not create ${interactor::class}")
+                    controller = viewModel.controller
+                            ?: throw IllegalStateException("Invalid controller factory that can not create ${controller::class}")
                     onProvideViewModel(viewModel)
                 }
     }

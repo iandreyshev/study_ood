@@ -1,16 +1,16 @@
-package ru.iandreyshev.adobeKiller.domain.useCase
+package ru.iandreyshev.adobeKiller.domain.controller
 
 import ru.iandreyshev.adobeKiller.domain.extension.toModel
-import ru.iandreyshev.adobeKiller.domain.useCase.interfaces.IMenuUseCase
-import ru.iandreyshev.adobeKiller.domain.model.CanvasData
-import ru.iandreyshev.adobeKiller.domain.useCase.interfaces.IUseCase
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasData
+import ru.iandreyshev.adobeKiller.domain.controller.interfaces.IMenuViewController
+import ru.iandreyshev.adobeKiller.domain.controller.interfaces.IViewController
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.IMenuPresenter
 import ru.iandreyshev.localstorage.ILocalStorage
 
-class MenuUseCase(
+class MenuViewController(
         private val localStorage: ILocalStorage,
         private val presenter: IMenuPresenter
-) : IMenuUseCase {
+) : IMenuViewController {
 
     init {
         presenter.setCanvases(localStorage.getCanvases().map { it.toModel() })
@@ -23,7 +23,7 @@ class MenuUseCase(
     }
 
     override fun openCanvas(canvasData: CanvasData) {
-        IUseCase.canvas = canvasData
+        IViewController.canvas = canvasData
         presenter.openCanvas()
     }
 

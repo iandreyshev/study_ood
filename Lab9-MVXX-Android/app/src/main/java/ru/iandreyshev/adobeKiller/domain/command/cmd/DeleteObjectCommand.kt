@@ -2,10 +2,10 @@ package ru.iandreyshev.adobeKiller.domain.command.cmd
 
 import org.jetbrains.anko.doAsync
 import ru.iandreyshev.adobeKiller.domain.command.Command
-import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
-import ru.iandreyshev.adobeKiller.domain.model.ICanvasObjectVisitor
-import ru.iandreyshev.adobeKiller.domain.model.CanvasImage
-import ru.iandreyshev.adobeKiller.domain.model.CanvasShape
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasImage
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasObject
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasShape
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.ICanvasObjectVisitor
 
 class DeleteObjectCommand(
         private val canvasObject: CanvasObject,

@@ -1,6 +1,6 @@
 package ru.iandreyshev.adobeKiller.app
 
-enum class UseCaseType {
+enum class ViewControllerType {
     MENU,
     CANVAS
 }

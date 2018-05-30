@@ -1,8 +1,7 @@
 package ru.iandreyshev.adobeKiller.presentation.presenter
 
-import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasObject
 import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
-import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.ICanvasPresenter
 import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.ITargetCanvasObject
 import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ICanvasViewModel

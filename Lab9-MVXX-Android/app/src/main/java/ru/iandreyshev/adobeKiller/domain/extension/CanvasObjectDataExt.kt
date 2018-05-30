@@ -1,10 +1,10 @@
 package ru.iandreyshev.adobeKiller.domain.extension
 
 import ru.iandreyshev.adobeKiller.domain.file.FileWrapper
-import ru.iandreyshev.adobeKiller.domain.model.CanvasData
-import ru.iandreyshev.adobeKiller.domain.model.CanvasImage
-import ru.iandreyshev.adobeKiller.domain.model.CanvasShape
-import ru.iandreyshev.adobeKiller.domain.model.ShapeType
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasData
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasImage
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasShape
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.ShapeType
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame

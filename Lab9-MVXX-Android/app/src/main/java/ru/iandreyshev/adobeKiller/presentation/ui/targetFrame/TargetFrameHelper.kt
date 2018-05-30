@@ -1,8 +1,8 @@
 package ru.iandreyshev.adobeKiller.presentation.ui.targetFrame
 
-import ru.iandreyshev.adobeKiller.presentation.drawing.frame.*
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.*
+import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
 
 class TargetFrameHelper(
         private val minWidth: Float,

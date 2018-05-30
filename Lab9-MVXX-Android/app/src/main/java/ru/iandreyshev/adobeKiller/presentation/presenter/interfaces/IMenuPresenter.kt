@@ -1,6 +1,6 @@
 package ru.iandreyshev.adobeKiller.presentation.presenter.interfaces
 
-import ru.iandreyshev.adobeKiller.domain.model.CanvasData
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasData
 
 interface IMenuPresenter : IPresenter {
 

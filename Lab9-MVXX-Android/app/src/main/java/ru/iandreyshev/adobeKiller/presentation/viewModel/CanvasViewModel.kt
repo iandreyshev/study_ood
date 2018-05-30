@@ -1,15 +1,15 @@
 package ru.iandreyshev.adobeKiller.presentation.viewModel
 
 import android.arch.lifecycle.MutableLiveData
-import ru.iandreyshev.adobeKiller.app.UseCaseType
-import ru.iandreyshev.adobeKiller.domain.useCase.interfaces.IUseCase
+import ru.iandreyshev.adobeKiller.app.ViewControllerType
+import ru.iandreyshev.adobeKiller.domain.controller.interfaces.ICanvasViewController
+import ru.iandreyshev.adobeKiller.domain.controller.interfaces.IViewController
 import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
-import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.ICanvasInteractor
 import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.ITargetCanvasObject
-import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
 import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ICanvasViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ControllerViewModel
 
-class CanvasViewModel : InteractorViewModel<ICanvasInteractor>(UseCaseType.CANVAS), ICanvasViewModel {
+class CanvasViewModel : ControllerViewModel<ICanvasViewController>(ViewControllerType.CANVAS), ICanvasViewModel {
 
     private val mSceneObjects = mutableListOf<IDrawable>()
 
@@ -21,7 +21,7 @@ class CanvasViewModel : InteractorViewModel<ICanvasInteractor>(UseCaseType.CANVA
     // OBSERVABLES
 
     init {
-        title.postValue(IUseCase.canvas.name)
+        title.postValue(IViewController.canvas.name)
     }
 
     override fun setTarget(target: ITargetCanvasObject?) {

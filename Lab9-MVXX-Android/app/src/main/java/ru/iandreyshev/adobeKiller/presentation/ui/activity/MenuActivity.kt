@@ -6,20 +6,20 @@ import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_menu.*
 import org.jetbrains.anko.startActivity
 import ru.iandreyshev.adobeKiller.R
-import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.IMenuInteractor
+import ru.iandreyshev.adobeKiller.domain.controller.interfaces.IMenuViewController
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.CanvasesListRVAdapter
 import ru.iandreyshev.adobeKiller.presentation.ui.dialog.DialogFactory
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.invisible
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.visible
 import ru.iandreyshev.adobeKiller.presentation.viewModel.MenuViewModel
 
-class MenuActivity : BaseActivity<IMenuInteractor, MenuViewModel>(
+class MenuActivity : BaseActivity<IMenuViewController, MenuViewModel>(
         viewModelClass = MenuViewModel::class,
         layout = R.layout.activity_menu) {
 
     private val mCanvasesListAdapter: CanvasesListRVAdapter by lazy {
         CanvasesListRVAdapter().apply {
-            onItemClick { interactor.openCanvas(it) }
+            onItemClick { controller.openCanvas(it) }
         }
     }
 
@@ -49,14 +49,14 @@ class MenuActivity : BaseActivity<IMenuInteractor, MenuViewModel>(
             addItemDecoration(dividerItemDecoration)
             mCanvasesListAdapter.onItemLongClick {
                 DialogFactory.createDeleteCanvasDialog(this@MenuActivity, it) {
-                    interactor.deleteCanvas(it)
+                    controller.deleteCanvas(it)
                 }
             }
         }
 
         fabAddNew.setOnClickListener {
             DialogFactory.createCanvasDialog(this) { canvasName ->
-                interactor.createCanvas(canvasName)
+                controller.createCanvas(canvasName)
             }
         }
     }

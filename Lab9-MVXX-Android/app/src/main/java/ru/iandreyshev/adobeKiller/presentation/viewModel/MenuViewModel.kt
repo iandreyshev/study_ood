@@ -1,17 +1,17 @@
 package ru.iandreyshev.adobeKiller.presentation.viewModel
 
 import android.arch.lifecycle.MutableLiveData
-import ru.iandreyshev.adobeKiller.app.UseCaseType
-import ru.iandreyshev.adobeKiller.presentation.interactor.interfaces.IMenuInteractor
-import ru.iandreyshev.adobeKiller.domain.model.CanvasData
+import ru.iandreyshev.adobeKiller.app.ViewControllerType
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasData
+import ru.iandreyshev.adobeKiller.domain.controller.interfaces.IMenuViewController
 import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.IMenuViewModel
-import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ControllerViewModel
 
-class MenuViewModel : InteractorViewModel<IMenuInteractor>(UseCaseType.MENU), IMenuViewModel {
+class MenuViewModel : ControllerViewModel<IMenuViewController>(ViewControllerType.MENU), IMenuViewModel {
 
     // OBSERVABLES
     val canvases = MutableLiveData<List<CanvasData>>()
-    var onOpen: () -> Unit = {}
+    var onOpen: (() -> Unit) = {}
     // OBSERVABLES
 
     override fun openCanvas() =

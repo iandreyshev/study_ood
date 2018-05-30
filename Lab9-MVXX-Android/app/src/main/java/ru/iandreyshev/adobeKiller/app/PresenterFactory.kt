@@ -1,32 +1,29 @@
 package ru.iandreyshev.adobeKiller.app
 
 import android.graphics.Bitmap
-import ru.iandreyshev.adobeKiller.domain.model.*
-import ru.iandreyshev.adobeKiller.domain.presentationModel.IPresentationModel
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.*
 import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.*
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
 import ru.iandreyshev.adobeKiller.presentation.presenter.CanvasPresenter
 import ru.iandreyshev.adobeKiller.presentation.presenter.MenuPresenter
-import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
-import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ICanvasViewModel
-import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.IPresenterFactory
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.IPresenter
+import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.IPresenterFactory
 import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.ITargetCanvasObject
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ICanvasViewModel
 import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.IMenuViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ControllerViewModel
 
-class PresenterFactory(
-        private val presentationModel: IPresentationModel
-) : IPresenterFactory {
+class PresenterFactory : IPresenterFactory {
 
     override fun create(
-            useCaseType: UseCaseType,
-            viewModel: InteractorViewModel<*>?): IPresenter = when (useCaseType) {
+            viewControllerType: ViewControllerType,
+            viewModel: ControllerViewModel<*>?): IPresenter = when (viewControllerType) {
 
-        UseCaseType.MENU -> MenuPresenter(
+        ViewControllerType.MENU -> MenuPresenter(
                 viewModel = viewModel as IMenuViewModel)
 
-        UseCaseType.CANVAS -> CanvasPresenter(
+        ViewControllerType.CANVAS -> CanvasPresenter(
                 viewModel = viewModel as ICanvasViewModel,
                 targetFactory = object : CanvasPresenter.ITargetFactory {
                     override fun create(canvasObject: CanvasObject) = newTargetObject(canvasObject)
@@ -40,11 +37,7 @@ class PresenterFactory(
     private fun newTargetObject(canvasObject: CanvasObject) = object : ITargetCanvasObject {
         override val frame: Frame = canvasObject.frame.clone()
         override val style: IStyle = canvasObject.style.clone()
-
-        override fun applyChanges() {
-            presentationModel.update(canvasObject, frame)
-            presentationModel.update(canvasObject, style)
-        }
+        override fun applyChanges() = canvasObject.update(frame, style)
     }
 
     private fun newDrawable(canvasObject: CanvasObject): IDrawable {

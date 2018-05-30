@@ -3,7 +3,7 @@ package ru.iandreyshev.adobeKiller.presentation.ui.adapter
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import ru.iandreyshev.adobeKiller.R
-import ru.iandreyshev.adobeKiller.domain.model.CanvasData
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasData
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.inflate
 
 class CanvasesListRVAdapter : RecyclerView.Adapter<CanvasViewRVHolder>() {

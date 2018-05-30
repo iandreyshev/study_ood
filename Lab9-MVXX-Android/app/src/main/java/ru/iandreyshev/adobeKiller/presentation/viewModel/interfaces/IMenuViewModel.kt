@@ -1,6 +1,6 @@
 package ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces
 
-import ru.iandreyshev.adobeKiller.domain.model.CanvasData
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasData
 
 interface IMenuViewModel : IViewModel {
 

@@ -1,4 +1,4 @@
-package ru.iandreyshev.adobeKiller.domain.model
+package ru.iandreyshev.adobeKiller.domain.canvasEngine
 
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
 import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle

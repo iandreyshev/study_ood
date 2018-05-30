@@ -1,4 +1,4 @@
-package ru.iandreyshev.adobeKiller.domain.model
+package ru.iandreyshev.adobeKiller.domain.canvasEngine
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

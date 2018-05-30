@@ -1,10 +1,10 @@
 package ru.iandreyshev.adobeKiller.presentation.presenter.interfaces
 
-import ru.iandreyshev.adobeKiller.app.UseCaseType
-import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.InteractorViewModel
+import ru.iandreyshev.adobeKiller.app.ViewControllerType
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ControllerViewModel
 
 interface IPresenterFactory {
 
-    fun create(useCaseType: UseCaseType, viewModel: InteractorViewModel<*>?): IPresenter
+    fun create(viewControllerType: ViewControllerType, viewModel: ControllerViewModel<*>?): IPresenter
 
 }

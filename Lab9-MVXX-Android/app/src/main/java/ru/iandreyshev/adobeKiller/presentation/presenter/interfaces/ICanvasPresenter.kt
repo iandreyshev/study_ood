@@ -1,7 +1,6 @@
 package ru.iandreyshev.adobeKiller.presentation.presenter.interfaces
 
-import ru.iandreyshev.adobeKiller.domain.model.CanvasObject
-import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
+import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasObject
 
 interface ICanvasPresenter : IPresenter {
 
