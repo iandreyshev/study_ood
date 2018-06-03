@@ -3,15 +3,16 @@ package ru.iandreyshev.adobeKiller.presentation.drawing.drawable
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.ICanvas
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
-import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
+import ru.iandreyshev.adobeKiller.presentation.drawing.style.Style
 
-class DrawableTriangle(frame: Frame, style: IStyle) : BaseDrawable(style = style) {
+class TriangleView(
+        override val frame: Frame,
+        style: Style
+) : DrawableView(style) {
 
     // onDraw
     private val mPenPosition = Vec2f()
     // onDraw
-
-    override val frame = Frame(frame)
 
     override fun onDrawShape(canvas: ICanvas) =
             onDraw(canvas)
@@ -20,20 +21,22 @@ class DrawableTriangle(frame: Frame, style: IStyle) : BaseDrawable(style = style
             onDraw(canvas)
 
     private fun onDraw(canvas: ICanvas) {
-        mPenPosition.x = frame.position.x + frame.width / 2
-        mPenPosition.y = frame.position.y
+        mPenPosition.x = frame.x + frame.width / 2
+        mPenPosition.y = frame.y
         canvas.moveTo(mPenPosition)
 
-        mPenPosition.x = frame.position.x + frame.width
-        mPenPosition.y = frame.position.y + frame.height
+        mPenPosition.x = frame.x + frame.width
+        mPenPosition.y = frame.y + frame.height
         canvas.lineTo(mPenPosition)
 
-        mPenPosition.x = frame.position.x
+        mPenPosition.x = frame.x
         canvas.lineTo(mPenPosition)
 
-        mPenPosition.x = frame.position.x + frame.width / 2
-        mPenPosition.y = frame.position.y
+        mPenPosition.x = frame.x + frame.width / 2
+        mPenPosition.y = frame.y
         canvas.lineTo(mPenPosition)
     }
+
+    override fun hitTest(x: Float, y: Float): Boolean = false
 
 }

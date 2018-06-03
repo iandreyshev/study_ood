@@ -5,7 +5,7 @@ import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import kotlinx.android.synthetic.main.view_shape_info.view.*
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
-import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
+import ru.iandreyshev.adobeKiller.presentation.drawing.style.Style
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.fill
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.invisible
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.visible
@@ -17,7 +17,7 @@ class ShapeInfoView @JvmOverloads constructor(
         defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    var style: IStyle? = null
+    var style: Style? = null
         set(value) {
             field = value
 

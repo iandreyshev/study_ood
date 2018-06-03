@@ -1,19 +1,19 @@
 package ru.iandreyshev.adobeKiller.presentation.drawing.drawable
 
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.ICanvas
-import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
-import ru.iandreyshev.adobeKiller.presentation.drawing.style.IStyle
+import ru.iandreyshev.adobeKiller.presentation.drawing.style.Style
 
-abstract class BaseDrawable(
-        override val style: IStyle
+abstract class DrawableView(
+        override val style: Style
 ) : IDrawable {
 
-    protected val position: Vec2f
-        get() = Vec2f(frame.x, frame.y)
     protected val width: Float
         get() = frame.width
     protected val height: Float
         get() = frame.height
+
+    private var mOnClickListener: () -> Unit = {}
+    private var mOnDeleteListener: () -> Unit = {}
 
     final override fun draw(canvas: ICanvas) {
         onDrawShape(canvas)
@@ -26,11 +26,24 @@ abstract class BaseDrawable(
         canvas.stroke()
     }
 
+    fun setOnClickListener(listener: () -> Unit) {
+        mOnClickListener = listener
+    }
+
+    fun setOnDeleteListener(listener: () -> Unit) {
+        mOnDeleteListener = listener
+    }
+
     protected abstract fun onDrawShape(canvas: ICanvas)
 
     protected abstract fun onDrawStroke(canvas: ICanvas)
 
-    override fun onClick() = Unit
-    override fun hitTest(x: Float, y: Float) = false
+    final override fun onClick() {
+        mOnClickListener()
+    }
+
+    final override fun onDelete() {
+        mOnDeleteListener()
+    }
 
 }

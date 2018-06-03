@@ -10,6 +10,7 @@ import ru.iandreyshev.adobeKiller.domain.controller.interfaces.IUseCaseFactory
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.ICanvasPresenter
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.IMenuPresenter
 import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.IPresenter
+import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.IViewModel
 import ru.iandreyshev.localstorage.ILocalStorage
 
 class ViewControllerFactory(
@@ -28,7 +29,7 @@ class ViewControllerFactory(
         ViewControllerType.CANVAS -> {
             val commandQueue = CommandQueue(COMMAND_QUEUE_SIZE)
             val presentationModel = CanvasEngine(commandQueue)
-            val storage = CanvasStorageAdapter(localStorage)
+            val storage = CanvasStorageAdapter(localStorage, IViewController.canvas.id)
 
             CanvasViewController(
                     presenter = presenter as ICanvasPresenter,

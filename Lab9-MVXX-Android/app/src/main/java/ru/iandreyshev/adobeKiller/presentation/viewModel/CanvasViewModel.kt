@@ -33,7 +33,7 @@ class CanvasViewModel : ControllerViewModel<ICanvasViewController>(ViewControlle
         objects.postValue(mSceneObjects)
     }
 
-    override fun invalidate() =
+    override fun reDraw() =
             invalidating.postValue(Unit)
 
     override fun clear() {

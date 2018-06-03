@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.hitTest
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
+import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IConstFrame
 import ru.iandreyshev.adobeKiller.presentation.ui.OnTouchCallback
 import ru.iandreyshev.adobeKiller.presentation.ui.OnTouchFinishCallback
 import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.TargetFrameHelper
@@ -21,8 +22,8 @@ class CanvasTargetView @JvmOverloads constructor(
         private const val RECT_STROKE_WIDTH = 3f
         private const val CIRCLE_RADIUS = 20f
         private const val CIRCLE_TOUCH_RADIUS = 72f
-        private const val MIN_WIDTH = 42f
-        private const val MIN_HEIGHT = 42f
+        private const val MIN_WIDTH = 100f
+        private const val MIN_HEIGHT = 100f
     }
 
     private var mPointerId: Int? = null
@@ -103,7 +104,7 @@ class CanvasTargetView @JvmOverloads constructor(
         }
     }
 
-    fun setTarget(frame: Frame?) {
+    fun setTarget(frame: IConstFrame?) {
         if (frame == null) {
             mTargetFrameHelper.target = null
             isEnabled = false
@@ -111,7 +112,7 @@ class CanvasTargetView @JvmOverloads constructor(
         }
 
         isEnabled = true
-        mTargetFrameHelper.target = Frame(frame.position, frame.width, frame.height).apply {
+        mTargetFrameHelper.target = frame.apply {
             prepareDrawingProperties(this)
         }
         invalidate()
@@ -132,25 +133,24 @@ class CanvasTargetView @JvmOverloads constructor(
         }
     }
 
-    private fun prepareDrawingProperties(frame: Frame) {
-        val leftTop = frame.position
-        val rightTop = Vec2f(frame.position.x + frame.width, frame.position.y)
-        val rightBottom = Vec2f(frame.position.x + frame.width, frame.position.y + frame.height)
-        val leftBottom = Vec2f(frame.position.x, frame.position.y + frame.height)
+    private fun prepareDrawingProperties(frame: IConstFrame) {
+        val rightTop = Vec2f(frame.x + frame.width, frame.y)
+        val rightBottom = Vec2f(frame.x + frame.width, frame.y + frame.height)
+        val leftBottom = Vec2f(frame.x, frame.y + frame.height)
 
         mRectPath.apply {
             reset()
-            moveTo(leftTop.x, leftTop.y)
+            moveTo(frame.x, frame.y)
             lineTo(rightTop.x, rightTop.y)
             lineTo(rightBottom.x, rightBottom.y)
             lineTo(leftBottom.x, leftBottom.y)
-            lineTo(leftTop.x, leftTop.y)
+            lineTo(frame.x, frame.y)
             close()
         }
 
         mCirclesPath.apply {
             reset()
-            addCircle(leftTop.x, leftTop.y, CIRCLE_RADIUS, Path.Direction.CW)
+            addCircle(frame.x, frame.y, CIRCLE_RADIUS, Path.Direction.CW)
             addCircle(rightTop.x, rightTop.y, CIRCLE_RADIUS, Path.Direction.CW)
             addCircle(rightBottom.x, rightBottom.y, CIRCLE_RADIUS, Path.Direction.CW)
             addCircle(leftBottom.x, leftBottom.y, CIRCLE_RADIUS, Path.Direction.CW)

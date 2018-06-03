@@ -13,7 +13,7 @@ internal class ImageEntity(
         var y: Float = 0f,
         var width: Float = 0f,
         var height: Float = 0f,
-        var imagePath: String
+        var imagePath: String = ""
 ) {
 
     @Backlink(to = "images")

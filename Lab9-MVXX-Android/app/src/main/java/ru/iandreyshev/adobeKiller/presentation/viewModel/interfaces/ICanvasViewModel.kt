@@ -7,7 +7,7 @@ interface ICanvasViewModel : IViewModel {
 
     fun setTarget(target: ITargetCanvasObject?)
     fun insert(canvasObject: IDrawable)
-    fun invalidate()
+    fun reDraw()
     fun clear()
 
 }

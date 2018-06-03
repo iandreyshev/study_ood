@@ -14,40 +14,16 @@ class CanvasEngine(
         private val commandQueue: ICommandQueue
 ) : ICanvasEngine {
 
-    inner class Factory {
-        fun createShape(shapeType: ShapeType): CanvasObject =
-                CanvasShape(
-                        frame = Frame(),
-                        style = Style(),
-                        type = shapeType
-                ).also { shape ->
-                    shape.subscribeOnChange { frame, style ->
-                        update(shape, frame)
-                        update(shape, style)
-                    }
-                }
-
-        fun createImage(file: IFile): CanvasObject =
-                CanvasImage(
-                        frame = Frame(),
-                        imageFile = file
-                ).also { image ->
-                    image.subscribeOnChange { frame, style ->
-                        update(image, frame)
-                        update(image, style)
-                    }
-                }
-    }
-
     private val mFactory = Factory()
     private val mSceneObjects = mutableListOf<CanvasObject>()
-    private var mChangesObserver: ((List<CanvasObject>) -> Unit)? = {}
+    private var mUpdatesObserver: ((List<CanvasObject>?) -> Unit)? = {}
 
     override fun insert(type: ShapeType) {
         commandQueue apply InsertShapeCommand(
                 objectsList = mSceneObjects,
                 shape = mFactory.createShape(type)
         )
+        invalidateWithRecreate()
     }
 
     override fun insert(imageFile: IFile) {
@@ -56,23 +32,18 @@ class CanvasEngine(
                 file = imageFile,
                 image = mFactory.createImage(imageFile)
         )
+        invalidateWithRecreate()
     }
 
-    override fun delete(canvasObject: CanvasObject) {
-        commandQueue apply DeleteObjectCommand(
-                canvasObject = canvasObject,
-                objectsList = mSceneObjects
-        )
-    }
-
-    override fun observeChanges(observer: ((List<CanvasObject>) -> Unit)?) {
-        mChangesObserver = observer
+    override fun observeUpdate(observer: ((List<CanvasObject>?) -> Unit)?) {
+        mUpdatesObserver = observer
+        invalidateWithRecreate()
     }
 
     override fun clear() {
         mSceneObjects.clear()
         commandQueue.clear()
-        mChangesObserver?.invoke(mSceneObjects)
+        invalidateWithRecreate()
     }
 
     override fun serialize(serializer: ICanvasSerializer) {
@@ -85,59 +56,109 @@ class CanvasEngine(
         }
     }
 
-    private fun update(canvasObject: CanvasObject, newFrame: IConstFrame) {
-        val prevFrame = canvasObject.frame
-        val oldPos = canvasObject.frame.position
+    private fun delete(canvasObject: CanvasObject) {
+        commandQueue apply DeleteObjectCommand(
+                canvasObject = canvasObject,
+                objectsList = mSceneObjects
+        )
+        invalidateWithRecreate()
+    }
 
-        val isSizeChanged = (prevFrame.width != newFrame.width || prevFrame.height != newFrame.height)
+    private fun update(objectFrame: Frame, newFrame: IConstFrame) {
+        val oldPos = objectFrame.position
+        val isSizeChanged = (objectFrame.width != newFrame.width || objectFrame.height != newFrame.height)
         val isPositionChanged = (oldPos.x != newFrame.x || oldPos.y != newFrame.y)
 
         if (isSizeChanged) {
             commandQueue apply ResizeFrameCommand(
-                    frame = canvasObject.frame,
-                    oldSize = Vec2f(prevFrame.width, prevFrame.height),
+                    frame = objectFrame,
+                    oldSize = Vec2f(objectFrame.width, objectFrame.height),
                     newSize = Vec2f(newFrame.width, newFrame.height)
             )
         }
 
         if (isPositionChanged) {
             commandQueue apply MoveFrameCommand(
-                    frame = canvasObject.frame,
+                    frame = objectFrame,
                     oldPosition = oldPos,
-                    newPosition = canvasObject.frame.position
+                    newPosition = Vec2f(newFrame.x, newFrame.y)
             )
         }
+
+        invalidate()
     }
 
-    private fun update(canvasObject: CanvasObject, newStyle: IConstStyle) {
-        val prevStyle = canvasObject.style
-
-        if (newStyle.fillColor != prevStyle.fillColor) {
+    private fun update(objectStyle: Style, newStyle: IConstStyle) {
+        if (newStyle.fillColor != objectStyle.fillColor) {
             commandQueue apply ChangeFillColorCommand(
-                    style = canvasObject.style,
-                    oldColor = prevStyle.fillColor,
+                    style = objectStyle,
+                    oldColor = objectStyle.fillColor,
                     newColor = newStyle.fillColor)
         }
-        if (newStyle.strokeColor != prevStyle.strokeColor) {
+        if (newStyle.strokeColor != objectStyle.strokeColor) {
             commandQueue apply ChangeStrokeColorCommand(
-                    style = canvasObject.style,
-                    oldColor = prevStyle.strokeColor,
+                    style = objectStyle,
+                    oldColor = objectStyle.strokeColor,
                     newColor = newStyle.strokeColor
             )
         }
 
-        if (newStyle.strokeSize != prevStyle.strokeSize) {
+        if (newStyle.strokeSize != objectStyle.strokeSize) {
             commandQueue apply ResizeStrokeCommand(
-                    style = canvasObject.style,
-                    oldSize = prevStyle.strokeSize,
+                    style = objectStyle,
+                    oldSize = objectStyle.strokeSize,
                     newSize = newStyle.strokeSize
             )
         }
+
+        invalidate()
     }
 
     private infix fun ICommandQueue.apply(command: Command) {
         apply(command)
-        mChangesObserver?.invoke(mSceneObjects)
+    }
+
+    private fun invalidate() {
+        mUpdatesObserver?.invoke(null)
+    }
+
+    private fun invalidateWithRecreate() {
+        mUpdatesObserver?.invoke(mSceneObjects)
+    }
+
+    inner class Factory {
+        fun createShape(shapeType: ShapeType): CanvasObject =
+                CanvasShape(
+                        frame = Frame(),
+                        style = Style(),
+                        type = shapeType
+                ).apply {
+                    setOnUpdateListener { frame, style ->
+                        this@CanvasEngine.update(this.frame, frame)
+                        this@CanvasEngine.update(this.style, style)
+                        this@CanvasEngine.invalidate()
+                    }
+                    setOnDeleteListener {
+                        this@CanvasEngine.delete(this)
+                        this@CanvasEngine.invalidateWithRecreate()
+                    }
+                }
+
+        fun createImage(file: IFile): CanvasObject =
+                CanvasImage(
+                        frame = Frame(),
+                        imageFile = file
+                ).apply {
+                    setOnUpdateListener { frame, style ->
+                        this@CanvasEngine.update(this.frame, frame)
+                        this@CanvasEngine.update(this.style, style)
+                        this@CanvasEngine.invalidate()
+                    }
+                    setOnDeleteListener {
+                        this@CanvasEngine.delete(this)
+                        this@CanvasEngine.invalidateWithRecreate()
+                    }
+                }
     }
 
 }

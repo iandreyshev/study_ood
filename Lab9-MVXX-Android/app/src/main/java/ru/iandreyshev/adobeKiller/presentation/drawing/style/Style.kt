@@ -2,19 +2,19 @@ package ru.iandreyshev.adobeKiller.presentation.drawing.style
 
 import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
 
-class Style(
+open class Style(
         override var fillColor: Color = Color.WHITE,
         override var strokeColor: Color = Color.BLACK,
         override var strokeSize: Float = 5f
-) : IStyle {
+): IConstStyle {
 
-    constructor(style: IStyle) : this(
+    constructor(style: IConstStyle) : this(
             fillColor = style.fillColor,
             strokeColor = style.strokeColor,
             strokeSize = style.strokeSize
     )
 
-    override fun clone(): IStyle =
+    override fun clone(): Style =
             Style(this)
 
 }

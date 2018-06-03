@@ -8,6 +8,6 @@ interface IConstStyle {
     val strokeColor: Color
     val strokeSize: Float
 
-    fun clone(): IStyle
+    fun clone(): Style
 
 }

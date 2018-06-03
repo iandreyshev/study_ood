@@ -14,6 +14,7 @@ import ru.iandreyshev.adobeKiller.R
 import ru.iandreyshev.adobeKiller.domain.controller.interfaces.ICanvasViewController
 import ru.iandreyshev.adobeKiller.domain.canvasEngine.ShapeType
 import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
+import ru.iandreyshev.adobeKiller.presentation.drawing.extension.copyFrom
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.adobeKiller.presentation.ui.dialog.DialogFactory
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.visibleIfOrGone
@@ -51,14 +52,13 @@ class CanvasActivity : BaseActivity<ICanvasViewController, CanvasViewModel>(
 
         tcvCanvas.onTouchStart(::handleCanvasTouch)
         tcvCanvas.onTargetFrameChanged { newFrame ->
-            mTarget?.frame?.resize(newFrame.width, newFrame.height)
-            mTarget?.frame?.position?.x = newFrame.position.x
-            mTarget?.frame?.position?.y = newFrame.position.y
+            mTarget?.frame?.let {
+                it copyFrom newFrame
+            }
+            drawObjects()
         }
         tcvCanvas.onTouchFinish { isTargetFrameChanged ->
-            if (isTargetFrameChanged) {
-                mTarget?.applyChanges()
-            }
+            if (isTargetFrameChanged) actionWithTarget { }
         }
     }
 
@@ -73,7 +73,7 @@ class CanvasActivity : BaseActivity<ICanvasViewController, CanvasViewModel>(
         target.observe { target ->
             mTarget = target
             shapeInfoView.style = mTarget?.style
-            tcvCanvas.setTarget(target?.frame)
+            tcvCanvas.setTarget(mTarget?.frame)
         }
 
         title.observeNotNull {
@@ -97,7 +97,7 @@ class CanvasActivity : BaseActivity<ICanvasViewController, CanvasViewModel>(
             R.id.act_redo -> controller.redo()
             R.id.act_save -> controller.save()
             R.id.act_clear -> controller.refresh()
-            R.id.act_delete -> controller.delete()
+            R.id.act_delete -> mTarget?.delete()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -145,7 +145,7 @@ class CanvasActivity : BaseActivity<ICanvasViewController, CanvasViewModel>(
             }
         }
 
-        controller.setTarget(null)
+        controller.resetTarget()
     }
 
     private inner class TakePhotoListener : DefaultCallback() {

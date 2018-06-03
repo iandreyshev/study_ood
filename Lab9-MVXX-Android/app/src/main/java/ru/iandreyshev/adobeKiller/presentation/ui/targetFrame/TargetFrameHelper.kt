@@ -3,13 +3,14 @@ package ru.iandreyshev.adobeKiller.presentation.ui.targetFrame
 import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.*
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
+import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IConstFrame
 
 class TargetFrameHelper(
         private val minWidth: Float,
         private val minHeight: Float,
         private val circleTouchRadius: Float) {
 
-    var target: Frame? = null
+    var target: IConstFrame? = null
 
     private var mOnFrameChanged: ((Frame) -> Unit)? = null
     private val mMoveToPosition = Vec2f()
@@ -35,7 +36,7 @@ class TargetFrameHelper(
         mOnFrameChanged = action
     }
 
-    private fun handleCircleMove(frame: Frame, lastX: Float, lastY: Float, newX: Float, newY: Float): Frame? {
+    private fun handleCircleMove(frame: IConstFrame, lastX: Float, lastY: Float, newX: Float, newY: Float): Frame? {
         fun hitTest(circleX: Float, circleY: Float): Boolean {
             val xRange = ((circleX - circleTouchRadius)..(circleX + circleTouchRadius))
             val yRange = ((circleY - circleTouchRadius)..(circleY + circleTouchRadius))
@@ -73,7 +74,7 @@ class TargetFrameHelper(
                 val newWidth = newX - frame.left
                 val newHeight = newY - frame.top
 
-                return Frame(frame.position, newWidth, newHeight)
+                return Frame(Vec2f(frame.x, frame.y), newWidth, newHeight)
             }
             hitTest(frame.left, frame.bottom) -> {
                 // Left bottom
@@ -89,13 +90,13 @@ class TargetFrameHelper(
         }
     }
 
-    private fun handleRectMove(frame: Frame, lastX: Float, lastY: Float, newX: Float, newY: Float): Frame? {
+    private fun handleRectMove(frame: IConstFrame, lastX: Float, lastY: Float, newX: Float, newY: Float): Frame? {
         if (!frame.hitTest(lastX, lastY)) {
             return null
         }
 
-        mMoveToPosition.x = frame.position.x + newX - lastX
-        mMoveToPosition.y = frame.position.y + newY - lastY
+        mMoveToPosition.x = frame.x + newX - lastX
+        mMoveToPosition.y = frame.y + newY - lastY
 
         return Frame(mMoveToPosition, frame.width, frame.height)
     }

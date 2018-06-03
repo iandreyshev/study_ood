@@ -1,21 +1,28 @@
 package ru.iandreyshev.adobeKiller.presentation.drawing.extension
 
 import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
+import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IConstFrame
 
-val Frame.right: Float
-    get() = position.x + width
+infix fun Frame.copyFrom(other: IConstFrame) {
+    resize(other.width, other.height)
+    position.x = other.x
+    position.y = other.y
+}
 
-val Frame.top: Float
-    get() = position.y
+val IConstFrame.right: Float
+    get() = x + width
 
-val Frame.left: Float
-    get() = position.x
+val IConstFrame.top: Float
+    get() = y
 
-val Frame.bottom: Float
-    get() = position.y + height
+val IConstFrame.left: Float
+    get() = x
 
-fun Frame.hitTest(x: Float, y: Float): Boolean {
-    val xInFrame = x >= position.x && x <= position.x + width
-    val yInFrame = y >= position.y && y <= position.y + height
+val IConstFrame.bottom: Float
+    get() = y + height
+
+fun IConstFrame.hitTest(x: Float, y: Float): Boolean {
+    val xInFrame = x >= x && x <= x + width
+    val yInFrame = y >= y && y <= y + height
     return xInFrame && yInFrame
 }

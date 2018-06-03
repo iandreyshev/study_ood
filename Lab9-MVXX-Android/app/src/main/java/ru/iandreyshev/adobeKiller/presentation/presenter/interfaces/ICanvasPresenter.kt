@@ -4,9 +4,9 @@ import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasObject
 
 interface ICanvasPresenter : IPresenter {
 
-    fun setTarget(canvasObject: CanvasObject?)
     fun insert(canvasObject: CanvasObject)
-    fun invalidate()
+    fun redraw()
+    fun resetTarget()
     fun clear()
 
 }

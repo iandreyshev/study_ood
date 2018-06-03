@@ -6,11 +6,10 @@ import ru.iandreyshev.adobeKiller.presentation.drawing.style.IConstStyle
 
 interface ICanvasEngine {
 
-    fun observeChanges(observer: ((List<CanvasObject>) -> Unit)?)
+    fun observeUpdate(observer: ((List<CanvasObject>?) -> Unit)?)
 
     fun insert(type: ShapeType)
     fun insert(imageFile: IFile)
-    fun delete(canvasObject: CanvasObject)
     fun clear()
 
     fun deserialize(serializer: ICanvasSerializer)

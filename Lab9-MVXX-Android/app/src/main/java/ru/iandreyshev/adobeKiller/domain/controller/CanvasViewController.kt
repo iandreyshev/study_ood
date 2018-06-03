@@ -2,7 +2,6 @@ package ru.iandreyshev.adobeKiller.domain.controller
 
 import ru.iandreyshev.adobeKiller.domain.command.ICommandQueue
 import ru.iandreyshev.adobeKiller.domain.file.FileWrapper
-import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasObject
 import ru.iandreyshev.adobeKiller.domain.canvasEngine.ShapeType
 import ru.iandreyshev.adobeKiller.domain.canvasEngine.ICanvasSerializer
 import ru.iandreyshev.adobeKiller.domain.canvasEngine.ICanvasEngine
@@ -18,14 +17,16 @@ class CanvasViewController(
 ) : ICanvasViewController {
 
     init {
-        canvasEngine.observeChanges { objects ->
-            presenter.clear()
-            objects.forEach { presenter.insert(it) }
-            presenter.invalidate()
+        canvasEngine.deserialize(canvasSerializer)
+        canvasEngine.observeUpdate { objects ->
+            objects?.apply {
+                presenter.clear()
+                forEach { presenter.insert(it) }
+                presenter.resetTarget()
+            }
+            presenter.redraw()
         }
     }
-
-    private var mTarget: CanvasObject? = null
 
     override fun insert(shape: ShapeType) {
         canvasEngine.insert(shape)
@@ -35,26 +36,35 @@ class CanvasViewController(
         canvasEngine.insert(FileWrapper(image))
     }
 
-    override fun setTarget(canvasObject: CanvasObject?) {
-        presenter.setTarget(canvasObject)
-    }
-
-    override fun delete() {
-        mTarget?.let { canvasEngine.delete(it) }
-        presenter.setTarget(null)
+    override fun resetTarget() {
+        presenter.resetTarget()
     }
 
     override fun undo() {
+        if (!commandQueue.canUndo) {
+            return
+        }
+
         commandQueue.undo()
+        presenter.resetTarget()
+        presenter.redraw()
     }
 
     override fun redo() {
+        if (!commandQueue.canRedo) {
+            return
+        }
+
         commandQueue.redo()
+        presenter.resetTarget()
+        presenter.redraw()
     }
 
     override fun refresh() {
         commandQueue.clear()
         canvasEngine.clear()
+        presenter.resetTarget()
+        presenter.redraw()
     }
 
     override fun save() {
