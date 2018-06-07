@@ -1,4 +1,4 @@
-package ru.iandreyshev.localstorage.entity
+package ru.iandreyshev.localstorage
 
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
@@ -12,7 +12,7 @@ internal class ImageEntity(
         var y: Float = 0f,
         var width: Float = 0f,
         var height: Float = 0f,
-        var imagePath: String = ""
+        var imageBytes: ByteArray = byteArrayOf()
 ) {
 
     constructor(image: CanvasImage) : this(
@@ -20,7 +20,7 @@ internal class ImageEntity(
             y = image.frame.y,
             width = image.frame.width,
             height = image.frame.height,
-            imagePath = image.imageFile.path
+            imageBytes = image.imageFile.bytes()
     )
 
 }

@@ -4,22 +4,6 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:7480468193760630380",
-      "lastPropertyId": "2:6167089312697266239",
-      "name": "CanvasEntity",
-      "properties": [
-        {
-          "id": "1:809004157381554790",
-          "name": "id"
-        },
-        {
-          "id": "2:6167089312697266239",
-          "name": "name"
-        }
-      ],
-      "relations": []
-    },
-    {
       "id": "2:7135025400134480468",
       "lastPropertyId": "10:5046066864075982343",
       "name": "ShapeEntity",
@@ -27,11 +11,6 @@
         {
           "id": "1:6281228877084944091",
           "name": "id"
-        },
-        {
-          "id": "2:5259242025152037180",
-          "indexId": "1:3230634030047437452",
-          "name": "canvasId"
         },
         {
           "id": "3:3736635506020145244",
@@ -94,11 +73,6 @@
           "name": "height"
         },
         {
-          "id": "11:7732028028943257374",
-          "indexId": "3:4251240439058523387",
-          "name": "canvasId"
-        },
-        {
           "id": "12:7608507838701567749",
           "name": "imagePath"
         }
@@ -112,16 +86,24 @@
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    7480468193760630380
+  ],
   "retiredIndexUids": [
-    2778161877950853630
+    2778161877950853630,
+    3230634030047437452,
+    4251240439058523387
   ],
   "retiredPropertyUids": [
     4431780403474802328,
     149721928022685350,
     8390378024031662207,
     4031071666860949609,
-    1245248960523546382
+    1245248960523546382,
+    809004157381554790,
+    6167089312697266239,
+    5259242025152037180,
+    7732028028943257374
   ],
   "retiredRelationUids": [
     4968265161720414994,

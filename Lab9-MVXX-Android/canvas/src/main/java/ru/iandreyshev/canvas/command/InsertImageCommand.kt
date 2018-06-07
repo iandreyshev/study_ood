@@ -20,6 +20,7 @@ internal class InsertImageCommand(
     override fun onUndo() {
         objectsList.removeAt(mPosition)
         image.onRemovedFromScene()
+        file.flush()
     }
 
     override fun onDestroyNotExecuted() {

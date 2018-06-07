@@ -9,7 +9,7 @@ import ru.iandreyshev.adobeKiller.model.CanvasApplicationModel
 import ru.iandreyshev.canvas.core.Canvas
 import ru.iandreyshev.command.CommandQueue
 import ru.iandreyshev.localstorage.CanvasStorage
-import ru.iandreyshev.localstorage.entity.MyObjectBox
+import ru.iandreyshev.localstorage.MyObjectBox
 
 class AdobeKillerApplication : Application() {
 

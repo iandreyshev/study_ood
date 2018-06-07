@@ -2,9 +2,8 @@ package ru.iandreyshev.canvas.file
 
 interface IFile {
 
-    val path: String
-
-    fun bytes(): ByteArray?
+    fun bytes(): ByteArray
+    fun flush()
     fun delete()
 
 }

@@ -38,7 +38,7 @@ class CanvasImage(
             visitor.visit(this)
 
     private fun loadImage() {
-        val bytes = imageFile.bytes() ?: return
+        val bytes = imageFile.bytes()
         image = BitmapFactory
                 .decodeByteArray(bytes, 0, bytes.size, OPTIONS)
                 .scaleToSize(IMAGE_SIZE)

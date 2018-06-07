@@ -2,13 +2,11 @@ package ru.iandreyshev.localstorage
 
 import io.objectbox.BoxStore
 import ru.iandreyshev.canvas.core.*
-import ru.iandreyshev.canvas.file.FileWrapper
 import ru.iandreyshev.canvas.storage.ICanvasStorage
 import ru.iandreyshev.canvas.style.Color
 import ru.iandreyshev.canvas.style.Style
 import ru.iandreyshev.geometry.frame.Frame
 import ru.iandreyshev.geometry.vector.Vec2f
-import ru.iandreyshev.localstorage.entity.*
 
 class CanvasStorage(boxStore: BoxStore) : ICanvasStorage {
 
@@ -64,9 +62,7 @@ class CanvasStorage(boxStore: BoxStore) : ICanvasStorage {
                         width = width,
                         height = height
                 ),
-                imageFile = FileWrapper(
-                        path = imagePath
-                )
+                imageFile = StorageFileWrap(imageBytes)
         )
     }
 

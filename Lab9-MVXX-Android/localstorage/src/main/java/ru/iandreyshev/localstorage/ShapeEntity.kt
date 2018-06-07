@@ -1,4 +1,4 @@
-package ru.iandreyshev.localstorage.entity
+package ru.iandreyshev.localstorage
 
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id

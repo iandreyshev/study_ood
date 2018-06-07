@@ -1,8 +1,8 @@
 package ru.iandreyshev.adobeKiller.model
 
+import ru.iandreyshev.adobeKiller.file.ImageFile
 import ru.iandreyshev.canvas.core.ICanvas
 import ru.iandreyshev.canvas.core.ShapeType
-import ru.iandreyshev.canvas.file.FileWrapper
 import ru.iandreyshev.command.ICommandQueue
 import java.io.File
 
@@ -26,7 +26,7 @@ class CanvasApplicationModel(
     }
 
     override fun insert(image: File) = menuAction {
-        canvas.insert(FileWrapper(image))
+        canvas.insert(ImageFile(image))
     }
 
     override fun undo() = menuAction {

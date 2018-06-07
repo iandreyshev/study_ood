@@ -13,7 +13,7 @@
 
     <string name="grouping_act_submit">Submit</string>
 
-    <string name="dialog_title_add_shape">Select the desired shape</string>
+    <string name="dialog_title_add_shape">Select the shape</string>
     <string name="dialog_title_change_fill_color">Change fill color</string>
     <string name="dialog_title_edit_stroke">Edit stroke</string>
 
