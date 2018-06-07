@@ -1,31 +1,38 @@
 package ru.iandreyshev.canvas.core
 
+import ru.iandreyshev.canvas.style.IConstStyle
+import ru.iandreyshev.canvas.style.ObservableStyle
 import ru.iandreyshev.canvas.style.Style
 import ru.iandreyshev.geometry.frame.Frame
+import ru.iandreyshev.geometry.frame.IConstFrame
+import ru.iandreyshev.geometry.frame.ObservableFrame
 
 abstract class CanvasObject(
-        val frame: Frame,
-        val style: Style
+        frame: IConstFrame,
+        style: IConstStyle
 ) {
 
-    private var mOnUpdateListener: ((frame: Frame, style: Style) -> Unit)? = null
-    private var mOnSelectListener: (() -> Unit)? = null
+    val frame: IConstFrame
+        get() = mFrame
 
-    fun setOnDeleteListener(listener: (() -> Unit)?) {
-        mOnSelectListener = listener
-    }
+    val style: IConstStyle
+        get() = mStyle
 
-    fun setOnUpdateListener(listener: ((frame: Frame, style: Style) -> Unit)?) {
-        mOnUpdateListener = listener
-    }
+    var updateFrameListener: (Frame, IConstFrame) -> Unit = { _, _ -> }
+    var updateStyleListener: (Style, IConstStyle) -> Unit = { _, _ -> }
+    var deleteListener: (CanvasObject) -> Unit = { _ -> }
 
-    fun update(frame: Frame, style: Style) {
-        mOnUpdateListener?.invoke(frame, style)
-    }
+    private val mFrame: Frame = Frame(frame)
+    private val mStyle: Style = Style(style)
 
-    fun delete() {
-        mOnSelectListener?.invoke()
-    }
+    fun update(frame: IConstFrame) =
+            updateFrameListener(mFrame, frame)
+
+    fun update(style: IConstStyle) =
+            updateStyleListener(mStyle, style)
+
+    fun delete() =
+            deleteListener(this)
 
     abstract fun accept(visitor: ICanvasObjectVisitor)
 

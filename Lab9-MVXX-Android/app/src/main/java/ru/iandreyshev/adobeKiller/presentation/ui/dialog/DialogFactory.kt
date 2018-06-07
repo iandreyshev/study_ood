@@ -3,7 +3,6 @@ package ru.iandreyshev.adobeKiller.presentation.ui.dialog
 import android.content.Context
 import android.view.View
 import com.xw.repo.BubbleSeekBar
-import kotlinx.android.synthetic.main.dialog_create_canvas.view.*
 import kotlinx.android.synthetic.main.dialog_create_shape.view.*
 import kotlinx.android.synthetic.main.dialog_edit_stroke.view.*
 import kotlinx.android.synthetic.main.dialog_select_color.view.*
@@ -11,7 +10,6 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.cancelButton
 import org.jetbrains.anko.okButton
 import ru.iandreyshev.adobeKiller.R
-import ru.iandreyshev.canvas.core.CanvasData
 import ru.iandreyshev.canvas.core.ShapeType
 import ru.iandreyshev.canvas.style.Color
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.ColorsListRVAdapter
@@ -44,25 +42,6 @@ object DialogFactory {
             clTriangle.doAndDismiss { onShape(ShapeType.Triangle) }
             clImage.doAndDismiss { onImage() }
         }
-    }
-
-    fun createCanvasDialog(context: Context, onSubmit: (String) -> Unit) {
-        context.alert {
-            title = "Create canvas"
-            val view = context.inflate(R.layout.dialog_create_canvas).apply {
-                customView = this
-            }
-            okButton { onSubmit(view.etCanvasName.text.toString()) }
-            cancelButton { }
-        }.show()
-    }
-
-    fun createDeleteCanvasDialog(context: Context, canvasData: CanvasData, onSubmit: (CanvasData) -> Unit) {
-        context.alert {
-            title = "Are you really want to delete '${canvasData.name}' ?"
-            okButton { onSubmit(canvasData) }
-            cancelButton { }
-        }.show()
     }
 
     fun fillColorDialog(context: Context, onClick: (Color) -> Unit) {

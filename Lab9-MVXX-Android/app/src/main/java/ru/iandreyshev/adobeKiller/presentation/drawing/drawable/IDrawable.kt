@@ -12,7 +12,7 @@ interface IDrawable {
     fun draw(canvas: ICanvas)
 
     fun hitTest(x: Float, y: Float): Boolean
-    fun onClick()
+    fun onSelect()
     fun onDelete()
 
 }

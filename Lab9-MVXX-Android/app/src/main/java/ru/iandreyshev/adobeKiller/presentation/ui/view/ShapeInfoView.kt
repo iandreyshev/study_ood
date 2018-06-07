@@ -4,12 +4,9 @@ import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import kotlinx.android.synthetic.main.view_shape_info.view.*
+import ru.iandreyshev.adobeKiller.presentation.ui.extension.*
 import ru.iandreyshev.canvas.style.Color
 import ru.iandreyshev.canvas.style.Style
-import ru.iandreyshev.adobeKiller.presentation.ui.extension.fill
-import ru.iandreyshev.adobeKiller.presentation.ui.extension.invisible
-import ru.iandreyshev.adobeKiller.presentation.ui.extension.visible
-import ru.iandreyshev.adobeKiller.presentation.ui.extension.visibleIfOrGone
 
 class ShapeInfoView @JvmOverloads constructor(
         context: Context,
@@ -20,6 +17,12 @@ class ShapeInfoView @JvmOverloads constructor(
     var style: Style? = null
         set(value) {
             field = value
+
+            if (field == null) {
+                flFillColor.gone()
+                flStrokeColor.gone()
+                return
+            }
 
             flFillColor.visibleIfOrGone(field != null)
             cvFillColor.fill(field?.fillColor)

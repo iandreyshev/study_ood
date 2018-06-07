@@ -20,8 +20,8 @@ internal open class ShapeEntity(
 
     constructor(shape: CanvasShape) : this(
             type = shape.type.ordinal,
-            x = shape.frame.position.x,
-            y = shape.frame.position.y,
+            x = shape.frame.x,
+            y = shape.frame.y,
             width = shape.frame.width,
             height = shape.frame.height,
             stroke = shape.style.strokeSize,

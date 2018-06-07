@@ -1,11 +1,12 @@
-package ru.iandreyshev.adobeKiller.interactor.interfaces
+package ru.iandreyshev.adobeKiller.interactor
 
 import ru.iandreyshev.canvas.core.ShapeType
+import java.io.File
 
-interface ICanvasActivityInteractor {
+interface ICanvasInteractor {
 
     fun insert(shape: ShapeType)
-    fun insertPhoto()
+    fun insertPhoto(file: File)
 
     fun resetTarget()
 

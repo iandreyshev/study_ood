@@ -11,8 +11,8 @@ import ru.iandreyshev.canvas.style.Style
 
 class RectView(
         override val frame: Frame,
-        style: Style
-) : DrawableView(style) {
+        override val style: Style
+) : DrawableView() {
 
     // onDraw
     private val mPosition = Vec2f()

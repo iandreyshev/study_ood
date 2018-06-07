@@ -16,8 +16,8 @@ internal class ImageEntity(
 ) {
 
     constructor(image: CanvasImage) : this(
-            x = image.frame.position.x,
-            y = image.frame.position.y,
+            x = image.frame.x,
+            y = image.frame.y,
             width = image.frame.width,
             height = image.frame.height,
             imagePath = image.imageFile.path

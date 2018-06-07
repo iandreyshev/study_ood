@@ -1,13 +1,13 @@
 package ru.iandreyshev.canvas.core
 
 import ru.iandreyshev.canvas.command.*
-import ru.iandreyshev.command.Command
 import ru.iandreyshev.command.ICommandQueue
 import ru.iandreyshev.canvas.file.IFile
 import ru.iandreyshev.canvas.presenter.ICanvasPresenter
 import ru.iandreyshev.canvas.storage.ICanvasStorage
 import ru.iandreyshev.canvas.style.IConstStyle
 import ru.iandreyshev.canvas.style.Style
+import ru.iandreyshev.command.apply
 import ru.iandreyshev.geometry.frame.Frame
 import ru.iandreyshev.geometry.frame.IConstFrame
 import ru.iandreyshev.geometry.vector.Vec2f
@@ -17,10 +17,9 @@ class Canvas(
         private val serializer: ICanvasStorage
 ) : ICanvas {
 
+    private val mFactory = CanvasObjectFactory()
     private var mPresenter: ICanvasPresenter? = null
-    private val mFactory = Factory()
     private val mSceneObjects = mutableListOf<CanvasObject>()
-    private var mUpdatesObserver: ((List<CanvasObject>?) -> Unit)? = {}
 
     override fun setPresenter(presenter: ICanvasPresenter) {
         mPresenter = presenter
@@ -31,7 +30,7 @@ class Canvas(
                 objectsList = mSceneObjects,
                 shape = mFactory.createShape(type)
         )
-        invalidateWithRecreate()
+        mPresenter?.update(mSceneObjects)
     }
 
     override fun insert(imageFile: IFile) {
@@ -40,18 +39,23 @@ class Canvas(
                 file = imageFile,
                 image = mFactory.createImage(imageFile)
         )
-        invalidateWithRecreate()
+        mPresenter?.update(mSceneObjects)
+    }
+
+    override fun update() {
+        mPresenter?.update(mSceneObjects)
     }
 
     override fun clear() {
         mSceneObjects.clear()
         commandQueue.clear()
-        invalidateWithRecreate()
+        mPresenter?.update(mSceneObjects)
     }
 
     override fun load() {
         mSceneObjects.clear()
         mSceneObjects.addAll(serializer.deserialize())
+        mPresenter?.update(mSceneObjects)
     }
 
     override fun save() {
@@ -63,7 +67,7 @@ class Canvas(
                 canvasObject = canvasObject,
                 objectsList = mSceneObjects
         )
-        invalidateWithRecreate()
+        mPresenter?.update(mSceneObjects)
     }
 
     private fun update(objectFrame: Frame, newFrame: IConstFrame) {
@@ -87,7 +91,7 @@ class Canvas(
             )
         }
 
-        invalidate()
+        mPresenter?.update()
     }
 
     private fun update(objectStyle: Style, newStyle: IConstStyle) {
@@ -113,27 +117,35 @@ class Canvas(
             )
         }
 
-        invalidate()
+        mPresenter?.update()
     }
 
-    private infix fun ICommandQueue.apply(command: Command) {
-        apply(command)
+    inner class CanvasObjectFactory : ICanvasObjectFactory {
+
+        private val mFrameProto = Frame(width = 100f, height = 100f)
+        private val mStyleProto = Style()
+
+        override fun createShape(shapeType: ShapeType): CanvasObject =
+                CanvasShape(
+                        frame = mFrameProto.clone(),
+                        style = mStyleProto.clone(),
+                        type = shapeType
+                ).also { shape ->
+                    shape.updateFrameListener = { objectFrame, newFrame -> update(objectFrame, newFrame) }
+                    shape.updateStyleListener = { objectStyle, newStyle -> update(objectStyle, newStyle) }
+                    shape.deleteListener = { objectToDelete -> delete(objectToDelete) }
+                }
+
+        override fun createImage(file: IFile): CanvasObject =
+                CanvasImage(
+                        frame = mFrameProto.clone(),
+                        imageFile = file
+                ).also { image ->
+                    image.updateFrameListener = { objectFrame, newFrame -> update(objectFrame, newFrame) }
+                    image.deleteListener = { objectToDelete -> delete(objectToDelete) }
+                }
+
     }
 
-    private fun invalidate() {
-        mUpdatesObserver?.invoke(null)
-    }
-
-    private fun invalidateWithRecreate() {
-        mUpdatesObserver?.invoke(mSceneObjects)
-    }
-
-    inner class Factory {
-        fun createShape(shapeType: ShapeType): CanvasObject =
-                TODO()
-
-        fun createImage(file: IFile): CanvasObject =
-                TODO()
-    }
 
 }

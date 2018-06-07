@@ -7,8 +7,8 @@ import ru.iandreyshev.canvas.style.Style
 
 class TriangleView(
         override val frame: Frame,
-        style: Style
-) : DrawableView(style) {
+        override val style: Style
+) : DrawableView() {
 
     // onDraw
     private val mPenPosition = Vec2f()

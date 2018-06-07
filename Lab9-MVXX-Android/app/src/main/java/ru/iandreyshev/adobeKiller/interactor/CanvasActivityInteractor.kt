@@ -1,38 +1,38 @@
 package ru.iandreyshev.adobeKiller.interactor
 
-import ru.iandreyshev.adobeKiller.interactor.interfaces.ICanvasActivityInteractor
 import ru.iandreyshev.canvas.core.ShapeType
-import ru.iandreyshev.adobeKiller.model.ApplicationModel
+import ru.iandreyshev.adobeKiller.model.CanvasApplicationModel
+import java.io.File
 
 class CanvasActivityInteractor(
-        private val canvas: ApplicationModel
-) : ICanvasActivityInteractor {
+        val canvasAppModel: CanvasApplicationModel
+) : ICanvasInteractor {
 
     override fun insert(shape: ShapeType) {
-        canvas.insert(shape)
+        canvasAppModel.insert(shape)
     }
 
-    override fun insertPhoto() {
-        TODO()
+    override fun insertPhoto(file: File) {
+        canvasAppModel.insert(file)
     }
 
     override fun resetTarget() {
     }
 
     override fun undo() {
-        canvas.undo()
+        canvasAppModel.undo()
     }
 
     override fun redo() {
-        canvas.redo()
+        canvasAppModel.redo()
     }
 
     override fun refresh() {
-        canvas.refresh()
+        canvasAppModel.refresh()
     }
 
     override fun save() {
-        canvas.save()
+        canvasAppModel.save()
     }
 
 }

@@ -6,8 +6,8 @@ import ru.iandreyshev.canvas.style.Style
 
 class EllipseView(
         override val frame: Frame,
-        style: Style
-) : DrawableView(style) {
+        override val style: Style
+) : DrawableView() {
 
     override fun onDrawShape(canvas: ICanvas) =
             onDraw(canvas)

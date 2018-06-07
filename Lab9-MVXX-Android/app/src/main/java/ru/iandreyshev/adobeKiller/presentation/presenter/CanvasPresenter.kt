@@ -11,49 +11,46 @@ import ru.iandreyshev.canvas.presenter.ICanvasPresenter
 import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.ITargetCanvasObject
 import ru.iandreyshev.adobeKiller.presentation.viewModel.ICanvasViewModel
 import ru.iandreyshev.canvas.core.*
+import ru.iandreyshev.canvas.style.IConstStyle
+import ru.iandreyshev.geometry.frame.IConstFrame
 
 class CanvasPresenter(
         private val viewModel: ICanvasViewModel
 ) : ICanvasPresenter {
 
-    override fun redraw(newObjects: List<CanvasObject>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun update() {
+        viewModel.objects.postValue(viewModel.objects.value)
     }
 
-    override fun insert(canvasObject: CanvasObject) {
-        val drawable = newDrawable(canvasObject)
-        viewModel.insert(drawable)
+    override fun update(objects: List<CanvasObject>) {
+        val newObjects = objects.map { newDrawable(it) }
+        viewModel.objects.postValue(newObjects)
+        viewModel.target.postValue(null)
     }
 
-    override fun redraw() =
-            viewModel.reDraw()
-
-    override fun clear() =
-            viewModel.clear()
-
-    private fun newTarget(drawable: DrawableView, canvasObject: CanvasObject): ITargetCanvasObject {
+    private fun newTarget(drawable: IDrawable, canvasObject: CanvasObject): ITargetCanvasObject {
 
         return object : ITargetCanvasObject {
-
-            override val frame: Frame = ObservableFrame(drawable.frame, ::reDraw)
-            override val style: Style = ObservableStyle(drawable.style, ::reDraw)
+            override val frame: Frame = ObservableFrame(drawable.frame, ::redraw)
+            override val style: Style = ObservableStyle(drawable.style, ::redraw)
 
             override fun applyChanges() {
-                canvasObject.update(frame, style)
+                canvasObject.update(frame)
+                canvasObject.update(style)
             }
 
             override fun delete() {
                 canvasObject.delete()
-                viewModel.setTarget(null)
             }
 
-            // TODO: Refactor this
-            // This code is dangerous cause frame and style can be not initialized
-            // when apply changes call
-            private fun reDraw() {
-                drawable.frame copyFrom frame
-                drawable.style copyFrom style
-                this@CanvasPresenter.redraw()
+            private fun redraw(newFrame: IConstFrame) {
+                drawable.frame copyFrom newFrame
+                this@CanvasPresenter.update()
+            }
+
+            private fun redraw(newStyle: IConstStyle) {
+                drawable.style copyFrom newStyle
+                this@CanvasPresenter.update()
             }
         }
 
@@ -65,15 +62,15 @@ class CanvasPresenter(
         val creator = object : ICanvasObjectVisitor {
             override fun visit(shape: CanvasShape) {
                 result = when (shape.type) {
-                    ShapeType.Rect -> RectView(shape.frame, shape.style)
-                    ShapeType.Ellipse -> EllipseView(shape.frame, shape.style)
-                    ShapeType.Triangle -> TriangleView(shape.frame, shape.style)
+                    ShapeType.Rect -> RectView(Frame(shape.frame), Style(shape.style))
+                    ShapeType.Ellipse -> EllipseView(Frame(shape.frame), Style(shape.style))
+                    ShapeType.Triangle -> TriangleView(Frame(shape.frame), Style(shape.style))
                 }
             }
 
             override fun visit(image: CanvasImage) {
                 result = ImageView(
-                        frame = image.frame,
+                        frame = Frame(image.frame),
                         image = image.image
                                 ?: Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888)
                 )
@@ -82,17 +79,17 @@ class CanvasPresenter(
 
         canvasObject.accept(creator)
 
-        result?.let { drawable ->
-            drawable.setOnClickListener {
-                viewModel.setTarget(newTarget(drawable, canvasObject))
+        result?.let { newDrawable ->
+            newDrawable.onSelectListener = { drawable ->
+                viewModel.target.postValue(newTarget(drawable, canvasObject))
             }
-            drawable.setOnDeleteListener {
+
+            newDrawable.onDeleteListener = {
                 canvasObject.delete()
             }
-            return drawable
         }
 
-        throw RuntimeException("Invalid creator code...")
+        return result!!
     }
 
 }

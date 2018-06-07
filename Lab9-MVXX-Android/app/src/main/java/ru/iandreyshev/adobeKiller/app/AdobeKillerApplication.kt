@@ -3,8 +3,9 @@ package ru.iandreyshev.adobeKiller.app
 import android.app.Application
 import ru.iandreyshev.adobeKiller.di.DependencyFactory
 import ru.iandreyshev.adobeKiller.di.InteractorFactory
+import ru.iandreyshev.adobeKiller.di.PresenterFactory
 import ru.iandreyshev.adobeKiller.di.ViewModelFactory
-import ru.iandreyshev.adobeKiller.model.ApplicationModel
+import ru.iandreyshev.adobeKiller.model.CanvasApplicationModel
 import ru.iandreyshev.canvas.core.Canvas
 import ru.iandreyshev.command.CommandQueue
 import ru.iandreyshev.localstorage.CanvasStorage
@@ -27,7 +28,7 @@ class AdobeKillerApplication : Application() {
 
         val commandQueue = CommandQueue(COMMAND_QUEUE_SIZE)
 
-        val applicationModel = ApplicationModel(
+        val applicationModel = CanvasApplicationModel(
                 commandQueue = commandQueue,
                 canvas = Canvas(
                         commandQueue = commandQueue,
@@ -41,7 +42,8 @@ class AdobeKillerApplication : Application() {
                 interactorFactory = interactorFactory
         )
         dependencyFactory = DependencyFactory(
-                vmFactory = vmFactory
+                vmFactory = vmFactory,
+                presenterFactory = PresenterFactory()
         )
 
     }

@@ -6,21 +6,25 @@ import ru.iandreyshev.canvas.file.FileWrapper
 import ru.iandreyshev.command.ICommandQueue
 import java.io.File
 
-class ApplicationModel(
+class CanvasApplicationModel(
         private val commandQueue: ICommandQueue,
-        private val canvas: ICanvas
+        val canvas: ICanvas
 ) : ICanvasAppModel {
 
+    private var mPresenter: ICanvasAppModel.IPresenter? = null
+
     override fun setPresenter(presenter: ICanvasAppModel.IPresenter) {
-        canvas.setPresenter(presenter.canvasPresenter)
+        mPresenter = presenter
     }
 
     override fun insert(shape: ShapeType) {
         canvas.insert(shape)
+        mPresenter?.resetTarget()
     }
 
     override fun insert(image: File) {
         canvas.insert(FileWrapper(image))
+        mPresenter?.resetTarget()
     }
 
     override fun undo() {
@@ -29,6 +33,8 @@ class ApplicationModel(
         }
 
         commandQueue.undo()
+        canvas.update()
+        mPresenter?.resetTarget()
     }
 
     override fun redo() {
@@ -37,15 +43,19 @@ class ApplicationModel(
         }
 
         commandQueue.redo()
+        canvas.update()
+        mPresenter?.resetTarget()
     }
 
     override fun refresh() {
         commandQueue.clear()
         canvas.clear()
+        mPresenter?.resetTarget()
     }
 
     override fun save() {
         canvas.save()
+        mPresenter?.resetTarget()
     }
 
 }

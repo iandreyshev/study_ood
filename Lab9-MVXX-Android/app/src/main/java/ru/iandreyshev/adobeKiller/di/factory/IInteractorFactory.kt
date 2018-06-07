@@ -1,11 +1,9 @@
 package ru.iandreyshev.adobeKiller.di.factory
 
-import ru.iandreyshev.adobeKiller.interactor.interfaces.ICanvasActivityInteractor
-import ru.iandreyshev.adobeKiller.interactor.interfaces.IMenuActivityInteractor
+import ru.iandreyshev.adobeKiller.interactor.CanvasActivityInteractor
 
 interface IInteractorFactory {
 
-    fun getCanvasActivityInteractor(): ICanvasActivityInteractor
-    fun getMenuActivityInteractor(): IMenuActivityInteractor
+    fun getCanvasActivityInteractor(): CanvasActivityInteractor
 
 }

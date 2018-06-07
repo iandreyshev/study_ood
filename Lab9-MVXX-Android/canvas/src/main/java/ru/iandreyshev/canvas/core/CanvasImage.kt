@@ -10,7 +10,7 @@ import ru.iandreyshev.geometry.frame.Frame
 class CanvasImage(
         frame: Frame,
         val imageFile: IFile
-) : CanvasObject(frame = frame, style = ImageStyle()) {
+) : CanvasObject(frame, ImageStyle()) {
 
     companion object {
         private const val IMAGE_SIZE = 400

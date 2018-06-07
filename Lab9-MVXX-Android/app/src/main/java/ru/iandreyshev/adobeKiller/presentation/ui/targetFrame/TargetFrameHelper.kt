@@ -25,8 +25,8 @@ class TargetFrameHelper(
         }
 
         newFrame?.apply {
-            target = this
             mOnFrameChanged?.invoke(this)
+            target = this
         }
 
         return true

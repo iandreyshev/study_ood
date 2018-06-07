@@ -7,13 +7,16 @@ import ru.iandreyshev.adobeKiller.presentation.drawing.extension.bottom
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.left
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.right
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.top
-import ru.iandreyshev.geometry.frame.Frame
 import ru.iandreyshev.canvas.style.ImageStyle
+import ru.iandreyshev.canvas.style.Style
+import ru.iandreyshev.geometry.frame.Frame
 
 class ImageView(
         private val image: Bitmap,
         override val frame: Frame
-) : DrawableView(style = ImageStyle()) {
+) : DrawableView() {
+
+    override val style: Style = ImageStyle()
 
     // onDraw
     private val mPosition = Vec2f()

@@ -1,7 +1,6 @@
 package ru.iandreyshev.adobeKiller.model
 
 import ru.iandreyshev.canvas.core.ShapeType
-import ru.iandreyshev.canvas.presenter.ICanvasPresenter
 import java.io.File
 
 interface ICanvasAppModel {
@@ -18,7 +17,7 @@ interface ICanvasAppModel {
     fun save()
 
     interface IPresenter {
-        val canvasPresenter: ICanvasPresenter
+        fun resetTarget()
     }
 
 }

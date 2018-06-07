@@ -7,7 +7,7 @@ class CanvasShape(
         frame: Frame,
         style: Style,
         val type: ShapeType
-) : CanvasObject(frame = frame, style = style) {
+) : CanvasObject(frame, style) {
 
     override fun accept(visitor: ICanvasObjectVisitor) =
             visitor.visit(this)

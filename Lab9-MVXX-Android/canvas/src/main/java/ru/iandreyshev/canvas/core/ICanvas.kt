@@ -9,6 +9,7 @@ interface ICanvas {
 
     fun insert(type: ShapeType)
     fun insert(imageFile: IFile)
+    fun update()
     fun clear()
 
     fun load()

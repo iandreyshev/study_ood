@@ -1,9 +1,9 @@
 package ru.iandreyshev.adobeKiller.di.factory
 
-import ru.iandreyshev.adobeKiller.model.ApplicationModel
+import ru.iandreyshev.adobeKiller.model.CanvasApplicationModel
 
 interface ICanvasFactory {
 
-    fun getCanvas(): ApplicationModel
+    fun getCanvas(): CanvasApplicationModel
 
 }
