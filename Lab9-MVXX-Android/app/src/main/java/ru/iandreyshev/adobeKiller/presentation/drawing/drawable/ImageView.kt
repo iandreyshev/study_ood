@@ -1,14 +1,14 @@
 package ru.iandreyshev.adobeKiller.presentation.drawing.drawable
 
 import android.graphics.Bitmap
-import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.ICanvas
-import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
+import ru.iandreyshev.adobeKiller.presentation.drawing.ICanvas
+import ru.iandreyshev.geometry.vector.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.bottom
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.left
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.right
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.top
-import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
-import ru.iandreyshev.adobeKiller.presentation.drawing.style.ImageStyle
+import ru.iandreyshev.geometry.frame.Frame
+import ru.iandreyshev.canvas.style.ImageStyle
 
 class ImageView(
         private val image: Bitmap,

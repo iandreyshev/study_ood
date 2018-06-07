@@ -1,9 +1,9 @@
 package ru.iandreyshev.adobeKiller.presentation.ui.adapter
 
 import android.graphics.*
-import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
-import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.ICanvas
-import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
+import ru.iandreyshev.canvas.style.Color
+import ru.iandreyshev.adobeKiller.presentation.drawing.ICanvas
+import ru.iandreyshev.geometry.vector.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.converter.ColorConverter
 
 class AndroidCanvasAdapter : ICanvas {

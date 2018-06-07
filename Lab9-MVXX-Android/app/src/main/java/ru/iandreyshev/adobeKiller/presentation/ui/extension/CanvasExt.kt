@@ -3,7 +3,7 @@ package ru.iandreyshev.adobeKiller.presentation.ui.extension
 import android.graphics.Canvas
 import android.graphics.Paint
 import ru.iandreyshev.adobeKiller.R
-import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
+import ru.iandreyshev.canvas.style.Color
 import ru.iandreyshev.adobeKiller.presentation.drawing.converter.ColorConverter
 import ru.iandreyshev.adobeKiller.presentation.ui.view.CanvasView
 

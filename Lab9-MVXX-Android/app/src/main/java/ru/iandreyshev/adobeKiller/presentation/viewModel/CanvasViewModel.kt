@@ -1,15 +1,15 @@
 package ru.iandreyshev.adobeKiller.presentation.viewModel
 
 import android.arch.lifecycle.MutableLiveData
-import ru.iandreyshev.adobeKiller.app.ViewControllerType
-import ru.iandreyshev.adobeKiller.domain.controller.interfaces.ICanvasViewController
-import ru.iandreyshev.adobeKiller.domain.controller.interfaces.IViewController
+import android.arch.lifecycle.ViewModel
+import ru.iandreyshev.adobeKiller.interactor.interfaces.ICanvasActivityInteractor
+import ru.iandreyshev.canvas.controller.interfaces.IViewController
 import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
 import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.ITargetCanvasObject
-import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ICanvasViewModel
-import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ControllerViewModel
 
-class CanvasViewModel : ControllerViewModel<ICanvasViewController>(ViewControllerType.CANVAS), ICanvasViewModel {
+class CanvasViewModel(
+        val interactor: ICanvasActivityInteractor
+) : ViewModel(), ICanvasViewModel {
 
     private val mSceneObjects = mutableListOf<IDrawable>()
 

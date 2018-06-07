@@ -1,9 +1,8 @@
 package ru.iandreyshev.localstorage.entity
 
-import io.objectbox.annotation.Backlink
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
-import io.objectbox.relation.ToOne
+import ru.iandreyshev.canvas.core.CanvasImage
 
 @Entity
 internal class ImageEntity(
@@ -16,7 +15,12 @@ internal class ImageEntity(
         var imagePath: String = ""
 ) {
 
-    @Backlink(to = "images")
-    lateinit var canvas: ToOne<CanvasEntity>
+    constructor(image: CanvasImage) : this(
+            x = image.frame.position.x,
+            y = image.frame.position.y,
+            width = image.frame.width,
+            height = image.frame.height,
+            imagePath = image.imageFile.path
+    )
 
 }

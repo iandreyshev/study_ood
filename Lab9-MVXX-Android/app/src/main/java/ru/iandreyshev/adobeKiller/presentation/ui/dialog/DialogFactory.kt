@@ -11,9 +11,9 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.cancelButton
 import org.jetbrains.anko.okButton
 import ru.iandreyshev.adobeKiller.R
-import ru.iandreyshev.adobeKiller.domain.canvasEngine.CanvasData
-import ru.iandreyshev.adobeKiller.domain.canvasEngine.ShapeType
-import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
+import ru.iandreyshev.canvas.core.CanvasData
+import ru.iandreyshev.canvas.core.ShapeType
+import ru.iandreyshev.canvas.style.Color
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.ColorsListRVAdapter
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.inflate
 import ru.iandreyshev.adobeKiller.presentation.ui.interfaces.ISeekBarEmptyListener

@@ -11,8 +11,7 @@ import org.jetbrains.anko.toast
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import ru.iandreyshev.adobeKiller.R
-import ru.iandreyshev.adobeKiller.domain.controller.interfaces.ICanvasViewController
-import ru.iandreyshev.adobeKiller.domain.canvasEngine.ShapeType
+import ru.iandreyshev.canvas.core.ShapeType
 import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.copyFrom
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.AndroidCanvasAdapter

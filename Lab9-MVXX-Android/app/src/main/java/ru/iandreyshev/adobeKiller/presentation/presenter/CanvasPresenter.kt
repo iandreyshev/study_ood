@@ -1,23 +1,23 @@
 package ru.iandreyshev.adobeKiller.presentation.presenter
 
 import android.graphics.Bitmap
-import ru.iandreyshev.adobeKiller.domain.canvasEngine.*
 import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.*
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.copyFrom
-import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
-import ru.iandreyshev.adobeKiller.presentation.drawing.frame.ObservableFrame
-import ru.iandreyshev.adobeKiller.presentation.drawing.style.ObservableStyle
-import ru.iandreyshev.adobeKiller.presentation.drawing.style.Style
-import ru.iandreyshev.adobeKiller.presentation.presenter.interfaces.ICanvasPresenter
+import ru.iandreyshev.geometry.frame.Frame
+import ru.iandreyshev.geometry.frame.ObservableFrame
+import ru.iandreyshev.canvas.style.ObservableStyle
+import ru.iandreyshev.canvas.style.Style
+import ru.iandreyshev.canvas.presenter.ICanvasPresenter
 import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.ITargetCanvasObject
-import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ICanvasViewModel
+import ru.iandreyshev.adobeKiller.presentation.viewModel.ICanvasViewModel
+import ru.iandreyshev.canvas.core.*
 
 class CanvasPresenter(
         private val viewModel: ICanvasViewModel
 ) : ICanvasPresenter {
 
-    override fun resetTarget() {
-        viewModel.setTarget(null)
+    override fun redraw(newObjects: List<CanvasObject>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun insert(canvasObject: CanvasObject) {

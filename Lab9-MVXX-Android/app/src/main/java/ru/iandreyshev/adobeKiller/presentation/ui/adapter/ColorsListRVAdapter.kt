@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_select_color.view.*
 import ru.iandreyshev.adobeKiller.R
-import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
+import ru.iandreyshev.canvas.style.Color
 import ru.iandreyshev.adobeKiller.presentation.ui.extension.inflate
 
 class ColorsListRVAdapter(

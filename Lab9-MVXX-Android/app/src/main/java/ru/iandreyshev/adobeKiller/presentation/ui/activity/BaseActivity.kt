@@ -6,9 +6,8 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
-import ru.iandreyshev.adobeKiller.app.AdobeKillerApp
-import ru.iandreyshev.adobeKiller.domain.controller.interfaces.IViewController
-import ru.iandreyshev.adobeKiller.presentation.viewModel.interfaces.ControllerViewModel
+import ru.iandreyshev.adobeKiller.app.AdobeKillerApplication
+import ru.iandreyshev.canvas.controller.interfaces.IViewController
 import kotlin.reflect.KClass
 
 abstract class BaseActivity<TInteractor : IViewController, in TViewModel : ControllerViewModel<TInteractor>>(
@@ -30,7 +29,7 @@ abstract class BaseActivity<TInteractor : IViewController, in TViewModel : Contr
         ViewModelProviders.of(this)
                 .get(viewModelClass.java)
                 .let { viewModel ->
-                    AdobeKillerApp.instance.injectDependencies(viewModel)
+                    AdobeKillerApplication.instance.injectDependencies(viewModel)
                     controller = viewModel.controller
                             ?: throw IllegalStateException("Invalid controller factory that can not create ${controller::class}")
                     onProvideViewModel(viewModel)

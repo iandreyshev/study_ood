@@ -1,7 +1,7 @@
 package ru.iandreyshev.adobeKiller.presentation.drawing.extension
 
-import ru.iandreyshev.adobeKiller.presentation.drawing.style.IConstStyle
-import ru.iandreyshev.adobeKiller.presentation.drawing.style.Style
+import ru.iandreyshev.canvas.style.IConstStyle
+import ru.iandreyshev.canvas.style.Style
 
 infix fun Style.copyFrom(other: IConstStyle) {
     fillColor = other.fillColor

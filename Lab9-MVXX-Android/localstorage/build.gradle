@@ -27,9 +27,11 @@ android {
 }
 
 dependencies {
-    api "com.android.support:appcompat-v7:27.1.1"
+    implementation project(":canvas")
+    implementation project(":geometry")
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
+
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 

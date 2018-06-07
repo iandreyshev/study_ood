@@ -9,6 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/canvas" />
+            <option value="$PROJECT_DIR$/command" />
+            <option value="$PROJECT_DIR$/geometry" />
             <option value="$PROJECT_DIR$/localstorage" />
           </set>
         </option>

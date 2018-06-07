@@ -1,9 +1,9 @@
 package ru.iandreyshev.adobeKiller.presentation.ui.targetFrame
 
-import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
+import ru.iandreyshev.geometry.vector.Vec2f
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.*
-import ru.iandreyshev.adobeKiller.presentation.drawing.frame.Frame
-import ru.iandreyshev.adobeKiller.presentation.drawing.frame.IConstFrame
+import ru.iandreyshev.geometry.frame.Frame
+import ru.iandreyshev.geometry.frame.IConstFrame
 
 class TargetFrameHelper(
         private val minWidth: Float,

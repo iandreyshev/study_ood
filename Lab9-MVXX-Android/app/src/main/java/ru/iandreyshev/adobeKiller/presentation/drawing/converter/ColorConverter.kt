@@ -1,6 +1,6 @@
 package ru.iandreyshev.adobeKiller.presentation.drawing.converter
 
-import ru.iandreyshev.adobeKiller.presentation.drawing.canvas.Color
+import ru.iandreyshev.canvas.style.Color
 
 object ColorConverter {
 
