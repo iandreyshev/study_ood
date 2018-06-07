@@ -23,6 +23,7 @@ class Canvas(
 
     override fun setPresenter(presenter: ICanvasPresenter) {
         mPresenter = presenter
+        update()
     }
 
     override fun insert(type: ShapeType) {
@@ -55,6 +56,7 @@ class Canvas(
     override fun load() {
         mSceneObjects.clear()
         mSceneObjects.addAll(serializer.deserialize())
+        mSceneObjects.forEach { it.subscribeToUpdates() }
         mPresenter?.update(mSceneObjects)
     }
 
@@ -120,6 +122,12 @@ class Canvas(
         mPresenter?.update()
     }
 
+    private fun CanvasObject.subscribeToUpdates() {
+        updateFrameListener = { objectFrame, newFrame -> update(objectFrame, newFrame) }
+        updateStyleListener = { objectStyle, newStyle -> update(objectStyle, newStyle) }
+        deleteListener = { objectToDelete -> delete(objectToDelete) }
+    }
+
     inner class CanvasObjectFactory : ICanvasObjectFactory {
 
         private val mFrameProto = Frame(width = 100f, height = 100f)
@@ -130,22 +138,14 @@ class Canvas(
                         frame = mFrameProto.clone(),
                         style = mStyleProto.clone(),
                         type = shapeType
-                ).also { shape ->
-                    shape.updateFrameListener = { objectFrame, newFrame -> update(objectFrame, newFrame) }
-                    shape.updateStyleListener = { objectStyle, newStyle -> update(objectStyle, newStyle) }
-                    shape.deleteListener = { objectToDelete -> delete(objectToDelete) }
-                }
+                ).apply { subscribeToUpdates() }
 
         override fun createImage(file: IFile): CanvasObject =
                 CanvasImage(
                         frame = mFrameProto.clone(),
                         imageFile = file
-                ).also { image ->
-                    image.updateFrameListener = { objectFrame, newFrame -> update(objectFrame, newFrame) }
-                    image.deleteListener = { objectToDelete -> delete(objectToDelete) }
-                }
+                ).apply { subscribeToUpdates() }
 
     }
-
 
 }

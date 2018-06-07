@@ -7,8 +7,7 @@ class CanvasAppModelPresenter(
         private val viewModel: ICanvasViewModel
 ) : ICanvasAppModel.IPresenter {
 
-    override fun resetTarget() {
-        viewModel.target.postValue(null)
-    }
+    override fun resetTarget() =
+            viewModel.target.postValue(null)
 
 }

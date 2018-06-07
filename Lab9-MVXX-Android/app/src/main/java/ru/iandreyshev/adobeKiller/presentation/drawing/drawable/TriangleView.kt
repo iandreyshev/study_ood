@@ -37,6 +37,20 @@ class TriangleView(
         canvas.lineTo(mPenPosition)
     }
 
-    override fun hitTest(x: Float, y: Float): Boolean = false
+    override fun hitTest(testX: Float, testY: Float): Boolean {
+        val pA = Vec2f(frame.position.x + frame.width / 2, frame.position.y)
+        val pB = Vec2f(frame.position.x, frame.position.y + height)
+        val pC = Vec2f(frame.position.x + width, frame.position.y + height)
+
+        val planeAB = (pA.x - testX) * (pB.y - testY) - (pB.x - testX) * (pA.y - testY)
+        val planeBC = (pB.x - testX) * (pC.y - testY) - (pC.x - testX) * (pB.y - testY)
+        val planeCA = (pC.x - testX) * (pA.y - testY) - (pA.x - testX) * (pC.y - testY)
+
+        return sign(planeAB) == sign(planeBC) && sign(planeBC) == sign(planeCA)
+    }
+
+    private fun sign(n: Float): Float {
+        return Math.abs(n) / n
+    }
 
 }

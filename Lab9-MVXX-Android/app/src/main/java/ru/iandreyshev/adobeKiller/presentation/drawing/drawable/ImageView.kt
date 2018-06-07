@@ -30,9 +30,9 @@ class ImageView(
 
     override fun onDrawStroke(canvas: ICanvas) = Unit
 
-    override fun hitTest(x: Float, y: Float): Boolean {
-        return x >= frame.left && x <= frame.right
-                && y >= frame.top && y <= frame.bottom
+    override fun hitTest(testX: Float, testY: Float): Boolean {
+        return testX >= frame.left && testX <= frame.right
+                && testY >= frame.top && testY <= frame.bottom
     }
 
 }

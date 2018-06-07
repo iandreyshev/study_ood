@@ -13,48 +13,51 @@ class CanvasApplicationModel(
 
     private var mPresenter: ICanvasAppModel.IPresenter? = null
 
+    init {
+        canvas.load()
+    }
+
     override fun setPresenter(presenter: ICanvasAppModel.IPresenter) {
         mPresenter = presenter
     }
 
-    override fun insert(shape: ShapeType) {
+    override fun insert(shape: ShapeType) = menuAction {
         canvas.insert(shape)
-        mPresenter?.resetTarget()
     }
 
-    override fun insert(image: File) {
+    override fun insert(image: File) = menuAction {
         canvas.insert(FileWrapper(image))
-        mPresenter?.resetTarget()
     }
 
-    override fun undo() {
+    override fun undo() = menuAction {
         if (!commandQueue.canUndo) {
-            return
+            return@menuAction
         }
 
         commandQueue.undo()
         canvas.update()
-        mPresenter?.resetTarget()
     }
 
-    override fun redo() {
+    override fun redo() = menuAction {
         if (!commandQueue.canRedo) {
-            return
+            return@menuAction
         }
 
         commandQueue.redo()
         canvas.update()
-        mPresenter?.resetTarget()
     }
 
-    override fun refresh() {
+    override fun refresh() = menuAction {
         commandQueue.clear()
         canvas.clear()
-        mPresenter?.resetTarget()
     }
 
-    override fun save() {
+    override fun save() = menuAction {
         canvas.save()
+    }
+
+    private fun menuAction(action: () -> Unit) {
+        action()
         mPresenter?.resetTarget()
     }
 

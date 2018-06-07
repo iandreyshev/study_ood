@@ -7,7 +7,6 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_canvas.*
 import kotlinx.android.synthetic.main.view_shape_info.*
 import org.jetbrains.anko.collections.forEachReversedWithIndex
-import org.jetbrains.anko.toast
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import ru.iandreyshev.adobeKiller.R
@@ -115,7 +114,7 @@ class CanvasActivity : BaseAppCompatActivity(R.layout.activity_canvas) {
     private fun actionWithTarget(action: (ITargetCanvasObject) -> Unit) {
         mTarget.apply {
             when (this) {
-                null -> toast(R.string.shape_not_selected)
+                null -> {}
                 else -> {
                     action(this)
                     this.applyChanges()
@@ -138,15 +137,15 @@ class CanvasActivity : BaseAppCompatActivity(R.layout.activity_canvas) {
     private inner class TargetFrameListener : CanvasTargetView.IListener {
 
         override fun onTouchStart(x: Float, y: Float) {
-            if (tcvCanvas.hitTest(x, y)) {
-                return
-            }
-
             mViewModel.objects.value?.forEachReversedWithIndex { _, canvasObject ->
                 if (canvasObject.hitTest(x, y)) {
                     canvasObject.onSelect()
                     return
                 }
+            }
+
+            if (tcvCanvas.hitTest(x, y)) {
+                return
             }
         }
 

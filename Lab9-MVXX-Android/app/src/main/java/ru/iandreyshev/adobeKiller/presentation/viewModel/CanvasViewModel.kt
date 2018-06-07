@@ -3,7 +3,6 @@ package ru.iandreyshev.adobeKiller.presentation.viewModel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import ru.iandreyshev.adobeKiller.interactor.CanvasActivityInteractor
-import ru.iandreyshev.adobeKiller.interactor.ICanvasInteractor
 import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
 import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.ITargetCanvasObject
 

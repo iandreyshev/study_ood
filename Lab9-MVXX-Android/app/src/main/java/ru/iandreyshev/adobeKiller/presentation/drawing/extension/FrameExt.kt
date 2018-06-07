@@ -21,8 +21,8 @@ val IConstFrame.left: Float
 val IConstFrame.bottom: Float
     get() = y + height
 
-fun IConstFrame.hitTest(x: Float, y: Float): Boolean {
-    val xInFrame = x >= x && x <= x + width
-    val yInFrame = y >= y && y <= y + height
+fun IConstFrame.hitTest(testX: Float, testY: Float): Boolean {
+    val xInFrame = testX >= x && testX <= this.x + width
+    val yInFrame = testY >= this.y && testY <= this.y + height
     return xInFrame && yInFrame
 }

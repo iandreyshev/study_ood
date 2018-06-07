@@ -6,15 +6,19 @@
         android:id="@+id/act_add"
         android:icon="@drawable/ic_add"
         android:title="@string/act_add"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/act_undo"
-        android:title="@string/act_undo" />
+        android:icon="@drawable/ic_chevron_left_black_24dp"
+        android:title="@string/act_undo"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/act_redo"
-        android:title="@string/act_redo" />
+        android:icon="@drawable/ic_chevron_right_black_24dp"
+        android:title="@string/act_redo"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/act_save"
