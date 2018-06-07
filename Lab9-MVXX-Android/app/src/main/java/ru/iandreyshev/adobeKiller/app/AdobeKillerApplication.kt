@@ -5,7 +5,6 @@ import ru.iandreyshev.adobeKiller.di.DependencyFactory
 import ru.iandreyshev.adobeKiller.di.InteractorFactory
 import ru.iandreyshev.adobeKiller.di.ViewModelFactory
 import ru.iandreyshev.adobeKiller.model.ApplicationModel
-import ru.iandreyshev.adobeKiller.storage.CanvasStorageAdapter
 import ru.iandreyshev.canvas.core.Canvas
 import ru.iandreyshev.command.CommandQueue
 import ru.iandreyshev.localstorage.CanvasStorage

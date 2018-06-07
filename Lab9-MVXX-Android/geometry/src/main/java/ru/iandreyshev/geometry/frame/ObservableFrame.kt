@@ -1,6 +1,6 @@
 package ru.iandreyshev.geometry.frame
 
-import ru.iandreyshev.adobeKiller.presentation.drawing.container.Vec2f
+import ru.iandreyshev.geometry.vector.Vec2f
 
 class ObservableFrame(
         frame: IConstFrame,

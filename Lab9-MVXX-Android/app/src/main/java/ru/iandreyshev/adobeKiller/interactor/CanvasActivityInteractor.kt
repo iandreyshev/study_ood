@@ -17,7 +17,6 @@ class CanvasActivityInteractor(
     }
 
     override fun resetTarget() {
-        canvas.resetTarget()
     }
 
     override fun undo() {

@@ -13,12 +13,6 @@ class ViewModelFactory(
 
         val viewModel: ViewModel = when (modelClass) {
 
-            MenuViewModel::class.java -> {
-                MenuViewModel(
-                        interactor = interactorFactory.getMenuActivityInteractor()
-                )
-            }
-
             CanvasViewModel::class.java -> {
                 CanvasViewModel(
                         interactor = interactorFactory.getCanvasActivityInteractor()

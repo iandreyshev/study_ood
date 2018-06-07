@@ -4,26 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_canvas.*
-import kotlinx.android.synthetic.main.view_shape_info.*
 import org.jetbrains.anko.collections.forEachReversedWithIndex
 import org.jetbrains.anko.toast
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import ru.iandreyshev.adobeKiller.R
+import ru.iandreyshev.adobeKiller.R.id.tbToolbar
 import ru.iandreyshev.canvas.core.ShapeType
 import ru.iandreyshev.adobeKiller.presentation.drawing.drawable.IDrawable
 import ru.iandreyshev.adobeKiller.presentation.drawing.extension.copyFrom
 import ru.iandreyshev.adobeKiller.presentation.ui.adapter.AndroidCanvasAdapter
 import ru.iandreyshev.adobeKiller.presentation.ui.dialog.DialogFactory
-import ru.iandreyshev.adobeKiller.presentation.ui.extension.visibleIfOrGone
 import ru.iandreyshev.adobeKiller.presentation.ui.targetFrame.ITargetCanvasObject
 import ru.iandreyshev.adobeKiller.presentation.viewModel.CanvasViewModel
 import java.io.File
 
-class CanvasActivity : BaseActivity<ICanvasViewController, CanvasViewModel>(
-        viewModelClass = CanvasViewModel::class,
-        layout = R.layout.activity_canvas) {
+class CanvasActivity : BaseAppCompatActivity(R.layout.activity_canvas) {
 
     private var mObjects: List<IDrawable> = listOf()
     private var mTarget: ITargetCanvasObject? = null
