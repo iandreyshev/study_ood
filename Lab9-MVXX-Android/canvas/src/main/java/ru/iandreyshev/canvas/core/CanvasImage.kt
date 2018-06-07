@@ -20,19 +20,12 @@ class CanvasImage(
         }
     }
 
-    var image: Bitmap? = null
-        private set
-    private var mIsOnScene: Boolean = false
-
-    override fun onAddedToScene() {
-        mIsOnScene = true
+    init {
         loadImage()
     }
 
-    override fun onRemovedFromScene() {
-        image = null
-        mIsOnScene = false
-    }
+    var image: Bitmap? = null
+        private set
 
     override fun accept(visitor: ICanvasObjectVisitor) =
             visitor.visit(this)

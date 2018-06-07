@@ -114,7 +114,8 @@ class CanvasActivity : BaseAppCompatActivity(R.layout.activity_canvas) {
     private fun actionWithTarget(action: (ITargetCanvasObject) -> Unit) {
         mTarget.apply {
             when (this) {
-                null -> {}
+                null -> {
+                }
                 else -> {
                     action(this)
                     this.applyChanges()
@@ -147,6 +148,8 @@ class CanvasActivity : BaseAppCompatActivity(R.layout.activity_canvas) {
             if (tcvCanvas.hitTest(x, y)) {
                 return
             }
+
+            mInteractor.resetTarget()
         }
 
         override fun onFrameChanged(frame: IConstFrame) {

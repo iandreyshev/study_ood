@@ -36,7 +36,4 @@ abstract class CanvasObject(
 
     abstract fun accept(visitor: ICanvasObjectVisitor)
 
-    open fun onAddedToScene() = Unit
-    open fun onRemovedFromScene() = Unit
-
 }

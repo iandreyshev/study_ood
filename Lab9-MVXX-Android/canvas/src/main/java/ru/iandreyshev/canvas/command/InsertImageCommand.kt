@@ -14,12 +14,10 @@ internal class InsertImageCommand(
 
     override fun onExecute() {
         objectsList.add(image)
-        image.onAddedToScene()
     }
 
     override fun onUndo() {
         objectsList.removeAt(mPosition)
-        image.onRemovedFromScene()
         file.flush()
     }
 

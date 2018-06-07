@@ -12,12 +12,10 @@ internal class InsertShapeCommand(
 
     override fun onExecute() {
         objectsList.add(shape)
-        shape.onAddedToScene()
     }
 
     override fun onUndo() {
         objectsList.removeAt(mPosition)
-        shape.onRemovedFromScene()
     }
 
 }

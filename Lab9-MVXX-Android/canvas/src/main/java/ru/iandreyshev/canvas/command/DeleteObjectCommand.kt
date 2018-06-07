@@ -16,12 +16,10 @@ internal class DeleteObjectCommand(
 
     override fun onExecute() {
         objectsList.removeAt(mObjectPosition)
-        canvasObject.onRemovedFromScene()
     }
 
     override fun onUndo() {
         objectsList.add(mObjectPosition, canvasObject)
-        canvasObject.onAddedToScene()
     }
 
     override fun onDestroyExecuted() {
