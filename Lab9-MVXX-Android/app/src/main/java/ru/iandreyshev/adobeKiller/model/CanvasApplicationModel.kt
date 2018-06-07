@@ -47,6 +47,10 @@ class CanvasApplicationModel(
         canvas.update()
     }
 
+    override fun resetTarget() {
+        mPresenter?.resetTarget()
+    }
+
     override fun refresh() = menuAction {
         commandQueue.clear()
         canvas.clear()

@@ -13,6 +13,7 @@ interface ICanvasAppModel {
     fun undo()
     fun redo()
 
+    fun resetTarget()
     fun refresh()
     fun save()
 
